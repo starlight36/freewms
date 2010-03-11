@@ -1,7 +1,8 @@
 <?php if (!defined("IN_SYS")) die("Access Denied.");
 /**
  * 数据库组件
- * 源自CodeIgniter框架
+ * 源自 CodeIgniter框架
+ * 版权 Copyright (c) 2008 - 2009, EllisLab, Inc.
  * 作者 ExpressionEngine Dev Team
  * 主页 http://codeigniter.com/user_guide/database/
  */
@@ -67,14 +68,10 @@ function &load_db($params = '') {
 
 	require_once(DIR_INC.'library/database/driver.php');
 	require_once(DIR_INC.'library/database/active_rec.php');
-	if (!class_exists('CI_DB')) {
-		eval('class CI_DB extends CI_DB_active_record { }');
-	}
-
 	require_once(DIR_INC.'library/database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].'_driver.php');
 
 	// Instantiate the DB adapter
-	$driver = 'CI_DB_'.$params['dbdriver'].'_driver';
+	$driver = 'db_'.$params['dbdriver'].'_driver';
 	$DB =& instantiate_class(new $driver($params));
 
 	if ($DB->autoinit == TRUE) {
@@ -84,7 +81,4 @@ function &load_db($params = '') {
 	return $DB;
 }	
 
-
-
-/* End of file DB.php */
-/* Location: ./system/database/DB.php */
+/* End of the file */

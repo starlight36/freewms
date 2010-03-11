@@ -1,28 +1,13 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
- * CodeIgniter
- *
- * An open source application development framework for PHP 4.3.2 or newer
- *
- * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2009, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
- * @link		http://codeigniter.com
- * @since		Version 1.0
- * @filesource
+ * 数据库组件 mysql数据库操纵
+ * 源自 CodeIgniter框架
+ * 版权 Copyright (c) 2008 - 2009, EllisLab, Inc.
+ * 作者 ExpressionEngine Dev Team
+ * 主页 http://codeigniter.com/user_guide/database/
  */
 
-// ------------------------------------------------------------------------
-
-/**
- * MySQL Forge Class
- *
- * @category	Database
- * @author		ExpressionEngine Dev Team
- * @link		http://codeigniter.com/user_guide/database/
- */
-class CI_DB_mysql_forge extends CI_DB_forge {
+class db_mysql_forge extends db_forge {
 	
 	/**
 	 * Create database
@@ -250,5 +235,4 @@ class CI_DB_mysql_forge extends CI_DB_forge {
 
 }
 
-/* End of file mysql_forge.php */
-/* Location: ./system/database/drivers/mysql/mysql_forge.php */
+/* End of the file */
