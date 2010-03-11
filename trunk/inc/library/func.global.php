@@ -1,7 +1,7 @@
 <?php if (!defined("IN_SYS")) die("Access Denied.");
-//-------------------------------------------
-//全局基础函数库
-//-------------------------------------------
+/*
+ *全局基础函数库
+ */
 
 /**
  * 注销全局变量,保证安全
@@ -58,13 +58,19 @@ function &load_class($name, $return = TRUE) {
 		$class_file = strtolower($name).'.php';
 		if(is_file(DIR_INC.'library/class.'.$class_file)) {
 			$class_file = DIR_INC.'library/class.'.$class_file;
-		}elseif(is_file(DIR_INC.'controller/'.$class_file)){
+			$name = 'cls_'.$name;
+		}elseif(is_file(DIR_INC.'controller/'.$class_file)) {
 			$class_file = DIR_INC.'controller/'.$class_file;
+		}elseif(is_file(DIR_INC.'module/'.$class_file)) {
+			$class_file = DIR_INC.'module/'.$class_file;
+			$name = 'mod_'.$name;
 		}else{
 			die('Load class '.$name.' fail.');
 		}
 	}
-	include_once $class_file;
+	if(!class_exists($name)) {
+		include_once $class_file;
+	}
 	
 	if($return) {
 		$objects[$name] = &instantiate_class(new $name());

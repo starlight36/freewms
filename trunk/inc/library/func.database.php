@@ -1,6 +1,8 @@
 <?php if (!defined("IN_SYS")) die("Access Denied.");
 /**
  * 数据库组件
+ * 为系统提供数据库访问
+ * 依赖于cache库
  * 源自 CodeIgniter框架
  * 版权 Copyright (c) 2008 - 2009, EllisLab, Inc.
  * 作者 ExpressionEngine Dev Team

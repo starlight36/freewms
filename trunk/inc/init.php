@@ -13,8 +13,17 @@ require_once DIR_INC.'library/func.global.php';
 //关闭注册全局变量
 unregister_globals();
 
-//自动加载的函数库
-$lib_array = array('system', 'form', 'safety', 'cache');
+//自动加载的库
+$lib_array = array('system', 'form', 'safety', 'cache', 'database', 'session');
 foreach ($lib_array as $v) {
 	load_library($v);
 }
+
+//自动加载的类
+$cls_array = array( 'in', 'module', 'controller');
+foreach ($cls_array as $v) {
+	load_class($v, FALSE);
+}
+
+//启动session
+session_start();

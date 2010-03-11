@@ -1,4 +1,4 @@
-<?php
+<?php if (!defined("IN_SYS")) die("Access Denied.");
 /*
  * 文件缓存类
  */

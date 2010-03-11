@@ -175,3 +175,14 @@ if(!function_exists('json_decode')) {
 		}
 	}
 }
+
+/**
+ * 发送404错误
+ * @param string $tip 错误消息
+ */
+function show_404($tip = 'Not Found') {
+	ob_clean();
+	@header('HTTP/1.1 404 '.$tip);
+	exit();
+}
+/* End of the file */
