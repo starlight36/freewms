@@ -1,0 +1,41 @@
+<?php
+/*
+ * 系统主配置文件
+ */
+
+//数据库连接设置
+define('DB_TYPE', 'mysql'); //数据库类型
+define('DB_HOST', 'localhost'); //数据库主机名
+define('DB_PORT', '3306'); //数据库主机端口
+define('DB_USER', 'root'); //数据库用户名
+define('DB_PASS', '07217095'); //数据库密码
+define('DB_NAME', 'cms'); //数据库名
+define('DB_TABLE_PERFIX', 'cms_'); //表前缀
+
+//memcache缓存服务器连接设置
+define('MEMCACHE_HOST', 'localhost'); //缓存服务器主机
+define('MEMCACHE_PORT', '11211'); //缓存服务器端口
+
+//session设置
+define('SESSION_TYPE', 'file'); //session存储类型
+define('SESSION_PATH', DIR_ROOT.'temp/'); //session存储位置(文件模式下可用)
+define('SESSION_TABLE', DB_TABLE_PERFIX.'session'); //session表名(数据库模式下可用)
+define('SESSION_PERFIX', 'cms_'); //session前缀
+define('SESSION_EXPIRE', 1800); //session生命周期, 单位秒
+
+//cookies设置
+define('COOKIES_PERFIX', 'cms_'); //cookies前缀
+define('COOKIES_DOMAIN', ''); //cookies作用域
+define('COOKIES_PATH', '/'); //cookies作用路径
+
+//缓存设置
+define('CACHE_TYPE', 'file'); //缓存方法
+define('CACHE_PATH', DIR_ROOT.'cache/'); //缓存文件位置,仅文件缓存时可用
+define('CACHE_EXPIRE', 7200); //缓存超时时限, 单位秒, 0为永不超时
+define('CACHE_PAGE_EXPIRE', 7200); //页面缓存超时时限, 单位秒, 0为永不超时
+
+//安全字符串设置
+define('SAFETY_STRING', 'cms123456'); //用于增加密码强度的随机字符串
+
+//服务器时差设置
+define('TIME_DIFF', 8 * 3600); //设置系统显示时间和格林威治时间的差值,单位秒
