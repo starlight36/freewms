@@ -59,8 +59,6 @@ function &load_class($name, $return = TRUE) {
 		if(is_file(DIR_INC.'library/class.'.$class_file)) {
 			$class_file = DIR_INC.'library/class.'.$class_file;
 			$name = 'cls_'.$name;
-		}elseif(is_file(DIR_INC.'controller/'.$class_file)) {
-			$class_file = DIR_INC.'controller/'.$class_file;
 		}elseif(is_file(DIR_INC.'module/'.$class_file)) {
 			$class_file = DIR_INC.'module/'.$class_file;
 			$name = 'mod_'.$name;

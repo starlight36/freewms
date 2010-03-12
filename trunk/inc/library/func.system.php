@@ -185,4 +185,9 @@ function show_404($tip = 'Not Found') {
 	@header('HTTP/1.1 404 '.$tip);
 	exit();
 }
+
+function system_run() {
+	$in =& load_class('in');
+	
+}
 /* End of the file */

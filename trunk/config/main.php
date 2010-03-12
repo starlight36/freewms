@@ -39,3 +39,17 @@ define('SAFETY_STRING', 'cms123456'); //用于增加密码强度的随机字符�
 
 //服务器时差设置
 define('TIME_DIFF', 8 * 3600); //设置系统显示时间和格林威治时间的差值,单位秒
+
+//URI路由模式设置
+//可选:
+//  GET				标准GET参数方式
+//  PATH			使用PATH_INFO
+//  QUERY_STRING	URL参数取值
+define('URI_MODE', 'GET');
+
+//是否开启伪静态
+define('URL_REWRITE', FALSE);
+
+//MVC设置
+define('DEFAULT_CONTROLLER', ''); //默认控制器
+define('DEFAULT_ACTION', ''); //默认动作

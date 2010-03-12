@@ -20,10 +20,12 @@ foreach ($lib_array as $v) {
 }
 
 //自动加载的类
-$cls_array = array( 'in', 'module', 'controller');
+$cls_array = array('in', 'module', 'controller');
 foreach ($cls_array as $v) {
 	load_class($v, FALSE);
 }
 
 //启动session
 session_start();
+
+/* End of the file */
