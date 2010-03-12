@@ -136,7 +136,7 @@ class cls_in {
 	* @return string
 	*/
 	public function ip() {
-		if ($_SERVER['HTTP_X_FORWARDED_FOR']) {
+		if($_SERVER['HTTP_X_FORWARDED_FOR']) {
 			$t_ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
 		}elseif($_SERVER['HTTP_CLIENT_IP']){
 			$t_ip = $_SERVER['HTTP_CLIENT_IP'];
@@ -144,6 +144,10 @@ class cls_in {
 			$t_ip = $_SERVER['REMOTE_ADDR'];
 		}
 		return $t_ip;
+	}
+
+	public function is_post()  {
+		if($_SERVER['']);
 	}
 }
 
