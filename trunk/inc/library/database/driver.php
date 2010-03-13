@@ -70,7 +70,7 @@ class db_driver {
 	 * @param	mixed
 	 * @return	void
 	 */
-	protected function initialize() {
+	public function initialize() {
 		// If an existing connection resource is available
 		// there is no need to connect and select the database
 		if (is_resource($this->conn_id) || is_object($this->conn_id)) {

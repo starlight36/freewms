@@ -2,6 +2,8 @@
 /*
  * 控制器基类
  */
-abstract class controller {
-	
+abstract class controller extends base {
+	public function  __construct() {
+		parent::__construct();
+	}
 }

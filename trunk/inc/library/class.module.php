@@ -2,6 +2,8 @@
 /*
  * 模型基类
  */
-abstract class module {
-
+abstract class module extends base {
+	public function  __construct() {
+		parent::__construct();
+	}
 }

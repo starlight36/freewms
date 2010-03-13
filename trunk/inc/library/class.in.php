@@ -86,18 +86,20 @@ class cls_in {
 	private function get_segment_array($str) {
 		//处理URL路由重定向
 		@include DIR_ROOT.'config/route.php';
-		foreach($route as $k => $v) {
-			if(check_str_in($k, '#')) {
-				$str = preg_replace($k, $v, $str);
-			}else{
-				$str = str_replace($k, $v, $str);
+		if(!empty($route)) {
+			foreach($route as $k => $v) {
+				if(check_str_in($k, '#')) {
+					$str = preg_replace($k, $v, $str);
+				}else{
+					$str = str_replace($k, $v, $str);
+				}
 			}
 		}
 		$arr_segment = explode('/', $str);
 		$this->controller = empty($arr_segment[0])?DEFAULT_CONTROLLER:$arr_segment[0];
 		$this->action = empty($arr_segment[1])?DEFAULT_ACTION:$arr_segment[1];
 		if(count($arr_segment) > 2) {
-			for($i = 2; i < count($arr_segment); $i += 2) {
+			for($i = 2; $i < count($arr_segment); $i += 2) {
 				if(isset($arr_segment[$i + 1])) {
 					$segment[$arr_segment[$i]] = $arr_segment[$i + 1];
 				}

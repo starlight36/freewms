@@ -71,7 +71,7 @@ function &load_class($name, $return = TRUE) {
 	}
 	
 	if($return) {
-		$objects[$name] = &instantiate_class(new $name());
+		$objects[$name] =& instantiate_class(new $name());
 		return $objects[$name];
 	}else{
 		return TRUE;
