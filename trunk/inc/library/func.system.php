@@ -147,8 +147,28 @@ function show_404($tip = 'Not Found') {
 	exit();
 }
 
+/**
+ * 运行系统
+ */
 function system_run() {
 	$in =& load_class('in');
-	
+	$ctrl_name = $in->controller();
+	$action_name = 'action_'.$in->action();
+	$ctrl_file = DIR_INC.'controller/'.$ctrl_name.'.php';
+	if(!is_file($ctrl_file)) {
+		show_404();
+	}else{
+		@include_once $ctrl_file;
+		if(!class_exists($ctrl_name)) {
+			show_404();
+		}else{
+			$obj_ctrl =& instantiate_class(new $ctrl_name);
+			if(!method_exists($obj_ctrl, $action_name)) {
+				show_404();
+			}else{
+				eval('$obj_ctrl->'.$action_name.'();');
+			}
+		}
+	}
 }
 /* End of the file */
