@@ -28,5 +28,7 @@ foreach ($cls_array as $v) {
 //启动session
 session_start();
 
+//运行系统
+system_run();
 
 /* End of the file */
