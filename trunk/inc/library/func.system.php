@@ -4,45 +4,6 @@
 */
 
 /* 文件函数兼容及增强 */
-
-/**
- * 写入文件兼容
- * @param string $file 要写入的文件路径
- * @param string $data 要写入的内容
- * @param string $append 打开魔术
- * @return int
- */
-if(!function_exists('file_put_contents')) {
-	function file_put_contents($file, $data, $append = '') {
-		$mode = $append == '' ? 'wb' : 'ab';
-		$fp = @fopen($file, $mode) or exit("Can not open file $file !");
-		flock($fp, LOCK_EX);
-		$len = @fwrite($fp, $data);
-		flock($fp, LOCK_UN);
-		@fclose($fp);
-		return $len;
-	}
-}
-
-/**
- * 读取文件兼容
- * @param string $file 要读取的文件路径
- * @return string
- */
-if(!function_exists('file_get_contents')) {
-	function file_get_contents($file) {
-		$filerec = @fopen($file, "r");
-		$fsize = @filesize($file);
-		if ($fsize <= 0) {
-			return NULL;
-		}
-		@flock($filerec, LOCK_SH);
-		$fdata = @fread($filerec, $fsize);
-		@fclose($filerec);
-		return $fdata;
-	}
-}
-
 /**
  * 建立多层目录
  * @param string $path 要建立的路径
