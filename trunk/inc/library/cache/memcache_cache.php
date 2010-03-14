@@ -1,29 +1,27 @@
 <?php
 /*
  * memcache缓存类
- */
+*/
 class memcache_cache {
 
-	private $mem = 0;
-        public $val = 0;
+	private $obj_mem;
 
+	public function  __construct() {
+		$this->obj_mem = new Memcache();
+		$this->obj_mem->connect(MEMCACHE_HOST, MEMCACHE_PORT);
+	}
+	public function  __destruct() {
+		$this->obj_mem->close();
+	}
 
-        function  __construct() {
-                $mem = new Memcache;
-        }
-        function  __destruct() {
-                $mem->close();
-        }
-
-        /**
+	/**
 	 * 设置缓存
 	 * @param string $key 缓存名
 	 * @param unknown $value 缓存内容
 	 * @return bool
 	 */
 	public function put($key, $value) {
-                $mem->connect(MEMCACHE_HOST,MEMCACHE_PORT);
-                $mem->set($key,$value,0,CACHE_EXPIRE);
+		$this->obj_mem->set($key, serialize($value), 0, CACHE_EXPIRE);
 		return TRUE;
 	}
 
@@ -33,8 +31,7 @@ class memcache_cache {
 	 * @return unknown
 	 */
 	public function get($key) {
-            $val = $mem->get($key);
-
+		return unserialize($this->obj_mem->get($key));
 	}
 
 	/**
@@ -43,8 +40,7 @@ class memcache_cache {
 	 * @return bool
 	 */
 	public function rm($key) {
-                $mem->delete($key);
-
+		$this->obj_mem->delete($key);
 		return TRUE;
 	}
 
@@ -53,7 +49,7 @@ class memcache_cache {
 	 * @return bool
 	 */
 	public function rm_all() {
-                $mem->flush();
+		$this->obj_mem->flush();
 		return TRUE;
 	}
 }
