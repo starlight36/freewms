@@ -108,4 +108,10 @@ function load_library($name) {
 	$libraries[$name] = TRUE;
 	return TRUE;
 }
+
+function load_config($name) {
+	$obj_config =& load_class('config');
+
+
+}
 /* End of the file */

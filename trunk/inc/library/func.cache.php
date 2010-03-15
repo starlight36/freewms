@@ -54,8 +54,9 @@ function cache_page_init() {
  * 保存页面缓存
  */
 function cache_page_save() {
+	$obj_in =& load_class('in');
 	$page_key = md5(SAFETY_STRING.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
-	$path = CACHE_PATH.'page/'.substr($page_key,0,2)."/".substr($page_key,2,2).'/';
+	$path = CACHE_PATH.'page/'.$obj_in->controller().'/'.$obj_in->action().'/'.substr($page_key,0,2);
 	$cache_file = $path.$page_key.'.dat';
 	if(!is_dir($path)) {
 		create_dir($path);
@@ -71,7 +72,7 @@ function cache_page_save() {
  */
 function cache_page_load() {
 	$page_key = md5(SAFETY_STRING.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
-	$path = CACHE_PATH.'page/'.substr($page_key,0,2)."/".substr($page_key,2,2).'/';
+	$path = CACHE_PATH.'page/'.$obj_in->controller().'/'.$obj_in->action().'/'.substr($page_key,0,2);
 	$cache_file = $path.$page_key.'.dat';
 	if(!is_file($cache_file)) {
 			return FALSE;
@@ -86,11 +87,17 @@ function cache_page_load() {
 	}
 }
 
-function cache_page_clear() {
+function cache_page_clear_all() {
 	$path = CACHE_PATH.'page/';
 	rm_file($path);
 	if(!is_dir($path)) {
 		create_dir($path);
 	}
+	return TRUE;
+}
+
+function cache_page_clear() {
+	$path = CACHE_PATH.'page/'.$obj_in->controller().'/'.$obj_in->action().'/';
+	rm_file($path);
 	return TRUE;
 }
