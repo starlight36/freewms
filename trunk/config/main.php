@@ -3,15 +3,6 @@
  * 系统主配置文件
  */
 
-//数据库连接设置
-define('DB_TYPE', 'mysql'); //数据库类型
-define('DB_HOST', 'localhost'); //数据库主机名
-define('DB_PORT', '3306'); //数据库主机端口
-define('DB_USER', 'root'); //数据库用户名
-define('DB_PASS', '07217095'); //数据库密码
-define('DB_NAME', 'cms'); //数据库名
-define('DB_TABLE_PERFIX', 'cms_'); //表前缀
-
 //memcache缓存服务器连接设置
 define('MEMCACHE_HOST', 'localhost'); //缓存服务器主机
 define('MEMCACHE_PORT', '11211'); //缓存服务器端口

@@ -147,10 +147,6 @@ class cls_in {
 		}
 		return $t_ip;
 	}
-
-	public function is_post()  {
-		if($_SERVER['']);
-	}
 }
 
 /* End of the file */
