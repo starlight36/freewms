@@ -44,3 +44,8 @@ define('URL_REWRITE', FALSE);
 //MVC设置
 define('DEFAULT_CONTROLLER', 'index'); //默认控制器
 define('DEFAULT_ACTION', 'index'); //默认动作
+
+//动态输出压缩设置
+define('GZIP', TRUE);
+
+/* End of the file */
