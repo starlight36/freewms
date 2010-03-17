@@ -147,6 +147,13 @@ class cls_in {
 		}
 		return $t_ip;
 	}
+
+	/**
+	 * 重新加载POST数组, 供表单验证器重写POST内容
+	 */
+	public function reload_post() {
+		$this->post = $this->clean_input_data($_POST);
+	}
 }
 
 /* End of the file */
