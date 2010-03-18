@@ -14,7 +14,10 @@ require_once DIR_INC.'library/func.global.php';
 unregister_globals();
 
 //自动加载的库
-$lib_array = array('system', 'form', 'safety', 'cache', 'database', 'session', 'config');
+$lib_array = array(
+	'system', 'form', 'safety', 'cache', 'url',
+	'database', 'session', 'config', 'form', 'time'
+);
 foreach ($lib_array as $v) {
 	load_library($v);
 }
