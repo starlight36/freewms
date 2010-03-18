@@ -42,6 +42,7 @@ define('URI_MODE', 'GET');
 define('URL_REWRITE', FALSE);
 
 //MVC设置
+define('FRONT_CONTROLLER', 'index.php');
 define('DEFAULT_CONTROLLER', 'index'); //默认控制器
 define('DEFAULT_ACTION', 'index'); //默认动作
 
