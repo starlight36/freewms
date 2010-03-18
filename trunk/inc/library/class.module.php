@@ -7,3 +7,4 @@ abstract class module extends base {
 		parent::__construct();
 	}
 }
+/* End of the file */

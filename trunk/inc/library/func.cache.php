@@ -101,3 +101,4 @@ function cache_page_clear() {
 	rm_file($path);
 	return TRUE;
 }
+/* End of the file */

@@ -14,3 +14,4 @@ function get_config($name, $path) {
 	$obj_config->load($name);
 	return $obj_config->get($name.'/'.$path);
 }
+/* End of the file */

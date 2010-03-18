@@ -9,3 +9,5 @@ class index extends controller {
 		echo 'Hello world!';
 	}
 }
+
+/* End of the file */

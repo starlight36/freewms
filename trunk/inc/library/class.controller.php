@@ -7,3 +7,4 @@ abstract class controller extends base {
 		parent::__construct();
 	}
 }
+/* End of the file */

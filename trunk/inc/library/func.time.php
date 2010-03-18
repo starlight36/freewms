@@ -67,3 +67,5 @@ function unix_to_human($time = '', $style = 'both') {
 		return date('Y-m-d H:i:s', $time);
 	}
 }
+
+/* End of the file */

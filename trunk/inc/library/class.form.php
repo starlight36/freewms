@@ -597,3 +597,4 @@ class cls_form {
    		return (bool)preg_match('/^[0-9]+$/', $str);
     }
 }
+/* End of the file */

@@ -60,3 +60,4 @@ class cls_config {
 		return TRUE;
 	}
 }
+/* End of the file */

@@ -21,3 +21,5 @@ function site_url($str = NULL) {
 	$obj =& load_class('url');
 	return $obj->site_url($str);
 }
+
+/* End of the file */

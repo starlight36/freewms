@@ -12,3 +12,5 @@ $config['smtp_port'] = '25';
 $config['smtp_timeout'] = '3';
 $config['mailtype'] = 'text';
 $config['charset'] = 'UTF-8';
+
+/* End of the file */

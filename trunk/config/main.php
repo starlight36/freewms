@@ -1,4 +1,4 @@
-<?php
+<?php if (!defined("IN_SYS")) die("Access Denied.");
 /*
  * 系统主配置文件
  */

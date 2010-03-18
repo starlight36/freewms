@@ -32,3 +32,5 @@ function check_safety_name($str) {
 		return FALSE;
 	}
 }
+
+/* End of the file */

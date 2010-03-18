@@ -6,3 +6,4 @@
 class cls_user {
 
 }
+/* End of the file */
