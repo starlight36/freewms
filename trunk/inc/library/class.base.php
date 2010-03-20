@@ -5,11 +5,10 @@
  */
 
 abstract class base {
-	public $in, $out, $db, $url, $config;
+	public $in, $db, $url, $config;
 
 	public function  __construct() {
 		$this->in =& load_class('in');
-		$this->out =& load_class('out');
 		$this->url =& load_class('url');
 		$this->config =& load_class('config');
 		$this->db =& load_db();

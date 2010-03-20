@@ -10,7 +10,7 @@ define('MEMCACHE_PORT', '11211'); //缓存服务器端口
 //session设置
 define('SESSION_TYPE', 'file'); //session存储类型
 define('SESSION_PATH', DIR_ROOT.'temp/'); //session存储位置(文件模式下可用)
-define('SESSION_TABLE', DB_TABLE_PERFIX.'session'); //session表名(数据库模式下可用)
+define('SESSION_TABLE', 'session'); //session表名(数据库模式下可用)
 define('SESSION_PERFIX', 'cms_'); //session前缀
 define('SESSION_EXPIRE', 1800); //session生命周期, 单位秒
 

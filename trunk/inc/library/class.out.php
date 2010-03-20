@@ -9,7 +9,6 @@ class cls_out extends base {
 	private $page_title = NULL;
 	private $page_keywords = NULL;
 	private $page_description = NULL;
-	private $config;
 
 	public function  __construct() {
 		parent::__construct();
