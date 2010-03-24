@@ -9,6 +9,9 @@ abstract class controller extends base {
 		$this->out =& load_class('out');
 		$this->out->html_script('js/jquery/jquery.js');
 		$this->out->html_style($this->config->get('site/style').'/main.css');
+		if ($this->config->get('site/page_cache') == TRUE) {
+			cache_page_init();
+		}
 	}
 }
 /* End of the file */

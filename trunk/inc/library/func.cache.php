@@ -57,7 +57,7 @@ function cache_page_save() {
 	$obj_in =& load_class('in');
 	$page_key = md5(SAFETY_STRING.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
 	$path = CACHE_PATH.'page/'.$obj_in->controller().'/'.$obj_in->action().'/'.substr($page_key,0,2);
-	$cache_file = $path.$page_key.'.dat';
+	$cache_file = $path.'/'.$page_key.'.dat';
 	if(!is_dir($path)) {
 		create_dir($path);
 	}
@@ -71,6 +71,7 @@ function cache_page_save() {
  * @return bool/null
  */
 function cache_page_load() {
+	$obj_in =& load_class('in');
 	$page_key = md5(SAFETY_STRING.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
 	$path = CACHE_PATH.'page/'.$obj_in->controller().'/'.$obj_in->action().'/'.substr($page_key,0,2);
 	$cache_file = $path.$page_key.'.dat';

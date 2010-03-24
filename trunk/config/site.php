@@ -26,12 +26,8 @@ $config['template'] = 'default';
 //站点风格
 $config['style'] = 'default';
 
-//负载策略
-//可选项有
-//	timely		最及时更新内容, 适用于负载较小的网站
-//	balanced	较均衡的负载策略, 兼顾内容及时性和负载能力, 适合绝大多数网站
-//	highload	高负载的策略, 适用于访问量巨大的网站
-$config['loadplan'] = 'balanced';
+//页面缓存
+$config['page_cache'] = TRUE;
 
 //静态化
 //可选项有

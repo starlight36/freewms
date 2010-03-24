@@ -6,8 +6,14 @@ class index extends controller {
 	}
 	
 	public function action_index() {
-		$this->out->set_title('hello');
+		if($this->config->get('site/page_cache') == TRUE) {
+			cache_page_load();
+		}
+		$this->out->set_title('首页');
 		$this->out->view('index');
+		if($this->config->get('site/page_cache') == TRUE) {
+			cache_page_save();
+		}
 	}
 }
 

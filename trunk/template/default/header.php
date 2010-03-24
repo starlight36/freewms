@@ -3,6 +3,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 {#head}
-<title>{#out:$this->page_title}</title>
+<title>{#out:$this->page_title} - {#config:site/sitename}</title>
 </head>
 <body>

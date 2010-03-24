@@ -33,5 +33,4 @@ session_start();
 
 //运行系统
 system_run();
-
 /* End of the file */
