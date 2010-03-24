@@ -3,8 +3,7 @@
  * 配置类
 */
 class cls_config {
-	private static $config_array = array();
-	public $value = NULL;
+	public static $value = array();
 
 	/**
 	 * 加载一个配置文件
@@ -12,16 +11,15 @@ class cls_config {
 	 * @return array/bool
 	 */
 	public function load($config_file_name) {
-		if(!isset($this->config_array[$config_file_name])) {
+		if(!isset($this->value[$config_file_name])) {
 			$config_file = DIR_ROOT.'config/'.$config_file_name.'.php';
 			@include_once $config_file;
 			if(!empty($config)) {
-				$this->config_array[$config_file_name] = $config;
+				$this->value[$config_file_name] = $config;
 			}else{
 				return FALSE;
 			}
 		}
-		$this->value = $this->config_array;
 		return $this->value;
 	}
 
@@ -34,11 +32,11 @@ class cls_config {
 	public function get($key) {
 		if(empty($key)) return FALSE;
 		$keyarray = explode('/', $key);
-		$path = NULL;
+		$path = '$this->value';
 		foreach($keyarray as $v) {
 			$path .= "['{$v}']";
 		}
-		@eval('$value=$this->value'.$path.';');
+		eval('$value='.$path.';');
 		return $value;
 	}
 
@@ -56,7 +54,6 @@ class cls_config {
 			$path .= "['{$v}']";
 		}
 		@eval('$this->value'.$path.'=$value;');
-		$this->config_array = $this->value;
 		return TRUE;
 	}
 }

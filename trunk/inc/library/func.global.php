@@ -50,6 +50,7 @@ function &load_class($name, $return = TRUE) {
 		return $objects[$name];
 	}
 
+	$class_name = $name;
 	if(strpos($name, '/') > 0) {
 		$path = DIR_INC.str_replace('\\', '/', dirname($name)).'/';
 		$name = basename($name, '.php');
@@ -58,20 +59,20 @@ function &load_class($name, $return = TRUE) {
 		$class_file = strtolower($name).'.php';
 		if(is_file(DIR_INC.'library/class.'.$class_file)) {
 			$class_file = DIR_INC.'library/class.'.$class_file;
-			$name = 'cls_'.$name;
+			$class_name = 'cls_'.$name;
 		}elseif(is_file(DIR_INC.'module/'.$class_file)) {
 			$class_file = DIR_INC.'module/'.$class_file;
-			$name = 'mod_'.$name;
+			$class_name = 'mod_'.$name;
 		}else{
 			die('Load class '.$name.' fail.');
 		}
 	}
-	if(!class_exists($name)) {
+	if(!class_exists($class_name)) {
 		include_once $class_file;
 	}
 	
 	if($return) {
-		$objects[$name] =& instantiate_class(new $name());
+		$objects[$name] =& instantiate_class(new $class_name());
 		return $objects[$name];
 	}else{
 		return TRUE;
@@ -107,11 +108,5 @@ function load_library($name) {
 	}
 	$libraries[$name] = TRUE;
 	return TRUE;
-}
-
-function load_config($name) {
-	$obj_config =& load_class('config');
-
-
 }
 /* End of the file */

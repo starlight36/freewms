@@ -6,7 +6,8 @@ class index extends controller {
 	}
 	
 	public function action_index() {
-		echo 'Hello world!';
+		$this->out->set_title('hello');
+		$this->out->view('index');
 	}
 }
 

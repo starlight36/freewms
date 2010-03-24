@@ -12,7 +12,6 @@ class cls_out extends base {
 
 	public function  __construct() {
 		parent::__construct();
-		$this->config->load('site');
 	}
 
 	/**
@@ -98,12 +97,13 @@ class cls_out extends base {
 	 */
 	public function html_style($url = NULL) {
 		if(empty ($url)) return NULL;
+		$this->config->load('site');
 		if(substr($url, 0, 1) == '/') {
-			$url = $this->config->get('site/base_url').substr($url, 1);
+			$url = $this->config->get('site/base_url').'skin/'.substr($url, 1);
 		}elseif(substr($url, 0, 7) != 'http://'){
 			$url = $this->config->get('site/base_url').$url;
 		}
-		$this->html_headers[] = "<link href=\"{$url}\" rel=\"stylesheet\" type=\"text\/css\" />";
+		$this->html_headers[] = "<link href=\"{$url}\" rel=\"stylesheet\" type=\"text/css\" />";
 	}
 
 	/**
@@ -114,7 +114,7 @@ class cls_out extends base {
 	public function html_script($url = NULL) {
 		if(empty ($url)) return NULL;
 		if(substr($url, 0, 1) == '/') {
-			$url = $this->config->get('site/base_url').substr($url, 1);
+			$url = $this->config->get('site/base_url').'/'.substr($url, 1);
 		}elseif(substr($url, 0, 7) != 'http://'){
 			$url = $this->config->get('site/base_url').$url;
 		}
@@ -166,19 +166,46 @@ class cls_out extends base {
 	 * @param string $path
 	 */
 	private function parse_template($path) {
-		$file = DIR_ROOT.'template/'.$this->config->get('site/template').'/'.$path.'.html';
+		$file = DIR_ROOT.'template/'.$this->config->get('site/template').'/'.$path.'.php';
 		$temp_file = DIR_ROOT.'cache/tpl/'.$path.'.php';
-		if(!is_dir(DIR_ROOT.'cache/tpl/')) {
-			create_dir(DIR_ROOT.'cache/tpl/');
+		$temp_path = dirname($path);
+		if(!is_dir(DIR_ROOT.'cache/tpl/'.$temp_path)) {
+			create_dir(DIR_ROOT.'cache/tpl/'.$temp_path);
 		}
 		if(!is_file($file)) {
 			$content = NULL;
 		}else{
 			$content = file_get_contents($file);
 		}
-		//正则表达式替换标签
-		
-		$content = file_put_contents($temp_file, $content);
+		/*
+		 * 正则表达式替换标签
+		 */
+		//解析包含文件
+		$content = preg_replace('/\{#include:([A-Za-z0-9._\/-]+)\}/i', '<?php @include $this->template(\'$1\'); ?>', $content);
+		//解析变量输出
+		$content = preg_replace('/\{#out:([A-Za-z0-9_\/]+)\}/ie', 'self::out_path_array(\'$1\')', $content);
+		//解析表达式输出
+		$content = preg_replace('/\{#out:(.+)\}/i', '<?php echo $1; ?>', $content);
+		//解析if条件
+		$content = preg_replace('/\{#if:(.+)\}/i', '<?php if($1): ?>', $content);
+		//解析elseif条件
+		$content = preg_replace('/\{#elseif:(.+)\}/i', '<?php elseif($1): ?>', $content);
+		//解析else和endif
+		$content = str_ireplace('{#else}', '<?php else: ?>', $content);
+		$content = str_ireplace('{#endif}', '<?php endif; ?>', $content);
+		//解析循环标签
+		$content = preg_replace('/\{#loop:(.+)\}/i', '<?php foreach($$1 as $_value): ?>', $content);
+		$content = preg_replace('/\{#item:(.+)\}/i', '<?php echo $_value[\'$1\']; ?>', $content);
+		$content = str_ireplace('{#endloop}', '<?php endforeach; ?>', $content);
+		//解析设置项标签
+		$content = preg_replace('/\{#config:([A-Za-z0-9_\/]+)\}/i', '<?php echo $this->config->get(\'$1\'); ?>', $content);
+		//解析head头区域
+		$content = str_ireplace('{#head}', '<?php echo $this->get_html_head(); ?>', $content);
+		//解析自定义标签
+		$content = preg_replace('/\{#my:([A-Za-z0-9._\/-]+)\}/i', '<?php @include $this->template(\'widget/$1\'); ?>', $content);
+		//解析调用
+		//未完成
+		file_put_contents($temp_file, $content);
 	}
 
 	/**
@@ -186,7 +213,23 @@ class cls_out extends base {
 	 * @return string
 	 */
 	private function get_html_head() {
-		return implode("\n", $this->html_headers);
+		return implode("\n", $this->html_headers)."\n";
+	}
+
+	/**
+	 * 解析PATH形式变量输出
+	 * @param <type> $path
+	 */
+	public function out_path_array($path) {
+		$keyarray = explode('/', $path);
+		$count = count($keyarray);
+		$path = $keyarray[0];
+		if($count >= 1) {
+			for($i = 1; $i < $count; $i++) {
+				$path .= "['{$v}']";
+			}
+		}
+		return '<?php echo $'.$path.'; ?>';
 	}
 }
 
