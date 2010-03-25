@@ -12,6 +12,8 @@ class cls_out extends base {
 
 	public function  __construct() {
 		parent::__construct();
+		$this->page_keywords = $this->config->get('site/keywords');
+		$this->page_description = $this->config->get('site/description');
 	}
 
 	/**
@@ -54,7 +56,7 @@ class cls_out extends base {
 	 * @param string $v
 	 */
 	public function set_description($v = NULL) {
-		$this->page_description = htmlspecialchars($v);
+		$this->page_description .= htmlspecialchars($v);
 	}
 
 	/**
@@ -62,7 +64,7 @@ class cls_out extends base {
 	 * @param string $v
 	 */
 	public function set_keywords($v = NULL) {
-		$this->page_keywords = htmlspecialchars($v);
+		$this->page_keywords .= htmlspecialchars($v);
 	}
 
 	/**
@@ -213,6 +215,8 @@ class cls_out extends base {
 	 * @return string
 	 */
 	private function get_html_head() {
+		$this->html_meta('keywords', $this->page_keywords);
+		$this->html_meta('description', $this->page_description);
 		return implode("\n", $this->html_headers)."\n";
 	}
 

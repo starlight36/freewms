@@ -36,7 +36,7 @@ define('TIME_DIFF', 8 * 3600); //设置系统显示时间和格林威治时间�
 //  GET				标准GET参数方式
 //  PATH			使用PATH_INFO
 //  QUERY_STRING	URL参数取值
-define('URI_MODE', 'GET');
+define('URI_MODE', 'PATH');
 
 //是否开启伪静态
 define('URL_REWRITE', FALSE);

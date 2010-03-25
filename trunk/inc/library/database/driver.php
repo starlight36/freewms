@@ -38,9 +38,8 @@ class db_driver {
 	public $cachedir		= '';
 	public $cache_autodel	= FALSE;
 
-	// Private variables
-	private  $_protect_identifiers	= TRUE;
-	private $_reserved_identifiers	= array('*'); // Identifiers that should NOT be escaped
+	public  $_protect_identifiers	= TRUE;
+	public $_reserved_identifiers	= array('*'); // Identifiers that should NOT be escaped
 
 	// These are use with Oracle
 	public $stmt_id;
@@ -794,7 +793,7 @@ class db_driver {
 	 * @param	string
 	 * @return	bool
 	 */
-	private function _has_operator($str) {
+	protected function _has_operator($str) {
 		$str = trim($str);
 		if (!preg_match("/(\s|<|>|!|=|is null|is not null)/i", $str)) {
 			return FALSE;

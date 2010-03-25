@@ -2,6 +2,6 @@
 /*
  * URI 路由设置
  */
-$route = array();
+$route['info'] = 'page/index/name';
 
 /* End of the file */

@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('IN_SYS')) exit('No direct script access allowed');
 /**
  * 数据库组件 mysql结果集接口
  * 源自 CodeIgniter框架
@@ -102,7 +102,7 @@ class db_mysql_result extends db_result {
 	 * @access	private
 	 * @return	array
 	 */
-	protected function _data_seek($n = 0) {
+	public function _data_seek($n = 0) {
 		return mysql_data_seek($this->result_id, $n);
 	}
 
@@ -116,7 +116,7 @@ class db_mysql_result extends db_result {
 	 * @access	private
 	 * @return	array
 	 */
-	protected function _fetch_assoc() {
+	public function _fetch_assoc() {
 		return mysql_fetch_assoc($this->result_id);
 	}
 
@@ -130,7 +130,7 @@ class db_mysql_result extends db_result {
 	 * @access	private
 	 * @return	object
 	 */
-	protected function _fetch_object() {
+	public function _fetch_object() {
 		return mysql_fetch_object($this->result_id);
 	}
 

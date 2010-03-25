@@ -1,4 +1,4 @@
-<?php
+<?php if (!defined("IN_SYS")) die("Access Denied.");
 /*
  * USER模型
  * 为系统提供基本的用户接口

@@ -53,8 +53,8 @@ function &load_class($name, $return = TRUE) {
 	$class_name = $name;
 	if(strpos($name, '/') > 0) {
 		$path = DIR_INC.str_replace('\\', '/', dirname($name)).'/';
-		$name = basename($name, '.php');
-		$class_file = $path.$name.'.php';
+		$class_name = basename($name, '.php');
+		$class_file = $path.$class_name.'.php';
 	}else{
 		$class_file = strtolower($name).'.php';
 		if(is_file(DIR_INC.'library/class.'.$class_file)) {
