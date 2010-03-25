@@ -3,10 +3,11 @@
  * 控制器基类
  */
 abstract class controller extends base {
-	public $out;
+	public $out, $user;
 	public function  __construct() {
 		parent::__construct();
 		$this->out =& load_class('out');
+		$this->user =& load_class('user');
 		$this->out->html_script('js/jquery/jquery.js');
 		$this->out->html_style($this->config->get('site/style').'/main.css');
 		if ($this->config->get('site/page_cache') == TRUE) {

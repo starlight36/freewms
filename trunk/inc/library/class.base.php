@@ -5,12 +5,13 @@
  */
 
 abstract class base {
-	public $in, $db, $url, $config;
+	public $in, $db, $url, $config, $session;
 
 	public function  __construct() {
 		$this->in =& load_class('in');
 		$this->url =& load_class('url');
 		$this->config =& load_class('config');
+		$this->session =& load_class('session');
 		$this->db =& load_db();
 	}
 }

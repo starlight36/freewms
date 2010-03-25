@@ -2,7 +2,7 @@
 /*
  * 内容类
  */
-class cls_content extends base {
+class mod_content extends module {
 	public function  __construct() {
 		parent::__construct();
 	}
