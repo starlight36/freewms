@@ -3,7 +3,7 @@
  * 自定义页面控制器
  */
 
-class page extends controller {
+class ctrl_page extends controller {
 
 	public function  __construct() {
 		parent::__construct();

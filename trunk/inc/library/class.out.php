@@ -56,7 +56,7 @@ class cls_out extends base {
 	 * @param string $v
 	 */
 	public function set_description($v = NULL) {
-		$this->page_description .= htmlspecialchars($v);
+		$this->page_description .= ','.htmlspecialchars($v);
 	}
 
 	/**
@@ -64,7 +64,7 @@ class cls_out extends base {
 	 * @param string $v
 	 */
 	public function set_keywords($v = NULL) {
-		$this->page_keywords .= htmlspecialchars($v);
+		$this->page_keywords .= ','.htmlspecialchars($v);
 	}
 
 	/**

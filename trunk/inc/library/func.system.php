@@ -159,6 +159,7 @@ function system_run() {
 		show_404();
 	}else{
 		@include_once $ctrl_file;
+		$ctrl_name = 'ctrl_'.$ctrl_name;
 		if(!class_exists($ctrl_name)) {
 			show_404();
 		}else{

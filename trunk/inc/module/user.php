@@ -13,6 +13,7 @@ class mod_user extends module {
 
 	public function  __construct() {
 		parent::__construct();
+		$this->get_user_info();
 	}
 
 	/**
@@ -95,12 +96,13 @@ class mod_user extends module {
 		if(is_null($str)){
 			$userinfo = $this->session->get('user');
 			if(empty($userinfo)) {
-				$this->get_group();
+				$userinfo['groupid'] = 1;
 				$userinfo['name'] = '游客';
 				$userinfo['state'] = 3;
 				$this->session->set('user', $userinfo);
 			}
 			$this->userinfo = $userinfo;
+			$this->get_group($userinfo['groupid']);
 			return $userinfo;
 		}elseif(is_array($str)) {
 			$this->db->where($str);
@@ -120,6 +122,16 @@ class mod_user extends module {
 		foreach($user_array as $k => $v) {
 			$k = substr($k, 5);
 			$temp[$k] = $v;
+		}
+		if($temp['isadmin'] == TRUE) {
+			$this->db->where('admin_userid', $temp['id']);
+			$q_admin = $this->db->get('admin');
+			if($q_admin->num_rows() == 1) {
+				$admininfo = $q_admin->row_array();
+			}else{
+				$temp['isadmin'] = FALSE;
+			}
+			$temp = array_merge($temp, $admininfo);
 		}
 		return $temp;
 	}
@@ -145,8 +157,8 @@ class mod_user extends module {
 			}
 			$group_array['name'] = $group_array['group_name'];
 			$group_array['isadmin'] = $group_array['group_isadmin'];
-			$group_array['admin_power'] = $group_array['group_admin_power'];
-			$group_array['user_power'] = $group_array['group_user_power'];
+			$group_array['admin_power'] = unserialize($group_array['group_admin_power']);
+			$group_array['user_power'] = unserialize($group_array['group_user_power']);
 			unset($group_array['group_name'], $group_array['group_isadmin'],
 				$group_array['group_admin_power'], $group_array['group_user_power']);
 			cache_put('group_'.$gid, $group_array);
@@ -178,16 +190,34 @@ class mod_user extends module {
 		if($powertype == 'user') {
 			if($this->user_power[$key] == TRUE) {
 				return TRUE;
-			}else{
-				return FALSE;
 			}
 		}else{
-			if($this->admin_power[$key] == TRUE) {
-				return TRUE;
-			}else{
+			if($this->check_admin()) {
+				$this->msg = '您还没有登录后台,请登录后进行操作.';
 				return FALSE;
 			}
+			if($this->is_admin != TRUE) {
+				$this->msg = '您不是管理员, 不能进入管理.';
+				return FALSE;
+			}
+			if($this->admin_power[$key] == TRUE) {
+				if($this->userinfo['admin_flag'][$key] == TRUE) {
+					$this->msg = '您没有权限进行此操作, 如果您尚未登录, 请先登录.';
+					return FALSE;
+				}
+				return TRUE;
+			}
 		}
+		$this->msg = '您没有权限进行此操作, 如果您尚未登录, 请先登录.';
+		return FALSE;
+	}
+
+	/**
+	 * 检查管理员登录
+	 * @return bool
+	 */
+	public function check_admin() {
+		return ($this->session->get('admin/islogin') == TRUE)?TRUE:FALSE;
 	}
 
 	/**
@@ -215,6 +245,62 @@ class mod_user extends module {
 		}
 		$this->db->set($data);
 		return $this->db->update('user');
+	}
+
+	/**
+	 * 登录系统
+	 * @param string $username
+	 * @param string $password
+	 * @return bool
+	 */
+	public function login($username, $password) {
+		if(empty($username) || empty($password)) {
+			$this->msg = '没有输入任何数据.';
+			return FALSE;
+		}
+		$password = (len($password) == 32)?$password:md5($password);
+		$userinfo = $this->get_user_info($username);
+		if($userinfo === FALSE) {
+			$this->msg = '用户名不存在.';
+			return FALSE;
+		}
+		if($userinfo['pass'] != $password) {
+			$this->msg = '密码不正确.';
+			return FALSE;
+		}
+		$this->db->where('user_id', $userinfo['id']);
+		$this->db->set('user_lastloginip', $this->in->ip());
+		$this->db->set('user_lastlogintime', now());
+		$this->db->update('user');
+		$this->session->set('user', $userinfo);
+		$this->get_user_info();
+		return TRUE;
+	}
+
+	/**
+	 * 管理员登录
+	 * @param string $admin_pass
+	 * @param string $username
+	 * @param string $password
+	 * @return bool
+	 */
+	public function login_admin($admin_pass, $username = NULL, $password = NULL) {
+		if($this->check_admin()) {
+			if(!$this->login($username, $password)) {
+				return FALSE;
+			}
+		}
+		if($this->is_admin == FALSE) {
+			$this->msg = '您不是管理, 无权登录后台';
+			return FALSE;
+		}
+		if(!$this->userinfo['admin_pass'] == md5($admin_pass)) {
+			$this->msg = '管理员密码不正确.';
+			return FALSE;
+		}else{
+			$this->session->set('admin/islogin', TRUE);
+			return TRUE;
+		}
 	}
 }
 /* End of the file */
