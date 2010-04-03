@@ -47,8 +47,8 @@ class cls_session {
 	 * @param string $key SESSION key
 	 * @return bool
 	 */
-	public function clear($key) {
-		if(empty($key)) return FALSE;
+	public function clear($key = NULL) {
+		if(empty($key)) session_destroy();
 		$keyarray = explode('/', $key);
 		$path = NULL;
 		foreach($keyarray as $v) {
