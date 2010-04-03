@@ -204,7 +204,7 @@ class cls_out extends base {
 		//解析head头区域
 		$content = str_ireplace('{#head}', '<?php echo $this->get_html_head(); ?>', $content);
 		//解析自定义标签
-		$content = preg_replace('/\{#my:([A-Za-z0-9._\/-]+?)\}/i', '<?php @include $this->template(\'widget/$1\'); ?>', $content);
+		$content = preg_replace('/\{#widget:([A-Za-z0-9._\/-]+?)\}/i', '<?php @include $this->template(\'widget/$1\'); ?>', $content);
 		//解析调用
 		//未完成
 		file_put_contents($temp_file, $content);
