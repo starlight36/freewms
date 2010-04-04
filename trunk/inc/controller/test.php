@@ -15,7 +15,7 @@ class ctrl_test extends controller {
 				'time' => 'desc'
 			)
 		);
-		print_r($content->get_list_widget($param));
+		print_r($content->get_list($param));
 		exit();
 	}
 }

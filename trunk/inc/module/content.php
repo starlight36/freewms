@@ -24,13 +24,13 @@ class mod_content extends module {
 	 * @param int id
 	 * @return unknown
 	 */
-	public function get_channel($key = NULL, $id = 0) {
+	public function get_channel($key = NULL, $id = 0, $cache = TRUE) {
 		if(empty($key) && $id < 1) {
 			return FALSE;
 		}
 		$cache_name = 'channel_'.$key.$id;
 		$ch_info = cache_get($cache_name);
-		if($ch_info == FALSE) {
+		if($ch_info == FALSE || $cache == FALSE) {
 			if(!is_null($key)) {
 				$this->db->where('ch_key', $key);
 			}
@@ -59,18 +59,47 @@ class mod_content extends module {
 	}
 
 	/**
+	 * 保存一个频道
+	 * @param array $data
+	 * @return int
+	 */
+	public function save_channel($data) {
+		if(!isset($data['id'])) {
+			$this->msg = '频道ID未指定';
+			return FALSE;
+		}
+		foreach($data as $k => $v) {
+			$temp['ch_'.$k] = $v;
+		}
+		if($data['id'] == 0) {
+			unset($temp['ch_id']);
+			$this->db->set($temp);
+			$this->db->insert('channel');
+			$data['id'] = $this->db->insert_id();
+		}else{
+			$this->db->where('ch_id', $temp['ch_id']);
+			unset($temp['ch_id']);
+			$this->db->set($temp);
+			$this->db->update('channel');
+		}
+		$cate_info = $this->get_channel(NULL, $data['id'], FALSE);
+		$this->get_channel($cate_info['key'], NULL, FALSE);
+		return $data['id'];
+	}
+
+	/**
 	 * 读取一个分类
 	 * @param string $key
 	 * @param int $id
 	 * @return bool
 	 */
-	public function get_category($key = NULL, $id = 0) {
+	public function get_category($key = NULL, $id = 0, $cache = TRUE) {
 		if(empty($key) && $id < 1) {
 			return FALSE;
 		}
-		$cache_name = 'category_'.$key.$id;
+		$cache_name = 'category_'.empty($key)?$id:$key;
 		$cate_info = cache_get($cache_name);
-		if($cate_info == FALSE) {
+		if($cate_info == FALSE || $cache == FALSE) {
 			if(!is_null($key)) {
 				$this->db->where('cate_key', $key);
 			}
@@ -89,12 +118,25 @@ class mod_content extends module {
 				$cate_info['key'] = $row->cate_key;
 				$cate_info['keywords'] = $row->cate_keywords;
 				$cate_info['description'] = $row->cate_description;
+				$q_ch_cate = $this->db->get('category');
+				$ch_idlist = array();
 				//递归获取当前分类的路径
 				if(!empty($row->cate_parentid)) {
 					$p_cate = $this->get_category(NULL, $row->cate_parentid);
 					$cate_info['path'] = $p_cate['path'].$row->cate_key.'/';
 				}else{
 					$cate_info['path'] = $row->cate_key.'/';
+				}
+				//读取子分类id
+				$this->db->select('cate_id');
+				$this->db->where('cate_parentid', $row->cate_id);
+				if($q_ch_cate->num_rows() > 0) {
+					foreach($q_ch_cate->result() as $ch_row) {
+						$ch_idlist[] = $ch_row->cate_id;
+					}
+					$cate_info['children'] = $ch_idlist;
+				}else{
+					$cate_info['children'] = NULL;
 				}
 				cache_put($cache_name, $cate_info);
 			}
@@ -123,6 +165,35 @@ class mod_content extends module {
 			}
 			return $cate_array;
 		}
+	}
+
+	/**
+	 * 保存一个分类
+	 * @param array $data
+	 * @return int
+	 */
+	public function save_category($data) {
+		if(!isset($data['id'])) {
+			$this->msg = '分类ID未定义';
+			return FALSE;
+		}
+		foreach($data as $k => $v) {
+			$temp['cate_'.$k] = $v;
+		}
+		if($data['id'] == 0) {
+			unset($temp['cate_id']);
+			$this->db->set($temp);
+			$this->db->insert('category');
+			$data['id'] = $this->db->insert_id();
+		}else{
+			$this->db->where('cate_id', $temp['cate_id']);
+			unset($temp['cate_id']);
+			$this->db->set($temp);
+			$this->db->update('category');
+		}
+		$cate_info = $this->get_category(NULL, $data['id'], FALSE);
+		$this->get_category($cate_info['key'], NULL, FALSE);
+		return $data['id'];
 	}
 
 	/**
@@ -185,13 +256,14 @@ class mod_content extends module {
 				$pagenum = 1;
 			}
 			$pagenum = (int)$pagenum;
-			$offset = ($pagenum - 1) * $pagesize;
-			if(!$this->parse_list_param($param, $offset)) {
+			if(!$this->parse_list_param($param)) {
 				return FALSE;
 			}
 			$resultcount = $this->db->count_all_results('content');
 			$pagecount = (int)($resultcount / $pagesize)
 							+ ($resultcount % $pagesize == 0)?0:1;
+			$pagenum = ($pagenum > $pagecount) ? $pagecount : $pagenum;
+			$offset = ($pagenum - 1) * $pagesize;
 		}else{
 			$offset = 0;
 		}
@@ -229,7 +301,7 @@ class mod_content extends module {
 		}
 		if($pagesize > 0) {
 			return array(
-				'list' => $content,
+				'result' => $content,
 				'pagenum' => $pagenum,
 				'pagecount' => $pagecount,
 				'pagesize' => $pagesize,
@@ -238,6 +310,35 @@ class mod_content extends module {
 		}else{
 			return $content;
 		}
+	}
+
+	public function save_content($data) {
+		if(!isset($data['id'])) {
+			$this->msg = '内容ID不能为空.';
+			return FALSE;
+		}
+		$content = $data['content'];
+		unset($data['content']);
+		foreach($data as $k => $v) {
+			$temp['content_'.$k] = $v;
+		}
+		if($data['id'] == 0) {
+			unset($temp['content_id']);
+			$this->db->set($temp);
+			$this->db->insert('content');
+			$data['id'] = $this->db->insert_id();
+			$content['action'] = 'add';
+		}else{
+			$this->where('content_id', $temp['content_id']);
+			unset($temp['content_id']);
+			$this->db->set($temp);
+			$this->db->update('category');
+			$content['action'] = 'update';
+		}
+		$content['contentid'] = $data['id'];
+		$c_obj =& load_class($this->channel_name);
+		$content_main = $c_obj->save($content);
+		return $data['id'];
 	}
 
 	/**
@@ -267,12 +368,22 @@ class mod_content extends module {
 		return $url;
 	}
 
+	/**
+	 * 从传入的列表参数生成查询条件
+	 * @param array $param 传入条件
+	 * @param int $offset 记录偏移量
+	 * @return bool
+	 */
 	private function parse_list_param($param, $offset = 0) {
 		if(!is_array($param)) {
 			return FALSE;
 		}
+		$cate_id = NULL;
 		if(is_array($param['where'])) {
 			foreach($param['where'] as $k => $v) {
+				if($k == 'cateid') {
+					$cate_id = $v;
+				}
 				$this->db->where('content_'.$k, $v);
 			}
 		}
@@ -288,6 +399,12 @@ class mod_content extends module {
 		}
 		if($param['limit'] > 0) {
 			$this->db->limit($param['limit'], $offset);
+		}
+		if(!empty($param['children_category']) && !empty($cate_id)) {
+			$cate_info = $this->get_category(NULL, $cate_id);
+			if(!empty($cate_info['children'])) {
+				$this->db->or_where_in('content_cateid', $cate_info['children']);
+			}
 		}
 		return TRUE;
 	}
