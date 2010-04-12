@@ -61,7 +61,7 @@ class cls_in {
 	 */
 	private function load_get() {
 		if(URI_MODE == 'GET') {
-			$this->get = $_GET;
+			$this->get =& $_GET;
 			$this->controller = empty($_GET['c'])?DEFAULT_CONTROLLER:$_GET['c'];
 			$this->action = empty($_GET['a'])?DEFAULT_ACTION:$_GET['a'];
 			unset($this->get['c'], $this->get['a']);
@@ -122,6 +122,24 @@ class cls_in {
 	 */
 	public function action() {
 		return $this->action;
+	}
+
+	/**
+	 * 读取GET参数
+	 * @param string $key 读取路径
+	 * @return unknown
+	 */
+	public function get($key = NULL) {
+		return path_array($this->get, $key);
+	}
+
+	/**
+	 * 读取POST参数
+	 * @param string $key
+	 * @return unknown
+	 */
+	public function post($key = NULL) {
+		return path_array($this->get, $key);
 	}
 
 	/**

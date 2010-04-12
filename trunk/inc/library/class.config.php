@@ -30,14 +30,7 @@ class cls_config {
 	 * @return unknown
 	 */
 	public function get($key) {
-		if(empty($key)) return FALSE;
-		$keyarray = explode('/', $key);
-		$path = '$this->value';
-		foreach($keyarray as $v) {
-			$path .= "['{$v}']";
-		}
-		eval('$value='.$path.';');
-		return $value;
+		return path_array($this->value, $key);
 	}
 
 	/**
@@ -48,12 +41,8 @@ class cls_config {
 	 */
 	public function set($key, $value) {
 		if(empty($key)) return FALSE;
-		$keyarray = explode('/', $key);
-		$path = NULL;
-		foreach($keyarray as $v) {
-			$path .= "['{$v}']";
-		}
-		@eval('$this->value'.$path.'=$value;');
+		$array =& path_array($this->value, $key);
+		$array = $value;
 		return TRUE;
 	}
 }

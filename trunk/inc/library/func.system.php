@@ -138,6 +138,26 @@ if(!function_exists('json_decode')) {
 }
 
 /**
+ * 以PATH形式读取数组元素
+ * @param array $array
+ * @param string $path
+ * @return unknown
+ */
+function &path_array(&$array, $path = NULL) {
+	if(empty($path) || !is_array($array)) {
+		return $array;
+	}else{
+		$arr_path = explode('/', $path);
+		$path = NULL;
+		foreach($arr_path as $v){
+			$path .= '['.$v.']';
+		}
+		eval('$value =& $array'.$path.';');
+		return $value;
+	}
+}
+
+/**
  * 发送404错误
  * @param string $tip 错误消息
  */

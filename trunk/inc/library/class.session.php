@@ -15,14 +15,7 @@ class cls_session {
 	 * @return unknown
 	 */
 	public function get($key) {
-		if(empty($key)) return FALSE;
-		$keyarray = explode('/', $key);
-		$path = NULL;
-		foreach($keyarray as $v) {
-			$path .= "['{$v}']";
-		}
-		@eval('$value=$this->session'.$path.';');
-		return $value;
+		return path_array($this->session, $key);
 	}
 
 	/**
@@ -32,13 +25,8 @@ class cls_session {
 	 * @return unknown
 	 */
 	public function set($key, $value) {
-		if(empty($key)) return FALSE;
-		$keyarray = explode('/', $key);
-		$path = NULL;
-		foreach($keyarray as $v) {
-			$path .= "['{$v}']";
-		}
-		@eval('$this->session'.$path.'=$value;');
+		$array = path_array($this->session, $key);
+		$array = $value;
 		return TRUE;
 	}
 
@@ -48,13 +36,8 @@ class cls_session {
 	 * @return bool
 	 */
 	public function clear($key = NULL) {
-		if(empty($key)) session_destroy();
-		$keyarray = explode('/', $key);
-		$path = NULL;
-		foreach($keyarray as $v) {
-			$path .= "['{$v}']";
-		}
-		@eval('unset($this->session'.$path.');');
+		$array = path_array($this->session, $key);
+		@eval('unset($array);');
 		return TRUE;
 	}
 
