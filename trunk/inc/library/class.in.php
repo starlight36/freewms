@@ -139,7 +139,7 @@ class cls_in {
 	 * @return unknown
 	 */
 	public function post($key = NULL) {
-		return path_array($this->get, $key);
+		return path_array($this->post, $key);
 	}
 
 	/**

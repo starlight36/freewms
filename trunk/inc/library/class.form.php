@@ -25,9 +25,9 @@ class cls_form {
 	 */
 	public function load_rules($rulekey = NULL) {
 		if(empty($rulekey)) {
-			$rule_file = DIR_ROOT.'config/'.$this->in->controller().'/'.$this->in->action().'.php';
+			$rule_file = DIR_ROOT.'config/form/'.$this->in->controller().'/'.$this->in->action().'.php';
 		}else{
-			$rule_file = DIR_ROOT.'config/'.$rulekey.'.php';
+			$rule_file = DIR_ROOT.'config/form/'.$rulekey.'.php';
 		}
 		if(is_file($rule_file)) {
 			@include_once $rule_file;
@@ -55,9 +55,10 @@ class cls_form {
 			}
 		}else{
 			$label = ($label == '') ? $field : $label;
-			$this->field_data[] = array(
+			$this->field_data[$field] = array(
 				'field' => $field,
 				'label' => $label,
+				'value' => $this->in->post($field),
 				'rule' => explode('|', $rules),
 				'filter' => explode('|', $filter)
 			);
@@ -144,7 +145,7 @@ class cls_form {
 			return FALSE;
 		}
 		foreach($this->field_data as $row) {
-			$value =& $this->in->post($row['field']);
+			$value =& path_array($this->postdata, $row['field']);
 			//执行表单验证
 			if(empty($row['rule'])) {
 				continue;
@@ -155,25 +156,33 @@ class cls_form {
 					$rule	= $match[1];
 					$param	= $match[2];
 				}
+				$is_method = FALSE;
 				if(!function_exists($rule)) {
-					continue;
-				}
-				if(method_exists($this, $rule)) {
-					$t_obj =& $this;
-				}else{
-					continue;
-				}
-				if(!is_null($t_obj)) {
-					$rule = '$t_obj->'.$rule;
+					if(method_exists($this, $rule)) {
+						$is_method = TRUE;
+					}else{
+						continue;
+					}
 				}
 				if($param == FALSE) {
-					if($rule($value) != TRUE) {
+					if($is_method == TRUE) {
+						$rst = $this->$rule($value);
+					}else{
+						$rst = $rule($value);
+					}
+					if($rst != TRUE) {
 						$err_msg = sprintf($this->error_messages[$rule], $row['label']);
 						$this->error_array[$row['field']] = $err_msg;
 						break;
 					}
 				}else{
-					if($rule($value, $param) != TRUE) {
+					if($is_method == TRUE) {
+						$rst = $this->$rule($value, $param);
+					}else{
+						$rst = $rule($value, $param);
+					}
+					if($rst != TRUE) {
+						$param = isset($this->field_data[$param])?$this->field_data[$param]['label']:$param;
 						$err_msg = sprintf($this->error_messages[$rule], $row['label'], $param);
 						$this->error_array[$row['field']] = $err_msg;
 						break;
@@ -216,7 +225,7 @@ class cls_form {
 	 * @return string
 	 */
 	public function set_value($field = '', $default = '') {
-		$value = $this->in->post($field);
+		$value = $this->field_data[$field]['value'];
 		if(empty($value)) {
 			return $default;
 		}
@@ -235,6 +244,21 @@ class cls_form {
 		}else{
 			return (!empty($str));
 		}
+	}
+
+	/**
+	 * 检查是否和字段匹配
+	 * @param string $str 输入的值
+	 * @param string $field 字段名称
+	 * @return bool
+	 */
+	private function matches($str, $field) {
+		$this->set_message(__FUNCTION__, '%s和%s不匹配.');
+		if(!isset($str) || !isset($field)) {
+			return FALSE;
+		}
+		$field = $this->in->post($field);
+		return ($str !== $field) ? FALSE : TRUE;
 	}
 
 }
