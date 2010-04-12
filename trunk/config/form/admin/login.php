@@ -5,14 +5,17 @@
 | -------------------------------------------------------------------
  */
 $form_rule = array(
-	//注册表单验证
-	'admin/login' => array(
-		array(
-			'field' => 'admin',
-			'label' => '管理员用户名',
-			'rules' => 'required'
-		)
+	array(
+		'field' => 'admin',
+		'label' => '管理员名',
+		'rules' => 'required',
+		'filter' => 'trim'
+	),
+	array(
+		'field' => 'passwd',
+		'label' => '管理员密码',
+		'rules' => 'required|matches[admin]',
+		'filter' => 'md5'
 	)
 );
-
 /* End of the file */

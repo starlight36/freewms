@@ -2,8 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<script type="text/javascript" src="http://wms.mleaf.org/js/jquery/jquery.js"></script>
-<link href="http://wms.mleaf.org/default/main.css" rel="stylesheet" type="text/css" />
+<meta name="keywords" content="FreeWMS,WMS,CMS,开源,内容,网站,管理系统" />
+<meta name="description" content="自由的网站管理系统" />
 <title>首页 - FreeWMS - 开源网站管理系统</title>
 </head>
 <body>hello, world!
