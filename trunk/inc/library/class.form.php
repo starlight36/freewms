@@ -261,4 +261,173 @@ class cls_form {
 		return ($str !== $field) ? FALSE : TRUE;
 	}
 
+	/**
+	 * 检查字段的最小长度
+	 * @param string $str 输入字串
+	 * @param string $val 输入长度
+	 * @return bool
+	 */
+	private function min_length($str, $val) {
+		$this->set_message(__FUNCTION__, '%s必须大于%s个字符.');
+		if(preg_match("/[^0-9]/", $val)) {
+			return FALSE;
+		}
+		if(function_exists('mb_strlen')) {
+			return (mb_strlen($str) < $val) ? FALSE : TRUE;
+		}
+		return (strlen($str) < $val) ? FALSE : TRUE;
+	}
+
+		/**
+	 * 检查字段的最大长度
+	 * @param string $str 输入字串
+	 * @param string $val 输入长度
+	 * @return bool
+	 */
+	private function max_length($str, $val) {
+		$this->set_message(__FUNCTION__, '%s必须小于%s个字符.');
+		if (preg_match("/[^0-9]/", $val)) {
+			return FALSE;
+		}
+		if (function_exists('mb_strlen')) {
+			return (mb_strlen($str) > $val) ? FALSE : TRUE;
+		}
+		return (strlen($str) > $val) ? FALSE : TRUE;
+	}
+
+	/**
+	 * 检查数字字段的最大值
+	 * @param string $str 输入字串
+	 * @param string $val 最大值
+	 * @return bool
+	 */
+	private function max_num($str, $val) {
+		$this->set_message(__FUNCTION__, '%s不能大于%s.');
+		if (preg_match("/[^0-9]/", $val)) {
+			return FALSE;
+		}
+		return ($s > $val) ? FALSE : TRUE;
+	}
+
+	/**
+	 * 检查数字字段的最小值
+	 * @param string $str 输入字串
+	 * @param string $val 最小值
+	 * @return bool
+	 */
+	private function min_num($str, $val) {
+		$this->set_message(__FUNCTION__, '%s不能小于%s.');
+		if (preg_match("/[^0-9]/", $val)) {
+			return FALSE;
+		}
+		return ($s < $val) ? FALSE : TRUE;
+	}
+
+	/**
+	 * 检查输入是否和给定长度相等
+	 * @param string $str 输入
+	 * @param ini $val 给定长度
+	 * @return bool
+	 */
+	private function exact_length($str, $val) {
+		$this->set_message(__FUNCTION__, '%s必须为%s个字符.');
+		if (preg_match("/[^0-9]/", $val)) {
+			return FALSE;
+		}
+		if (function_exists('mb_strlen')) {
+			return (mb_strlen($str) != $val) ? FALSE : TRUE;
+		}
+		return (strlen($str) != $val) ? FALSE : TRUE;
+	}
+
+	/**
+	 * 检查Email格式是否正确
+	 * @param string $str 输入字符串
+	 * @return bool
+	 */
+	private function valid_email($str) {
+		$this->set_message(__FUNCTION__, '%s必须是一个合法的Email地址.');
+		return (!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $str)) ? FALSE : TRUE;
+	}
+
+
+	/**
+	 * 检查email组
+	 * @param string $str 输入
+	 * @return bool
+	 */
+	private function valid_emails($str) {
+		$this->set_message(__FUNCTION__, '%s必须一个合法的Email地址组.');
+		if(strpos($str, ',') === FALSE) {
+			return $this->valid_email(trim($str));
+		}
+		foreach(explode(',', $str) as $email) {
+			if(trim($email) != '' && $this->valid_email(trim($email)) === FALSE) {
+				return FALSE;
+			}
+		}
+		return TRUE;
+	}
+
+	/**
+	 * 检查是否为合法的IP地址
+	 * @param string $ip
+	 * @return bool
+	 */
+	private function valid_ip($ip) {
+		$this->set_message(__FUNCTION__, '%s必须是一个有效的IP地址.');
+		$ip_segments = explode('.', $ip);
+		if (count($ip_segments) != 4) {
+			return FALSE;
+		}
+		if ($ip_segments[0][0] == '0') {
+			return FALSE;
+		}
+		foreach ($ip_segments as $segment) {
+			if ($segment == '' || preg_match("/[^0-9]/", $segment) || $segment > 255 || strlen($segment) > 3) {
+				return FALSE;
+			}
+		}
+		return TRUE;
+	}
+
+	/**
+	 * 检查一个安全的名称, 用于目录文件名检查
+	 * @param string $str 输入
+	 * @return bool
+	 */
+	private function dir_name($str) {
+		$this->set_message(__FUNCTION__, '%s中只能包含字母数字和下划线.');
+		return (!preg_match("/^([a-z0-9_])+$/i", $str)) ? FALSE : TRUE;
+	}
+
+	/**
+	 * 检查是否为数字形式
+	 * @param string $str 输入
+	 * @return bool
+	 */
+	private function numeric($str) {
+		$this->set_message(__FUNCTION__, '%s必须是一个合法的数字形式.');
+		return (bool)preg_match('/^[\-+]?[0-9]*\.?[0-9]+$/', $str);
+	}
+
+	/**
+	 * 检查是为整数形式
+	 * @param string $str 输入
+	 * @return bool
+	 */
+	private function integer($str) {
+		$this->set_message(__FUNCTION__, '%s必须是一个合法的整数形式.');
+		return (bool)preg_match( '/^[\-+]?[0-9]+$/', $str);
+	}
+
+	/**
+	 * 检查是否为自然数
+	 * @param string $str
+	 * @return bool
+	 */
+	private function is_natural($str) {
+		$this->set_message(__FUNCTION__, '%s必须是一个合法的自然数形式.');
+   		return (bool)preg_match('/^[0-9]+$/', $str);
+    }
 }
