@@ -168,6 +168,22 @@ function show_404($tip = 'Not Found') {
 }
 
 /**
+ * 初始化语言设置
+ */
+function language_init() {
+	$lang_type = $_COOKIE['DF_LANG'];
+	if(empty($lang_type)) {
+		preg_match('/^([a-z\-]+)/i', $_SERVER['HTTP_ACCEPT_LANGUAGE'], $matches);
+		$lang_type = $matches[1];
+		if(empty($lang_type)) {
+			$lang_type = DEF_LANG;
+		}
+	}
+	$o_lang =& load_class('lang');
+	$o_lang->init($lang_type);
+}
+
+/**
  * 运行系统
  */
 function system_run() {

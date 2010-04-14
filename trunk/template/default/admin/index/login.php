@@ -17,7 +17,7 @@
 			密码: <input name="passwd" type="password" id="passwd" value="{#out:set_value('passwd')}" />
 		</p>
 		<p>
-			<input type="submit" name="button" id="button" value="登录" />
+			<input type="submit" id="button" value="登录" />
 		</p>
     </form>
 </div>

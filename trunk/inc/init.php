@@ -15,7 +15,7 @@ unregister_globals();
 
 //自动加载的库
 $lib_array = array(
-	'system', 'form', 'safety', 'cache', 'url',
+	'system', 'form', 'safety', 'cache', 'url', 'lang',
 	'database', 'session', 'config', 'form', 'time'
 );
 foreach ($lib_array as $v) {
@@ -27,6 +27,9 @@ $cls_array = array('base', 'module', 'controller');
 foreach ($cls_array as $v) {
 	load_class($v, FALSE);
 }
+
+//初始化语言支持
+language_init();
 
 //启动session
 session_start();

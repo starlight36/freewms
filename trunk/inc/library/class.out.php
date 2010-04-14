@@ -175,10 +175,9 @@ class cls_out extends base {
 			create_dir(DIR_ROOT.'cache/tpl/'.$temp_path);
 		}
 		if(!is_file($file)) {
-			$content = NULL;
-		}else{
-			$content = file_get_contents($file);
+			$file = DIR_ROOT.'template/default/'.$path.'.php';
 		}
+		$content = file_get_contents($file);
 		/*
 		 * 正则表达式替换标签
 		 */
