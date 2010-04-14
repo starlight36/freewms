@@ -31,6 +31,9 @@ define('SAFETY_STRING', 'cms123456'); //用于增加密码强度的随机字符�
 //服务器时差设置
 define('TIME_DIFF', 8 * 3600); //设置系统显示时间和格林威治时间的差值,单位秒
 
+//默认语言
+define('DEF_LANG', 'zh-cn');
+
 //URI路由模式设置
 //可选:
 //  GET				标准GET参数方式
