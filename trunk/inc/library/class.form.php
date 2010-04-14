@@ -5,6 +5,7 @@
  */
 class cls_form {
 	private $in = NULL;
+	private $lang = NULL;
 	private $field_data = array();
 	private $error_messages = array();
 	private $error_array = array();
@@ -15,6 +16,8 @@ class cls_form {
 	public function  __construct() {
 		//加载输入类
 		$this->in =& load_class('in');
+		$this->lang =& load_class('lang');
+		$this->lang->load('system/form');
 		$this->postdata =& $this->in->post;
 		$this->load_rules();
 	}
@@ -238,7 +241,7 @@ class cls_form {
 	 * @return bool
 	 */
 	private function required($str) {
-		$this->set_message(__FUNCTION__, '%s必须填写.');
+		$this->set_message(__FUNCTION__, $this->lang->get('form_rule/required'));
 		if (!is_array($str)) {
 			return (trim($str) == '') ? FALSE : TRUE;
 		}else{
