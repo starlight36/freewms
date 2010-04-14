@@ -51,7 +51,7 @@ class cls_lang {
 	public function load($path = NULL) {
 		if(is_null($path)) {
 			$in =& load_class('in');
-			$path = $in->controller().'/'.$this->in->action();
+			$path = $in->controller().'/'.$in->action();
 		}
 		$path = DIR_INC.'language/'.$this->lang_name.'/'.$path.'.php';
 		if(is_file($path)) {

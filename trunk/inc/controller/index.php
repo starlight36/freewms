@@ -9,7 +9,7 @@ class ctrl_index extends controller {
 		if($this->config->get('site/page_cache') == TRUE) {
 			cache_page_load();
 		}
-		$this->out->set_title('首页');
+		$this->out->set_title($this->lang->get('pagetitle'));
 		$this->out->view('index');
 		if($this->config->get('site/page_cache') == TRUE) {
 			cache_page_save();

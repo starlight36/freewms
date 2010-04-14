@@ -6,6 +6,7 @@ abstract class controller extends base {
 	public $out, $user;
 	public function  __construct() {
 		parent::__construct();
+		$this->lang->load();
 		$this->out =& load_class('out');
 		$this->user =& load_class('user');
 		if ($this->config->get('site/page_cache') == TRUE) {
