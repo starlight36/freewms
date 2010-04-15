@@ -105,6 +105,14 @@ div#loginpage {
 	width: 280px;
 }
 
+div.errormsg {
+	margin: 3px;
+	background: #f00;
+	padding: 5px;
+	color: #ff0;
+	border: #ff0 1px solid;
+}
+
 /* 主页面样式 */
 
 /* 顶部 */
