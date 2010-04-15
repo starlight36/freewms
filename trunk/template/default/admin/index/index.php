@@ -1,39 +1,77 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Index</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="keywords" content=" " />
-<meta name="description" content=" " />
-<meta name="Author" content="Felix" />
-<meta name="generator" content="EditPlus" />
-<style type="text/css">
-* { margin:0; padding:0;overflow:hidden; }
-body{ margin: 0; padding: 0; height: 100%; _height: 100%; min-height: 100%; overflow: hidden; }
-html { padding: 130px 0 110px 0; }
-* html #felix_frame_Center{ margin-left: 200px; height: 100%; }
-#felix_frame_Top { position: absolute; top: 0; left: 0; width: 100%; height: 130px; overflow: hidden; background-color: #FF6600; color: white; }
-#felix_frame_Left{ position: absolute; top: 130px; left: 0; width: 200px; height: 100%; overflow: hidden; background-color: #CCC; color: white; }
-#felix_frame_Center{ position: fixed; top: 130px; bottom: 110px; left: 200px; right: 0; overflow: auto; background: #fff; width: auto; }
-#felix_frame_Bottom{ position: absolute; left: 0; bottom: 0; width: 100%; height: 110px; overflow: hidden; background-color: navy; color: white; }
-#felix_frame_Bottom{ bottom: -1px; }
-</style>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Language" content="UTF-8" />
+<meta content="all" name="robots" />
+<meta name="author" content="FreeWMS" />
+<link rel="stylesheet" rev="stylesheet" href="{#out:base_url()}skin/admin/styles.css" type="text/css" media="all" />
+<script type="text/javascript" src="{#out:base_url()}js/jquery/jquery.core.js"></script>
+<script type="text/javascript" src="{#out:base_url()}js/jquery/jquery.form.js"></script>
+<script type="text/javascript" src="{#out:base_url()}js/admin/common.js"></script>
+<title>后台管理 - Powered By FreeWMS</title>
 </head>
 <body>
-
-<div id="felix_frame_Top">
-  <p>TopTopTopTopTopTopTopTopTopTop</p>
-  <p>TopTopTopTopTopTopTopTopTopTop</p>
-  <p>TopTopTopTopTopTopTopTopTopTop</p>
+<div id="topframe">
+	<h1 id="toptitle">网站后台管理</h1>
 </div>
-
-<div id="felix_frame_Left">
-  <p>LeftLeftLeftLeftLeftLeftLeftLeftLeftLeft</p>
-  <p>LeftLeftLeftLeftLeftLeftLeftLeftLeftLeft</p>
-  <p>LeftLeftLeftLeftLeftLeftLeftLeftLeftLeft</p>
+<div id="leftframe">
+	<div id="guidetree">
+		<div class="treeitem">
+			<div>网站设置</div>
+			<ul>
+				<li>常规设置</li>
+				<li>基础参数</li>
+				<li>用户设置</li>
+				<li>邮件设置</li>
+				<li>文件设置</li>
+				<li>其他设置</li>
+			</ul>
+		</div>
+		<div class="treeitem">
+			<div>功能管理</div>
+			<ul>
+				<li>模块管理</li>
+				<li>添加模块</li>
+				<li>功能插件</li>
+			</ul>
+		</div>
+		<div class="treeitem">
+			<div>主题管理</div>
+			<ul>
+				<li>模板管理</li>
+				<li>风格管理</li>
+				<li>标签管理</li>
+			</ul>
+		</div>
+		<div class="treeitem">
+			<div>文章模块管理</div>
+			<ul>
+				<li>添加内容</li>
+				<li>内容审核</li>
+				<li>内容管理</li>
+				<li>分类管理</li>
+				<li>模块属性</li>
+			</ul>
+		</div>
+		<div class="treeitem">
+			<div>用户管理</div>
+			<ul>
+				<li>用户管理</li>
+				<li>用户审核</li>
+				<li>分组管理</li>
+				<li>管理员管理</li>
+			</ul>
+		</div>
+		<div class="treeitem">
+			<div>站点维护</div>
+			<ul>
+				<li>数据备份</li>
+			</ul>
+		</div>
+	</div>
 </div>
-
-<div id="felix_frame_Center">
+<div id="mainframe">
   <p>111111111111111</p>
   <p>maincontent</p>
   <p>maincontent</p>
@@ -150,12 +188,5 @@ html { padding: 130px 0 110px 0; }
   <p>maincontent</p>
   <p>111111111111111</p>
 </div>
-
-<div id="felix_frame_Bottom">
-  <p>BottomBottomBottomBottomBottomBottomBottomBottomBottomBottom</p>
-  <p>BottomBottomBottomBottomBottomBottomBottomBottomBottomBottom</p>
-  <p>BottomBottomBottomBottomBottomBottomBottomBottomBottomBottom</p>
-</div>
-
 </body>
 </html>

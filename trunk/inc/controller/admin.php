@@ -18,4 +18,8 @@ class ctrl_admin extends controller {
 			$this->out->view('admin/index/login');
 		}
 	}
+
+	public function action_main() {
+		$this->out->view('admin/index/index');
+	}
 }
