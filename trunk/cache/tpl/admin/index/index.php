@@ -5,12 +5,12 @@
 <meta http-equiv="Content-Language" content="UTF-8" />
 <meta content="all" name="robots" />
 <meta name="author" content="FreeWMS" />
-<link rel="stylesheet" rev="stylesheet" href="{#out:base_url()}skin/admin/styles.css" type="text/css" />
-<link rel="stylesheet" href="{#out:base_url()}/js/artdialog/skin/mini/mini.css" type="text/css" media="all" />
-<script type="text/javascript" src="{#out:base_url()}js/jquery/jquery.core.js"></script>
-<script type="text/javascript" src="{#out:base_url()}js/jquery/jquery.form.js"></script>
-<script type="text/javascript" src="{#out:base_url()}js/artdialog/artdialog.js"></script>
-<script type="text/javascript" src="{#out:base_url()}js/admin/common.js"></script>
+<link rel="stylesheet" rev="stylesheet" href="<?php echo base_url(); ?>skin/admin/styles.css" type="text/css" />
+<link rel="stylesheet" href="<?php echo base_url(); ?>/js/artdialog/skin/mini/mini.css" type="text/css" media="all" />
+<script type="text/javascript" src="<?php echo base_url(); ?>js/jquery/jquery.core.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>js/jquery/jquery.form.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>js/artdialog/artdialog.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>js/admin/common.js"></script>
 <title>后台管理 - Powered By FreeWMS</title>
 </head>
 <body>
@@ -23,9 +23,9 @@
 			<div class="treeitem">
 				<div>网站设置</div>
 				<ul>
-					<li><a href="{#out:base_url()}" title="常规设置">常规设置</a></li>
-					<li><a href="{#out:base_url()}" title="常规设置">基础参数</a></li>
-					<li><a href="{#out:base_url()}" title="常规设置">用户设置</a></li>
+					<li><a href="<?php echo base_url(); ?>" title="常规设置">常规设置</a></li>
+					<li><a href="<?php echo base_url(); ?>" title="常规设置">基础参数</a></li>
+					<li><a href="<?php echo base_url(); ?>" title="常规设置">用户设置</a></li>
 					<li>邮件设置</li>
 					<li>文件设置</li>
 					<li>其他设置</li>

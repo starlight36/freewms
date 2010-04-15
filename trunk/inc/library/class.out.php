@@ -157,7 +157,7 @@ class cls_out extends base {
 	 */
 	private function template($path = NULL) {
 		$temp_file = DIR_ROOT.'cache/tpl/'.$path.'.php';
-		if(!is_file($temp_file)) {
+		if(!is_file($temp_file) || SYS_DEBUG == TRUE) {
 			$this->parse_template($path);
 		}
 		return $temp_file;
