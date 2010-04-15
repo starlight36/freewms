@@ -70,16 +70,20 @@ table.moditem .buttonrow {
 }
 
 #leftframe {
-	position: absolute;
+	position:absolute;
 	top: 70px;
 	left: 0;
+	bottom: 0;
 	width: 200px;
-	height: 100%;
 	overflow: auto;
 }
 
 * html #mainframe {
 	margin-left: 200px;
+	height: 100%;
+}
+
+* html #leftframe {
 	height: 100%;
 }
 
