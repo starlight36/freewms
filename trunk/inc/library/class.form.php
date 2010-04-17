@@ -256,7 +256,7 @@ class cls_form {
 	 * @return bool
 	 */
 	private function matches($str, $field) {
-		$this->set_message(__FUNCTION__, '%s和%s不匹配.');
+		$this->set_message(__FUNCTION__, $this->lang->get('form_rule/matches'));
 		if(!isset($str) || !isset($field)) {
 			return FALSE;
 		}
@@ -271,7 +271,7 @@ class cls_form {
 	 * @return bool
 	 */
 	private function min_length($str, $val) {
-		$this->set_message(__FUNCTION__, '%s必须大于%s个字符.');
+		$this->set_message(__FUNCTION__,$this->lang->get('form_rule/min_length'));
 		if(preg_match("/[^0-9]/", $val)) {
 			return FALSE;
 		}
@@ -288,7 +288,7 @@ class cls_form {
 	 * @return bool
 	 */
 	private function max_length($str, $val) {
-		$this->set_message(__FUNCTION__, '%s必须小于%s个字符.');
+		$this->set_message(__FUNCTION__,$this->lang->get('form_rule/max_length'));
 		if (preg_match("/[^0-9]/", $val)) {
 			return FALSE;
 		}
@@ -305,7 +305,7 @@ class cls_form {
 	 * @return bool
 	 */
 	private function max_num($str, $val) {
-		$this->set_message(__FUNCTION__, '%s不能大于%s.');
+		$this->set_message(__FUNCTION__, $this->lang->get('form_rule/max_num'));
 		if (preg_match("/[^0-9]/", $val)) {
 			return FALSE;
 		}
@@ -319,7 +319,7 @@ class cls_form {
 	 * @return bool
 	 */
 	private function min_num($str, $val) {
-		$this->set_message(__FUNCTION__, '%s不能小于%s.');
+		$this->set_message(__FUNCTION__, $this->lang->get('form_rule/min_num'));
 		if (preg_match("/[^0-9]/", $val)) {
 			return FALSE;
 		}
@@ -333,7 +333,7 @@ class cls_form {
 	 * @return bool
 	 */
 	private function exact_length($str, $val) {
-		$this->set_message(__FUNCTION__, '%s必须为%s个字符.');
+		$this->set_message(__FUNCTION__, $this->lang->get('form_rule/exact_length'));
 		if (preg_match("/[^0-9]/", $val)) {
 			return FALSE;
 		}
@@ -349,7 +349,7 @@ class cls_form {
 	 * @return bool
 	 */
 	private function valid_email($str) {
-		$this->set_message(__FUNCTION__, '%s必须是一个合法的Email地址.');
+		$this->set_message(__FUNCTION__,$this->lang->get('form_rule/valid_email') );
 		return (!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $str)) ? FALSE : TRUE;
 	}
 
@@ -360,7 +360,7 @@ class cls_form {
 	 * @return bool
 	 */
 	private function valid_emails($str) {
-		$this->set_message(__FUNCTION__, '%s必须一个合法的Email地址组.');
+		$this->set_message(__FUNCTION__, $this->lang->get('form_rule/valid_emails'));
 		if(strpos($str, ',') === FALSE) {
 			return $this->valid_email(trim($str));
 		}
@@ -378,7 +378,7 @@ class cls_form {
 	 * @return bool
 	 */
 	private function valid_ip($ip) {
-		$this->set_message(__FUNCTION__, '%s必须是一个有效的IP地址.');
+		$this->set_message(__FUNCTION__,$this->lang->get('form_rule/valid_ip') );
 		$ip_segments = explode('.', $ip);
 		if (count($ip_segments) != 4) {
 			return FALSE;
@@ -400,7 +400,7 @@ class cls_form {
 	 * @return bool
 	 */
 	private function dir_name($str) {
-		$this->set_message(__FUNCTION__, '%s中只能包含字母数字和下划线.');
+		$this->set_message(__FUNCTION__,$this->lang->get('form_rule/dir_name') );
 		return (!preg_match("/^([a-z0-9_])+$/i", $str)) ? FALSE : TRUE;
 	}
 
@@ -410,7 +410,7 @@ class cls_form {
 	 * @return bool
 	 */
 	private function numeric($str) {
-		$this->set_message(__FUNCTION__, '%s必须是一个合法的数字形式.');
+		$this->set_message(__FUNCTION__, $this->lang->get('form_rule/numeric'));
 		return (bool)preg_match('/^[\-+]?[0-9]*\.?[0-9]+$/', $str);
 	}
 
@@ -420,7 +420,7 @@ class cls_form {
 	 * @return bool
 	 */
 	private function integer($str) {
-		$this->set_message(__FUNCTION__, '%s必须是一个合法的整数形式.');
+		$this->set_message(__FUNCTION__,$this->lang->get('form_rule/integer') );
 		return (bool)preg_match( '/^[\-+]?[0-9]+$/', $str);
 	}
 
@@ -430,7 +430,7 @@ class cls_form {
 	 * @return bool
 	 */
 	private function is_natural($str) {
-		$this->set_message(__FUNCTION__, '%s必须是一个合法的自然数形式.');
+		$this->set_message(__FUNCTION__,$this->lang->get('form_rule/is_natural') );
    		return (bool)preg_match('/^[0-9]+$/', $str);
     }
 }

@@ -12,6 +12,7 @@ class cls_out extends base {
 
 	public function  __construct() {
 		parent::__construct();
+		$this->config->load('site');
 		$this->page_keywords = $this->config->get('site/keywords');
 		$this->page_description = $this->config->get('site/description');
 	}

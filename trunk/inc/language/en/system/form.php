@@ -6,5 +6,6 @@
  */
 
 $lang['form_rule'] = array(
-	'required' => '%s is required.'
+	'required' => '%s is required.',
+	'matches' => '%s does not match %s.'
 );
