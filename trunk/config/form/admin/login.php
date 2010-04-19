@@ -14,8 +14,8 @@ $form_rule = array(
 	array(
 		'field' => 'passwd',
 		'label' => '管理员密码',
-		'rules' => 'required|matches[admin]',
-		'filter' => 'md5'
+		'rules' => 'required',
+		'filter' => 'trim|md5'
 	)
 );
 /* End of the file */

@@ -8,8 +8,8 @@
 $lang['form_rule'] = array(
 	'required' => '%s必须填写.',
 	'matches' => '%s和%s不匹配.',
-	 'min_length'=>'%s必须大于%s个字符.',
-	 'max_length'=>'%s必须小于%s个字符.',
+	'min_length'=>'%s必须大于%s个字符.',
+	'max_length'=>'%s必须小于%s个字符.',
 	'max_num'=>'%s不能大于%s.',
 	'min_num'=>'%s不能小于%s.',
 	'exact_length'=>'%s必须为%s个字符.',

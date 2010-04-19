@@ -119,7 +119,7 @@ class mod_user extends module {
 		}else{
 			return FALSE;
 		}
-		foreach($user_array as $k => $v) {
+		foreach($userinfo as $k => $v) {
 			$k = substr($k, 5);
 			$temp[$k] = $v;
 		}
