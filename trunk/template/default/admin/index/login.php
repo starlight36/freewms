@@ -28,8 +28,12 @@
 				<td><input type="text" name="admin" id="admin" value="{#out:set_value('admin')}" /></td>
 			</tr>
 			<tr>
-				<td class="labelcol">密码：</td>
+				<td class="labelcol">用户密码：</td>
 				<td><input name="passwd" type="password" id="passwd" value="{#out:set_value('passwd')}" /></td>
+			</tr>
+			<tr>
+				<td class="labelcol">管理密码：</td>
+				<td><input name="adminpass" type="password" id="adminpass" value="{#out:set_value('adminpass')}" /></td>
 			</tr>
 			<tr>
 				<td colspan="2" class="buttonrow"><input type="submit" value="提交" /> <input type="reset" value="重置" /></td>

@@ -258,7 +258,7 @@ class mod_user extends module {
 			$this->msg = '没有输入任何数据.';
 			return FALSE;
 		}
-		$password = (len($password) == 32)?$password:md5($password);
+		$password = (strlen($password) == 32)?$password:md5($password);
 		$userinfo = $this->get_user_info($username);
 		if($userinfo === FALSE) {
 			$this->msg = '用户名不存在.';
@@ -285,13 +285,11 @@ class mod_user extends module {
 	 * @return bool
 	 */
 	public function login_admin($admin_pass, $username = NULL, $password = NULL) {
-		if($this->check_admin()) {
-			if(!$this->login($username, $password)) {
-				return FALSE;
-			}
+		if(!$this->login($username, $password)) {
+			return FALSE;
 		}
 		if($this->is_admin == FALSE) {
-			$this->msg = '您不是管理, 无权登录后台';
+			$this->msg = '您不是管理员, 无权登录后台';
 			return FALSE;
 		}
 		if(!$this->userinfo['admin_pass'] == md5($admin_pass)) {

@@ -15,6 +15,13 @@ class ctrl_admin extends controller {
 	public function action_login() {
 		if($this->form->run()) {
 			$admin = $this->in->post('admin');
+			$passwd = $this->in->post('passwd');
+			$adminpass = $this->in->post('adminpass');
+			if($this->user->login_admin($adminpass, $admin, $passwd)) {
+				redirect('admin/main');
+			}else{
+				echo $this->user->msg;
+			}
 		}else{
 			$this->out->view('admin/index/login');
 		}

@@ -7,13 +7,19 @@
 $form_rule = array(
 	array(
 		'field' => 'admin',
-		'label' => '管理员名',
+		'label' => '用户名',
 		'rules' => 'required',
 		'filter' => 'trim'
 	),
 	array(
 		'field' => 'passwd',
-		'label' => '管理员密码',
+		'label' => '用户密码',
+		'rules' => 'required',
+		'filter' => 'trim|md5'
+	),
+	array(
+		'field' => 'adminpass',
+		'label' => '管理密码',
 		'rules' => 'required',
 		'filter' => 'trim|md5'
 	)
