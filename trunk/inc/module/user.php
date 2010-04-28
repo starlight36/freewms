@@ -94,8 +94,10 @@ class mod_user extends module {
 	 */
 	public function get_user_info($str = NULL) {
 		if(is_null($str)){
+			//读取条件为空的情况下,从SESSION加载
 			$userinfo = $this->session->get('user');
 			if(empty($userinfo)) {
+				//SESSION为空自动加载为游客组
 				$userinfo['groupid'] = 1;
 				$userinfo['name'] = '游客';
 				$userinfo['state'] = 3;
@@ -113,25 +115,34 @@ class mod_user extends module {
 		}else{
 			return FALSE;
 		}
+		//从数据库读取用户信息
 		$q_userinfo = $this->db->get('user');
 		if ($q_userinfo->num_rows() == 1) {
 			$userinfo = $q_userinfo->row_array();
 		}else{
 			return FALSE;
 		}
+		//除去前缀
 		foreach($userinfo as $k => $v) {
 			$k = substr($k, 5);
 			$temp[$k] = $v;
 		}
-		if($temp['isadmin'] == TRUE) {
-			$this->db->where('admin_userid', $temp['id']);
-			$q_admin = $this->db->get('admin');
-			if($q_admin->num_rows() == 1) {
-				$admininfo = $q_admin->row_array();
-			}else{
-				$temp['isadmin'] = FALSE;
+		//加载管理员权限
+		$temp['isadmin'] = FALSE;
+		$this->db->where('admin_userid', $temp['id']);
+		$q_admin = $this->db->get('admin');
+		if($q_admin->num_rows() == 1) {
+			$temp['isadmin'] = TRUE;
+			$admininfo = $q_admin->row();
+			//排除此用户受限的管理员权限
+			$adminflag = unserialize($admininfo->admin_flag);
+			if(!empty($adminflag)) {
+				foreach($admininfo->admin_flag as $k => $v) {
+					if($temp['admin_power'][$k] != FALSE) {
+						$temp['admin_power'][$k] = FALSE;
+					}
+				}
 			}
-			$temp = array_merge($temp, $admininfo);
 		}
 		return $temp;
 	}
@@ -155,14 +166,17 @@ class mod_user extends module {
 			}else{
 				return FALSE;
 			}
+			//将数据还原成原结构
 			$group_array['name'] = $group_array['group_name'];
 			$group_array['isadmin'] = $group_array['group_isadmin'];
 			$group_array['admin_power'] = unserialize($group_array['group_admin_power']);
 			$group_array['user_power'] = unserialize($group_array['group_user_power']);
 			unset($group_array['group_name'], $group_array['group_isadmin'],
 				$group_array['group_admin_power'], $group_array['group_user_power']);
+			//存入缓存
 			cache_put('group_'.$gid, $group_array);
 		}
+		//如果是当前用户的信息则设置类属性
 		if($is_curr_user == TRUE) {
 			$this->is_admin = $group_array['isadmin'];
 			$this->user_power = $group_array['admin_power'];
