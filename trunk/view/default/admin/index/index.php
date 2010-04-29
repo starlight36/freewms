@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Language" content="UTF-8" />
 <meta content="all" name="robots" />
 <meta name="author" content="FreeWMS" />
-<link rel="stylesheet" rev="stylesheet" href="{#out:base_url()}skin/admin/styles.css" type="text/css" />
+<link rel="stylesheet" rev="stylesheet" href="{#out:base_url()}view/default/skin/admin.css" type="text/css" />
 <link rel="stylesheet" href="{#out:base_url()}/js/artdialog/skin/mini/mini.css" type="text/css" media="all" />
 <script type="text/javascript" src="{#out:base_url()}js/jquery/jquery.core.js"></script>
 <script type="text/javascript" src="{#out:base_url()}js/jquery/jquery.form.js"></script>
