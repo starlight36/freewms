@@ -20,68 +20,6 @@ function set_value($field = '', $default = '') {
 }
 
 /**
- * 设置复选框选择
- * @param string $field 字段名
- * @param string $value 值
- * @param bool $default 默认选择
- * @return string
- */
-function set_checkbox($field = '', $value = '', $default = FALSE) {
-	$OBJ =& load_class('form');
-	if($OBJ === FALSE) {
-		if(!isset($_POST[$field])) {
-			if(count($_POST) === 0 AND $default == TRUE) {
-				return ' checked="checked"';
-			}
-			return '';
-		}
-		$field = $_POST[$field];
-		if(is_array($field)) {
-			if(!in_array($value, $field)) {
-				return '';
-			}
-		}else{
-			if(($field == '' || $value == '') || ($field != $value)) {
-				return '';
-			}
-		}
-		return ' checked="checked"';
-	}
-	return $OBJ->set_checkbox($field, $value, $default);
-}
-
-/**
- * 设置单选按钮选择
- * @param string $field 字段名
- * @param string $value 值
- * @param bool $default 默认选择
- * @return string
- */
-function set_radio($field = '', $value = '', $default = FALSE) {
-	$OBJ =& load_class('form');
-	if ($OBJ === FALSE) {
-		if ( ! isset($_POST[$field])) {
-			if (count($_POST) === 0 AND $default == TRUE) {
-				return ' checked="checked"';
-			}
-			return '';
-		}
-		$field = $_POST[$field];
-		if (is_array($field)) {
-			if ( ! in_array($value, $field)) {
-				return '';
-			}
-		}else{
-			if (($field == '' OR $value == '') OR ($field != $value)) {
-				return '';
-			}
-		}
-		return ' checked="checked"';
-	}
-	return $OBJ->set_radio($field, $value, $default);
-}
-
-/**
  * 取一个表单项目的错误消息
  * @param string $field 字段
  * @param string $prefix 开始前缀

@@ -102,7 +102,7 @@ class cls_out extends base {
 		if(empty ($url)) return NULL;
 		$this->config->load('site');
 		if(substr($url, 0, 1) == '/') {
-			$url = $this->config->get('site/base_url').'skin/'.substr($url, 1);
+			$url = $this->config->get('site/base_url').'view/'.substr($url, 1);
 		}elseif(substr($url, 0, 7) != 'http://'){
 			$url = $this->config->get('site/base_url').$url;
 		}
@@ -169,14 +169,14 @@ class cls_out extends base {
 	 * @param string $path
 	 */
 	private function parse_template($path) {
-		$file = DIR_ROOT.'template/'.$this->config->get('site/template').'/'.$path.'.php';
+		$file = DIR_ROOT.'view/'.$this->config->get('site/template').'/'.$path.'.php';
 		$temp_file = DIR_ROOT.'cache/tpl/'.$path.'.php';
 		$temp_path = dirname($path);
 		if(!is_dir(DIR_ROOT.'cache/tpl/'.$temp_path)) {
 			create_dir(DIR_ROOT.'cache/tpl/'.$temp_path);
 		}
 		if(!is_file($file)) {
-			$file = DIR_ROOT.'template/default/'.$path.'.php';
+			$file = DIR_ROOT.'view/default/'.$path.'.php';
 		}
 		$content = file_get_contents($file);
 		/*

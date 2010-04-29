@@ -12,6 +12,9 @@ class ctrl_admin extends controller {
 		$this->user =& load_class('user');
 	}
 
+	/*
+	 * 登录后台
+	 */
 	public function action_login() {
 		if($this->form->run()) {
 			$admin = $this->in->post('admin');
@@ -27,11 +30,15 @@ class ctrl_admin extends controller {
 		}
 	}
 
+	/*
+	 * 后台首页
+	 */
 	public function action_main() {
+		$this->out->set_title($this->lang->get('pagetitle'));
 		if($this->user->check_admin()) {
 			$this->out->view('admin/index/index');
 		}else{
-			echo 'Access Denied.';
+			$this->out->view('system/error', array('error_msg'=>'您尚未登录,不能访问管理后台.'));
 		}
 	}
 }
