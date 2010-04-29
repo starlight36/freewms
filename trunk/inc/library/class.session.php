@@ -25,7 +25,7 @@ class cls_session {
 	 * @return unknown
 	 */
 	public function set($key, $value) {
-		$array = path_array($this->session, $key);
+		$array =& path_array($this->session, $key);
 		$array = $value;
 		return TRUE;
 	}

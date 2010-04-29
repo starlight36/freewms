@@ -28,6 +28,10 @@ class ctrl_admin extends controller {
 	}
 
 	public function action_main() {
-		$this->out->view('admin/index/index');
+		if($this->user->check_admin()) {
+			$this->out->view('admin/index/index');
+		}else{
+			echo 'Access Denied.';
+		}
 	}
 }

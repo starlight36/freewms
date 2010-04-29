@@ -129,22 +129,24 @@ class mod_user extends module {
 		}
 		//加载管理员权限
 		$temp['isadmin'] = FALSE;
+		$this->is_admin = FALSE;
 		$this->db->where('admin_userid', $temp['id']);
 		$q_admin = $this->db->get('admin');
 		if($q_admin->num_rows() == 1) {
 			$temp['isadmin'] = TRUE;
-			$admininfo = $q_admin->row();
+			$this->is_admin = TRUE;
+			$admininfo = $q_admin->row_array();
 			//排除此用户受限的管理员权限
-			$adminflag = unserialize($admininfo->admin_flag);
+			$adminflag = unserialize($admininfo['admin_flag']);
 			if(!empty($adminflag)) {
-				foreach($admininfo->admin_flag as $k => $v) {
+				foreach($adminflag as $k => $v) {
 					if($temp['admin_power'][$k] != FALSE) {
 						$temp['admin_power'][$k] = FALSE;
 					}
 				}
 			}
 		}
-		return $temp;
+		return array_merge($temp, $admininfo);
 	}
 
 	/**
@@ -168,7 +170,6 @@ class mod_user extends module {
 			}
 			//将数据还原成原结构
 			$group_array['name'] = $group_array['group_name'];
-			$group_array['isadmin'] = $group_array['group_isadmin'];
 			$group_array['admin_power'] = unserialize($group_array['group_admin_power']);
 			$group_array['user_power'] = unserialize($group_array['group_user_power']);
 			unset($group_array['group_name'], $group_array['group_isadmin'],
@@ -178,7 +179,6 @@ class mod_user extends module {
 		}
 		//如果是当前用户的信息则设置类属性
 		if($is_curr_user == TRUE) {
-			$this->is_admin = $group_array['isadmin'];
 			$this->user_power = $group_array['admin_power'];
 			$this->admin_power = $group_array['user_power'];
 		}
