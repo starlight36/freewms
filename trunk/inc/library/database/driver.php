@@ -938,7 +938,7 @@ class db_driver {
 	 * @return	string	sends the application/error_db.php template
 	 */
 	public function display_error($error = '', $swap = '') {
-		$message = implode('</p><p>', (!is_array($message)) ? array($message) : $message);
+		$message = implode('</p><p>', (!is_array($error)) ? array($error) : $error);
 		$message .= (empty($swap))?NULL:' Parameter： '.$swap;
 		$message = '<p>'.$message.'</p>';
 		exit($message);

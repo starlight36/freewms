@@ -4,7 +4,7 @@
  */
 class mod_content extends module {
 	public $msg = NULL;
-	public $channel_name = 'article';
+	private $channel = NULL;
 
 	public function  __construct() {
 		parent::__construct();
@@ -15,7 +15,8 @@ class mod_content extends module {
 	 * @param string $name
 	 */
 	public function set_channel($name) {
-		$this->channel_name = $name;
+		$this->channel = $this->get_channel($name);
+		return $this->channel;
 	}
 
 	/**
@@ -46,12 +47,13 @@ class mod_content extends module {
 				$ch_info['id'] = $row->ch_id;
 				$ch_info['name'] = $row->ch_name;
 				$ch_info['key'] = $row->ch_key;
-				$ch_info['mod_key'] = $row->mod_key;
+				$ch_info['mod_class'] = $row->mod_class;
+				$ch_info['mod_manage'] = $row->mod_manage;
+				$ch_info['mod_plugin'] = empty($row->ch_plugin)?$row->mod_plugin:$row->ch_plugin;
 				$ch_info['keywords'] = $row->ch_keywords;
 				$ch_info['description'] = $row->ch_description;
-				$ch_info['template'] = $row->ch_template;
-				$ch_info['style'] = $row->ch_style;
-				$ch_info['pagesize'] = $row->ch_pagesize;
+				$ch_info['template'] = empty($row->ch_template)?$row->mod_class:$row->ch_template;
+				$ch_info['staticize'] = $row->staticize;
 				cache_put($cache_name, $ch_info);
 			}
 		}
@@ -118,18 +120,25 @@ class mod_content extends module {
 				$cate_info['key'] = $row->cate_key;
 				$cate_info['keywords'] = $row->cate_keywords;
 				$cate_info['description'] = $row->cate_description;
-				$q_ch_cate = $this->db->get('category');
-				$ch_idlist = array();
-				//递归获取当前分类的路径
-				if(!empty($row->cate_parentid)) {
-					$p_cate = $this->get_category(NULL, $row->cate_parentid);
-					$cate_info['path'] = $p_cate['path'].$row->cate_key.'/';
+				$cate_info['templete'] = $row->cate_templete;
+				$cate_info['pagesize'] = $row->cate_pagesize;
+				//取得分类的URL
+				if($staticfix == 'close' || $is_staticize == 0) {
+					$cate_info['path'] = $this->channel['key'].'/category/'.$cate_info['key'];
 				}else{
-					$cate_info['path'] = $row->cate_key.'/';
+					//递归获取当前分类的路径
+					if(!empty($row->cate_parentid)) {
+						$p_cate = $this->get_category(NULL, $row->cate_parentid);
+						$cate_info['path'] = $p_cate['path'].$row->cate_key.'/';
+					}else{
+						$cate_info['path'] = $row->cate_key.'/';
+					}
 				}
 				//读取子分类id
 				$this->db->select('cate_id');
 				$this->db->where('cate_parentid', $row->cate_id);
+				$q_ch_cate = $this->db->get('category');
+				$ch_idlist = array();
 				if($q_ch_cate->num_rows() > 0) {
 					foreach($q_ch_cate->result() as $ch_row) {
 						$ch_idlist[] = $ch_row->cate_id;
@@ -212,7 +221,7 @@ class mod_content extends module {
 		$this->db->join('user', 'user_id = content_userid');
 		$q_content = $this->db->get('content');
 		if($q_content->num_rows() != 1) {
-			$this->msg = '没有找到要查看的内容.';
+			$this->msg = '没有找到要查看的页面.';
 			return FALSE;
 		}else{
 			$row = $q_content->first_row();
@@ -236,7 +245,7 @@ class mod_content extends module {
 				'state' => $row->content_state,
 				'url' => $url
 			);
-			$c_obj =& load_class($this->channel_name);
+			$c_obj =& load_class($this->channel['key']);
 			$content_main = $c_obj->get($row);
 			return array_merge($content, $content_main);
 		}
@@ -250,26 +259,24 @@ class mod_content extends module {
 	public function get_list($param, $pagesize = 0, $pagenum = 1) {
 		if($pagesize > 0) {
 			$param['limit'] = $pagesize;
-		}
-		if($pagesize > 0) {
 			if(pagenum <= 0 || !is_numeric($pagenum)) {
 				$pagenum = 1;
 			}
-			$pagenum = (int)$pagenum;
-			if(!$this->parse_list_param($param)) {
-				return FALSE;
-			}
+			//读取内容记录数,准备分页
+			$param['limit'] = 0;
+			$this->parse_list_param($param);
 			$resultcount = $this->db->count_all_results('content');
 			$pagecount = (int)($resultcount / $pagesize)
 							+ ($resultcount % $pagesize == 0)?0:1;
+			if($pagecount == 0) $pagecount = 1;
+			$param['limit'] = $pagesize;
 			$pagenum = ($pagenum > $pagecount) ? $pagecount : $pagenum;
 			$offset = ($pagenum - 1) * $pagesize;
 		}else{
 			$offset = 0;
 		}
-		if(!$this->parse_list_param($param, $offset)) {
-			return FALSE;
-		}
+		//查询内容
+		$this->parse_list_param($param, $offset);
 		$this->db->join('user', 'user_id = content_userid');
 		$q_list = $this->db->get('content');
 		if($q_list->num_rows() == 0) {
@@ -336,7 +343,7 @@ class mod_content extends module {
 			$content['action'] = 'update';
 		}
 		$content['contentid'] = $data['id'];
-		$c_obj =& load_class($this->channel_name);
+		$c_obj =& load_class($this->channel['key']);
 		$content_main = $c_obj->save($content);
 		return $data['id'];
 	}
@@ -351,18 +358,19 @@ class mod_content extends module {
 	private function get_content_url($cateid, $cid, $ckey) {
 		$cateinfo = $this->get_category(NULL, $row->$cateid);
 		$staticfix = $this->config->get('site/staticize');
+		$is_staticize = $this->channel['staticize'];
 		//处理内容的URL
-		if($staticfix == 'close') {
+		if($staticfix == 'close' || $is_staticize == 0) {
 			if(empty($ckey)) {
-				$url = site_url($this->channel_name.'/view/'.$cid);
+				$url = site_url($this->channel['key'].'/view/'.$cid);
 			}else{
-				$url = site_url($this->channel_name.'/view/'.$ckey);
+				$url = site_url($this->channel['key'].'/view/'.$ckey);
 			}
 		}else{
 			if(empty($ckey)) {
-				$url = $this->channel_name.'/'.$cateinfo['path'].$cid.$staticfix;
+				$url = $this->channel['key'].'/'.$cateinfo['path'].$cid.$staticfix;
 			}else{
-				$url = $this->channel_name.'/'.$cateinfo['path'].$ckey.$staticfix;
+				$url = $this->channel['key'].'/'.$cateinfo['path'].$ckey.$staticfix;
 			}
 		}
 		return $url;

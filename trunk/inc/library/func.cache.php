@@ -54,6 +54,9 @@ function cache_page_init() {
  * 保存页面缓存
  */
 function cache_page_save() {
+	if(!get_config('site', 'page_cache')) {
+		return;
+	}
 	$obj_in =& load_class('in');
 	$page_key = md5(SAFETY_STRING.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
 	$path = CACHE_PATH.'page/'.$obj_in->controller().'/'.$obj_in->action().'/'.substr($page_key,0,2);
@@ -62,6 +65,7 @@ function cache_page_save() {
 		create_dir($path);
 	}
 	$page_content = ob_get_contents();
+	@unlink($cache_file);
 	file_put_contents($cache_file, $page_content);
 }
 
@@ -71,15 +75,18 @@ function cache_page_save() {
  * @return bool/null
  */
 function cache_page_load() {
+	if(!get_config('site', 'page_cache')) {
+		return;
+	}
 	$obj_in =& load_class('in');
 	$page_key = md5(SAFETY_STRING.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
 	$path = CACHE_PATH.'page/'.$obj_in->controller().'/'.$obj_in->action().'/'.substr($page_key,0,2);
-	$cache_file = $path.$page_key.'.dat';
+	$cache_file = $path.'/'.$page_key.'.dat';
 	if(!is_file($cache_file)) {
 			return FALSE;
 	}else{
-		$file_create_time = filectime($cache_file);
-		if(CACHE_PAGE_EXPIRE > 0 && gmmktime() - $file_create_time > CACHE_PAGE_EXPIRE) {
+		$file_pass_time = gmmktime() - filectime($cache_file);
+		if(CACHE_PAGE_EXPIRE > 0 && $file_pass_time > CACHE_PAGE_EXPIRE) {
 			return FALSE;
 		}else{
 			ob_clean();

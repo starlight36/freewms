@@ -31,7 +31,7 @@ $config['template'] = 'default';
 $config['style'] = 'default';
 
 //页面缓存
-$config['page_cache'] = TRUE;
+$config['page_cache'] = FALSE;
 
 //静态化
 //可选项有

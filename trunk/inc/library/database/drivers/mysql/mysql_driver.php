@@ -374,7 +374,7 @@ class db_mysql_driver extends db_active_record {
 	 * @access	private
 	 * @return	string
 	 */
-	private function _error_message() {
+	protected function _error_message() {
 		return mysql_error($this->conn_id);
 	}
 

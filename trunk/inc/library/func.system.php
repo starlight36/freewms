@@ -192,19 +192,28 @@ function system_run() {
 	$action_name = 'action_'.$in->action();
 	$ctrl_file = DIR_INC.'controller/'.$ctrl_name.'.php';
 	if(!is_file($ctrl_file)) {
-		show_404();
+		//由于框架内没有设置钩子, 内容控制器需独立启动加载.
+		$ctrl_name = 'ctrl_content';
+		$ctrl_file = DIR_INC.'controller/content.php';
+		if(is_file($ctrl_file)) {
+			@include_once $ctrl_file;
+			$obj_ctrl = new ctrl_content($in->controller());
+			$obj_ctrl->$action_name();
+		}else{
+			show_404();
+		}
 	}else{
+		//普通控制器
 		@include_once $ctrl_file;
 		$ctrl_name = 'ctrl_'.$ctrl_name;
 		if(!class_exists($ctrl_name)) {
 			show_404();
+		}
+		$obj_ctrl =& instantiate_class(new $ctrl_name);
+		if(!method_exists($obj_ctrl, $action_name)) {
+			show_404();
 		}else{
-			$obj_ctrl =& instantiate_class(new $ctrl_name);
-			if(!method_exists($obj_ctrl, $action_name)) {
-				show_404();
-			}else{
-				eval('$obj_ctrl->'.$action_name.'();');
-			}
+			eval('$obj_ctrl->'.$action_name.'();');
 		}
 	}
 }

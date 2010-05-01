@@ -3,17 +3,13 @@ class ctrl_index extends controller {
 
 	public function  __construct() {
 		parent::__construct();
+		cache_page_load();
 	}
-	
+
 	public function action_index() {
-		if($this->config->get('site/page_cache') == TRUE) {
-			cache_page_load();
-		}
 		$this->out->set_title($this->lang->get('pagetitle'));
 		$this->out->view('index');
-		if($this->config->get('site/page_cache') == TRUE) {
-			cache_page_save();
-		}
+		cache_page_save();
 	}
 }
 
