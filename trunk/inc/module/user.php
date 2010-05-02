@@ -6,10 +6,10 @@
 class mod_user extends module {
 
 	public $msg = NULL;
-	public static $userinfo = array();
-	public static $is_admin = FALSE;
-	public static $user_power = array();
-	public static $admin_power = array();
+	public $userinfo = array();
+	public $is_admin = FALSE;
+	public $user_power = array();
+	public $admin_power = array();
 
 	public function  __construct() {
 		parent::__construct();
@@ -105,6 +105,10 @@ class mod_user extends module {
 			}
 			$this->userinfo = $userinfo;
 			$this->get_group($userinfo['groupid']);
+			$this->is_admin = FALSE;
+			if($userinfo['isadmin'] == TRUE) {
+				$this->is_admin = TRUE;
+			}
 			return $userinfo;
 		}elseif(is_array($str)) {
 			$this->db->where($str);
@@ -179,8 +183,8 @@ class mod_user extends module {
 		}
 		//如果是当前用户的信息则设置类属性
 		if($is_curr_user == TRUE) {
-			$this->user_power = $group_array['admin_power'];
-			$this->admin_power = $group_array['user_power'];
+			$this->user_power = $group_array['user_power'];
+			$this->admin_power = $group_array['admin_power'];
 		}
 		return $group_array;
 	}
@@ -206,7 +210,7 @@ class mod_user extends module {
 				return TRUE;
 			}
 		}else{
-			if($this->check_admin()) {
+			if(!$this->check_admin()) {
 				$this->msg = '您还没有登录后台,请登录后进行操作.';
 				return FALSE;
 			}
@@ -215,10 +219,6 @@ class mod_user extends module {
 				return FALSE;
 			}
 			if($this->admin_power[$key] == TRUE) {
-				if($this->userinfo['admin_flag'][$key] == TRUE) {
-					$this->msg = '您没有权限进行此操作, 如果您尚未登录, 请先登录.';
-					return FALSE;
-				}
 				return TRUE;
 			}
 		}
