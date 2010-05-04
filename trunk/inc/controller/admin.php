@@ -167,4 +167,68 @@ class ctrl_admin extends controller {
 	public function action_category_order() {
 		$this->check_power();
 	}
+
+	//--------------------------------------------------
+	//	评论管理部分
+	//--------------------------------------------------
+
+	/**
+	 * 取得内容列表
+	 */
+	public function action_content_list() {
+		$this->check_power();
+	}
+
+	/**
+	 * 添加/编辑内容
+	 */
+	public function action_content_modify() {
+		$this->check_power();
+	}
+
+	/**
+	 * 删除内容
+	 */
+	public function action_content_remove() {
+		$this->check_power();
+	}
+
+	/**
+	 * 批量更新内容
+	 */
+	public function action_content_update() {
+		$this->check_power();
+	}
+
+	//--------------------------------------------------
+	//	评论管理部分
+	//--------------------------------------------------
+
+	/**
+	 * 评论列表
+	 */
+	public function  action_comment_list() {
+		$this->check_power();
+	}
+
+	/**
+	 * 编辑评论
+	 */
+	public function action_comment_modify() {
+		$this->check_power();
+	}
+
+	/**
+	 * 删除评论
+	 */
+	public function action_comment_remove() {
+		$this->check_power();
+	}
+
+	/**
+	 * 更新评论状态
+	 */
+	public function action_comment_update() {
+		$this->check_power();
+	}
 }

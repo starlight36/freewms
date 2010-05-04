@@ -14,8 +14,8 @@ class mod_content extends module {
 	 * 设置当前频道
 	 * @param string $name
 	 */
-	public function set_channel($name) {
-		$this->channel = $this->get_channel($name);
+	public function set_channel($name, $id = 0) {
+		$this->channel = $this->get_channel($name, $id);
 		return $this->channel;
 	}
 
@@ -278,6 +278,7 @@ class mod_content extends module {
 		//查询内容
 		$this->parse_list_param($param, $offset);
 		$this->db->join('user', 'user_id = content_userid');
+		$this->db->join('category', 'cate_id = content_cateid');
 		$q_list = $this->db->get('content');
 		if($q_list->num_rows() == 0) {
 			$this->msg = '没有找到要查看的内容.';
@@ -289,7 +290,9 @@ class mod_content extends module {
 					'id' => $row->content_id,
 					'title' => $row->content_title,
 					'titlestyle' => $row->content_titlestyle,
+					'chid' => $row->content_chid,
 					'cateid' => $row->content_cateid,
+					'catename' => $row->cate_name,
 					'userid' => $row->content_userid,
 					'auther' => $row->content_auther,
 					'userid' => $row->content_userid,
@@ -324,6 +327,7 @@ class mod_content extends module {
 			$this->msg = '内容ID不能为空.';
 			return FALSE;
 		}
+		$data['chid'] = $this->channel['id'];
 		$content = $data['content'];
 		unset($data['content']);
 		foreach($data as $k => $v) {

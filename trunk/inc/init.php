@@ -16,7 +16,8 @@ unregister_globals();
 //自动加载的库
 $lib_array = array(
 	'system', 'form', 'safety', 'cache', 'url', 'lang',
-	'database', 'session', 'config', 'form', 'time'
+	'database', 'session', 'config', 'form', 'time',
+	'content'
 );
 foreach ($lib_array as $v) {
 	load_library($v);

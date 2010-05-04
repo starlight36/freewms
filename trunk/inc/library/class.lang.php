@@ -2,14 +2,10 @@
 /*
  * 语言类
  * 为系统提供多语言支持
-*/
+ */
 class cls_lang {
-	private static $lang_name = DEF_LANG;
-	private  $lang = array();
-
-	public function __construct() {
-		
-	}
+	private $lang_name = DEF_LANG;
+	private $lang = array();
 
 	/**
 	 * 初始化设置使用的语种
@@ -68,7 +64,17 @@ class cls_lang {
 	 * @return unknown
 	 */
 	public function get($path = NULL) {
-		return path_array($this->lang, $path);
+		$arglist = func_get_args();
+		$argcount = func_num_args();
+		if($argcount > 1) {
+			for($i = 1; $i < $argcount; $i++) {
+				$args[] = "'{$arglist[$i]}'";
+			}
+			eval('$value=sprintf(path_array($this->lang, $path), '.implode(',', $args).');');
+		}else{
+			$value = path_array($this->lang, $path);
+		}
+		return $value;
 	}
 }
 
