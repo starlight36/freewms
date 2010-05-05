@@ -6,7 +6,7 @@
 <meta content="all" name="robots" />
 <meta name="author" content="FreeWMS" />
 <link rel="stylesheet" rev="stylesheet" href="{#out:base_url()}view/default/skin/admin.css" type="text/css" />
-<link rel="stylesheet" href="{#out:base_url()}/js/artdialog/skin/mini/mini.css" type="text/css" media="all" />
+<link rel="stylesheet" href="{#out:base_url()}/js/artdialog/skin/facebook/facebook.css" type="text/css" media="all" />
 <script type="text/javascript" src="{#out:base_url()}js/jquery/jquery.core.js"></script>
 <script type="text/javascript" src="{#out:base_url()}js/jquery/jquery.form.js"></script>
 <script type="text/javascript" src="{#out:base_url()}js/artdialog/artdialog.js"></script>
@@ -76,7 +76,7 @@
 			<div class="treeitem">
 				<div>网站系统设置</div>
 				<ul>
-					<li><a href="{#out:site_url('')}" title="常规设置">系统参数设置</a></li>
+					<li><a href="{#out:site_url('')}" title="常规设置" class="OpenMain">系统参数设置</a></li>
 					<li><a href="{#out:base_url()}" title="常规设置">全站频道设置</a></li>
 					<li><a href="{#out:base_url()}" title="常规设置">全站专题管理</a></li>
 					<li><a href="{#out:base_url()}" title="常规设置">上传附件管理</a></li>
@@ -106,8 +106,8 @@
 	<div class="mainmodwrap">
 		<div class="mainmod">
 			<div class="modtitle">概述</div>
-			<div class="modcontent"><a href="javascript:void(0);" onclick="artDialog({content:'你是坏人', style:'alert', lock:true}, function(){});" title="xxxx">xxxx</a></div>
-		</div>
+			<div class="modcontent"><a href="{#out:site_url('admin/module_modify')}" onclick="return ajax_dialog(this, 300, 200, false);" title="编辑模块">编辑模块</a></div>
+</div>
 	</div>
 	<div class="mainmodwrap">
 		<div class="mainmod">

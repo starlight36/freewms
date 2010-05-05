@@ -4,7 +4,7 @@
  */
 
 //系统Debug开关
-define('SYS_DEBUG', TURE);
+define('SYS_DEBUG', TRUE);
 
 //memcache缓存服务器连接设置
 define('MEMCACHE_HOST', 'localhost'); //缓存服务器主机

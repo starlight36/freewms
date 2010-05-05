@@ -20,11 +20,13 @@ class ctrl_admin extends controller {
 	 * 用于权限检查
 	 */
 	private function check_power() {
+		/*
 		if(!$this->user->check_power('admin')) {
 			$this->out->set_title('访问出错');
 			$this->out->view('system/error', array('error_msg'=>$this->user->msg));
 			exit();
 		}
+		*/
 	}
 
 	/**
@@ -95,6 +97,31 @@ class ctrl_admin extends controller {
 	 */
 	public function action_module_modify() {
 		$this->check_power();
+		//取得要编辑的模块的ID
+		$mod_id = $this->in->get('id');
+		if(!is_numeric($mod_id)) $mod_id = 0;
+		if($this->form->run()) {			//如果表单验证通过,则开始对提交的数据进行处理
+			echo 'd';
+		}elseif($this->form->is_post()){	//表单验证失败但是POST提交的,返回错误消息
+			$msg = array(
+				'result' => FALSE,
+				'message' => $this->form->error_string(),
+			);
+			exit(json_encode($msg));
+		}else{								//直接访问此控制器的动作, 要显示表单
+			if($mod_id != 0) {
+				$this->db->where('mod_id', $mod_id);
+				$query = $this->db->get('module');
+				if($query->num_rows() != 1) {
+					exit('要编辑的模型不存在或者已经删除.');
+				}else{
+					$module = $query->result_array();
+				}
+			}else{
+				$module = array('mod_id' => 0);
+			}
+			$this->out->view('admin/module/modify', $module[0]);
+		}
 	}
 
 	/**

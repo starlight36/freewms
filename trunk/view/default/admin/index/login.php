@@ -18,11 +18,11 @@
 			<tr>
 				<th colspan="2">管理员登录</th>
 			</tr>
-			{#if:validation_errors()}
+			<!--#if{validation_errors()}-->
 			<tr>
 				<td colspan="2"><div class="errormsg">{#out:validation_errors()}</div></td>
 			</tr>
-			{#endif}
+			<!--#endif-->
 			<tr>
 				<td class="labelcol">用户名：</td>
 				<td><input type="text" name="admin" id="admin" value="{#out:set_value('admin')}" /></td>
