@@ -150,7 +150,7 @@ function &path_array(&$array, $path = NULL) {
 		$arr_path = explode('/', $path);
 		$path = NULL;
 		foreach($arr_path as $v){
-			$path .= '['.$v.']';
+			$path .= '[\''.$v.'\']';
 		}
 		eval('$value =& $array'.$path.';');
 		return $value;
