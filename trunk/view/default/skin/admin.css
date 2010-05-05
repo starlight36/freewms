@@ -187,3 +187,18 @@ div.mainmod .modtitle {
 div.mainmod .modcontent {
 	padding: 5px;
 }
+
+.dialog_form {
+	text-align: center;
+}
+
+.dialog_form tr {
+	height: 25px;
+}
+
+
+.dialog_form td {
+	width: 80px;
+	text-align: left;
+
+}
