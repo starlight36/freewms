@@ -23,9 +23,9 @@
 						<td>用户模型</td>
 						<!--#endif-->
 						<td>
-							<a href="{#out:site_url('admin/module_modify')}" title="编辑模型">编辑</a>
+							<a href="{#out:site_url('admin/module_modify/id/'.$item['mod_id'])}" title="编辑模型">编辑</a>
 							<!--#if{!$item['mod_is_system']}-->
-							| <a href="{#out:site_url('admin/module_remove')}" title="删除此模型" onclick="return confirm('确认要删除此模型吗?');">删除</a>
+							| <a href="{#out:site_url('admin/module_remove/id/'.$item['mod_id'])}" title="删除此模型" onclick="return confirm('确认要删除此模型吗?');">删除</a>
 							<!--#endif-->
 						</td>
 					</tr>

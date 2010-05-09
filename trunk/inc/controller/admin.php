@@ -123,11 +123,11 @@ class ctrl_admin extends controller {
 		if(!is_numeric($mod_id)) $mod_id = 0;
 		if($this->form->run()) {			//如果表单验证通过,则开始对提交的数据进行处理
 			$data = array(
-				'mod_name' => $this->in->post('name'),
-				'mod_desc' => $this->in->post('desc'),
-				'mod_class' => $this->in->post('class'),
-				'mod_plugin' => $this->in->post('plugin'),
-				'mod_manage' => $this->in->post('manage')
+				'mod_name'		=> $this->in->post('name'),
+				'mod_desc'		=> $this->in->post('desc'),
+				'mod_class'		=> $this->in->post('class'),
+				'mod_plugin'	=> $this->in->post('plugin'),
+				'mod_manage'	=> $this->in->post('manage')
 			);
 			$this->db->set($data);
 			if($mod_id == 0) {
