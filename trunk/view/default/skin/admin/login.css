@@ -1,0 +1,54 @@
+/* 后台登录页CSS定义 */
+
+/* 登录页表单定位 */
+div#loginpage {
+	position:absolute;
+	top:32%;
+	left:40%;
+	width: 280px;
+}
+
+div.errormsg {
+	margin: 3px;
+	background: #f00;
+	padding: 5px;
+	color: #fff;
+	border: #ff0 1px solid;
+}
+
+div.moditem {
+	border:#CCC solid 2px;
+}
+
+table.moditem {
+	width:100%;
+	border-collapse:collapse;
+	border: 1px solid #214FA3;
+}
+
+table.moditem th{
+	background:#214FA3;
+	height: 25px;
+	color:#FFF;
+	font-size:14px;
+	font-weight:bold;
+	vertical-align:middle;
+}
+
+table.moditem td {
+	padding: 5px 0 0 0;
+	line-height:25px;
+}
+
+table.moditem .labelcol {
+	text-align:right;
+	width: 30%;
+	padding-right:5px;
+}
+
+table.moditem .buttonrow {
+	text-align:center;
+	vertical-align:middle;
+	padding: 3px 0 3px 0;
+}
+

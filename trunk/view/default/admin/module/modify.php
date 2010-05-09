@@ -1,5 +1,11 @@
+{#include:admin/header}
 <form action="{#out:site_url('admin/module_modify/id/'.$mod_id)}" method="post">
 	<table style="width: 100%" class="dialog_form">
+		<!--#if{validation_errors()}-->
+		<tr>
+			<td colspan="2"><div class="errormsg">{#out:validation_errors()}</div></td>
+		</tr>
+		<!--#endif-->
 		<tr>
 			<td>模块在哪名称:</td>
 			<td><input type="text" name="name" id="name" value="{#out:set_value('name', $mod_name)}" /></td>
@@ -28,3 +34,4 @@
 		</tr>
 	</table>
 </form>
+{#include:admin/footer}

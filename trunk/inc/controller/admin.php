@@ -30,14 +30,28 @@ class ctrl_admin extends controller {
 	}
 
 	/**
-	 * 后台默认页
+	 * 显示后台操作消息
+	 * @param string $msg 错误消息
+	 * @param mixed $go_url 显示后前往的URL
+	 * @param int $autogo 自动转跳时间
 	 */
-	public function action_index() {
-		if($this->user->check_admin()) {
-			redirect('admin/main');
+	private function show_message($type = 'error', $msg = NULL, $go_url = NULL, $autogo = NULL) {
+		if(is_array($go_url)) {
+			array_walk($go_url, 'site_url');
 		}else{
-			redirect('admin/login');
+			$go_url = array('返回前页' => site_url($go_url));
 		}
+		if($autogo != NULL) {
+			$redirect = current($go_url);
+			$this->out->html_header("<meta http-equiv=\"refresh\"  content=\"{$autogo};url={$redirect}\" />");
+		}
+		$pdata = array(
+			'golist' => $go_url,
+			'msgtype' => $type,
+			'msgstr' => $msg
+		);
+		$this->out->view('admin/other/message', $pdata);
+		exit();
 	}
 
 	//--------------------------------------------------
@@ -53,7 +67,7 @@ class ctrl_admin extends controller {
 			$passwd = $this->in->post('passwd');
 			$adminpass = $this->in->post('adminpass');
 			if($this->user->login_admin($adminpass, $admin, $passwd)) {
-				redirect('admin/main');
+				redirect('admin/index');
 			}else{
 				echo $this->user->msg;
 			}
@@ -62,16 +76,23 @@ class ctrl_admin extends controller {
 		}
 	}
 
-	/*
+	/**
 	 * 后台首页
 	 */
-	public function action_main() {
-		if(!$this->user->check_admin()) {
-			$this->out->set_title($this->lang->get('pagetitle'));
-			$this->out->view('system/error', array('error_msg'=>'您尚未登录,不能访问管理后台.'));
-			return;
+	public function action_index() {
+		if($this->user->check_admin()) {
+			$this->out->view('admin/index/index');
+		}else{
+			redirect('admin/login');
 		}
-		$this->out->view('admin/index/index');
+	}
+
+	/*
+	 * 后台欢迎页
+	 */
+	public function action_main() {
+		$this->check_power();
+		$this->out->view('admin/index/main');
 	}
 
 	//--------------------------------------------------
@@ -101,26 +122,34 @@ class ctrl_admin extends controller {
 		$mod_id = $this->in->get('id');
 		if(!is_numeric($mod_id)) $mod_id = 0;
 		if($this->form->run()) {			//如果表单验证通过,则开始对提交的数据进行处理
-			echo 'd';
-		}elseif($this->form->is_post()){	//表单验证失败但是POST提交的,返回错误消息
-			$msg = array(
-				'result' => FALSE,
-				'message' => $this->form->error_string(),
+			$data = array(
+				'mod_name' => $this->in->post('name'),
+				'mod_desc' => $this->in->post('desc'),
+				'mod_class' => $this->in->post('class'),
+				'mod_plugin' => $this->in->post('plugin'),
+				'mod_manage' => $this->in->post('manage')
 			);
-			exit(json_encode($msg));
-		}else{								//直接访问此控制器的动作, 要显示表单
+			$this->db->set($data);
+			if($mod_id == 0) {
+				$this->db->insert('module');
+			}else{
+				$this->db->where('mod_id', $mod_id);
+				$this->db->update('module');
+			}
+			$this->show_message('succeed', '保存成功!', 'admin/module_list', 3);
+		}else{								//验证失败则显示表单
 			if($mod_id != 0) {
 				$this->db->where('mod_id', $mod_id);
 				$query = $this->db->get('module');
 				if($query->num_rows() != 1) {
 					exit('要编辑的模型不存在或者已经删除.');
 				}else{
-					$module = $query->result_array();
+					$module = $query->row_array();
 				}
 			}else{
 				$module = array('mod_id' => 0);
 			}
-			$this->out->view('admin/module/modify', $module[0]);
+			$this->out->view('admin/module/modify', $module);
 		}
 	}
 
@@ -129,6 +158,24 @@ class ctrl_admin extends controller {
 	 */
 	public function action_module_remove() {
 		$this->check_power();
+		$id = $this->in->get('id');
+		$this->db->select('mod_is_system');
+		$this->db->where('mod_id', $id);
+		$query = $this->db->get('module');
+		if($query->num_rows() != 1) {
+			$this->show_message('error', '要删除的模型不存在或者已被删除.', 'admin/module_list', 3);
+		}
+		$result = $query->row();
+		if(!empty($result->mod_is_system)) {
+			$this->show_message('error', '您不能删除一个系统模型.', 'admin/module_list', 3);
+		}
+		$this->db->where('ch_modid', $id);
+		if($this->db->count_all_results('channel') > 0) {
+			$this->show_message('error', '系统中存在引用此模型的频道, 要删除此模型您必须先删除关联频道.', 'admin/module_list', 3);
+		}
+		$this->db->where('mod_id', $id);
+		$this->db->delete('module');
+		$this->show_message('succeed', '删除成功!', 'admin/module_list', 3);
 	}
 
 	//--------------------------------------------------

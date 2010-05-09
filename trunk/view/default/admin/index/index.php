@@ -5,12 +5,8 @@
 <meta http-equiv="Content-Language" content="UTF-8" />
 <meta content="all" name="robots" />
 <meta name="author" content="FreeWMS" />
-<link rel="stylesheet" rev="stylesheet" href="{#out:base_url()}view/default/skin/admin.css" type="text/css" />
-<link rel="stylesheet" href="{#out:base_url()}/js/artdialog/skin/facebook/facebook.css" type="text/css" media="all" />
-<script type="text/javascript" src="{#out:base_url()}js/jquery/jquery.core.js"></script>
-<script type="text/javascript" src="{#out:base_url()}js/jquery/jquery.form.js"></script>
-<script type="text/javascript" src="{#out:base_url()}js/artdialog/artdialog.js"></script>
-<script type="text/javascript" src="{#out:base_url()}js/admin/common.js"></script>
+<link rel="stylesheet" href="{#out:base_url()}view/default/skin/admin/base.css" type="text/css" media="all" />
+<link rel="stylesheet" href="{#out:base_url()}view/default/skin/admin/index.css" type="text/css" media="all" />
 <title>后台管理 - Powered By FreeWMS</title>
 </head>
 <body>
@@ -76,7 +72,7 @@
 			<div class="treeitem">
 				<div>网站系统设置</div>
 				<ul>
-					<li><a href="{#out:site_url('')}" title="常规设置" class="OpenMain">系统参数设置</a></li>
+					<li><a href="{#out:site_url('')}" title="常规设置" target="main">系统参数设置</a></li>
 					<li><a href="{#out:base_url()}" title="常规设置">全站频道设置</a></li>
 					<li><a href="{#out:base_url()}" title="常规设置">全站专题管理</a></li>
 					<li><a href="{#out:base_url()}" title="常规设置">上传附件管理</a></li>
@@ -86,7 +82,7 @@
 					<li><a href="{#out:base_url()}" title="常规设置">关键字管理</a></li>
 					<li><a href="{#out:base_url()}" title="常规设置">全站TAG管理</a></li>
 					<li><a href="{#out:base_url()}" title="常规设置">脏字过滤管理</a></li>
-					<li><a href="{#out:base_url()}" title="常规设置">功能模块管理</a></li>
+					<li><a href="{#out:site_url('admin/module_list')}" title="常规设置" target="main">功能模型管理</a></li>
 				</ul>
 			</div>
 		</div>
@@ -101,20 +97,7 @@
 	</div>
 </div>
 <div id="mainframe">
-	<h1>欢迎!</h1>
-	<p>感谢您选择FreeWMS来驱动您的网站, 在这里您将可以对您的网站进行管理.</p>
-	<div class="mainmodwrap">
-		<div class="mainmod">
-			<div class="modtitle">概述</div>
-			<div class="modcontent"><a href="{#out:site_url('admin/module_modify')}" onclick="return ajax_dialog(this, 300, 200, false);" title="编辑模块">编辑模块</a></div>
-</div>
-	</div>
-	<div class="mainmodwrap">
-		<div class="mainmod">
-			<div class="modtitle">概述</div>
-			<div class="modcontent">xxxx</div>
-		</div>
-	</div>
+	<iframe frameborder="0" scrolling="auto" name="main" style="height:100%;width:100%;background-color:#ffffff" src="{#out:site_url('admin/main')}"></iframe>
 </div>
 </body>
 </html>
