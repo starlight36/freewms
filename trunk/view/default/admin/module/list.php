@@ -3,6 +3,7 @@
 	<div class="mainmod">
 		<div class="modtitle">系统内容模型列表</div>
 		<div class="modcontent">
+			<div><a href="{#out:site_url('admin/module_modify/id/0')}" title="添加新模型">添加模型</a></div>
 			<!--#if{!empty($list)}-->
 			<table border="0" cellpadding="0" cellspacing="0" width="100%">
 					<tr>
@@ -12,7 +13,7 @@
 						<th style="width: 15%">模型类型</th>
 						<th style="width: 15%">操作</th>
 					</tr>
-					<!--#loop{$list}-->
+				<!--#loop{$list}-->
 					<tr>
 						<td>{#item:mod_id}</td>
 						<td>{#item:mod_name}</td>
@@ -29,7 +30,7 @@
 							<!--#endif-->
 						</td>
 					</tr>
-					<!--#endloop-->
+				<!--#endloop-->
 				</table>
 			<!--#else-->
 			暂无任何模型

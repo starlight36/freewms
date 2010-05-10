@@ -202,6 +202,13 @@ class ctrl_admin extends controller {
 	 */
 	public function action_channel_modify() {
 		$this->check_power();
+		$chid = $this->in->get('id');
+		if(empty($chid)) $chid = 0;
+		if($this->form->run()) {
+
+		}else{
+			
+		}
 	}
 
 	/**
