@@ -1,7 +1,7 @@
-{#include:admin/header}
+{#out:admin/header}
 <div class="mainmodwrap">
 	<div class="mainmod">
-		<div class="modtitle">系统内容模型列表</div>
+		<div class="modtitle">系统频道列表</div>
 		<div class="modcontent">
 			<!--#if{!empty($list)}-->
 			<table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -37,4 +37,4 @@
 		</div>
 	</div>
 </div>
-{#include:admin/header}
+{#out:admin/footer}

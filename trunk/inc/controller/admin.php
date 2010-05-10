@@ -110,7 +110,7 @@ class ctrl_admin extends controller {
 		}else{
 			$result = $query->result_array();
 		}
-		$this->out->view('admin/module/list', array('modlist' => $result));
+		$this->out->view('admin/module/list', array('list' => $result));
 	}
 
 	/**
@@ -187,6 +187,14 @@ class ctrl_admin extends controller {
 	 */
 	public function action_channel_list() {
 		$this->check_power();
+		$this->db->join('module', 'ch_modid = mod_id');
+		$query = $this->db->get('channel');
+		if($query->num_rows() == 0) {
+			$result = NULL;
+		}else{
+			$result = $query->result_array();
+		}
+		$this->out->view('admin/channel/list', array('list' => $result));
 	}
 
 	/**
