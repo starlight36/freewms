@@ -375,7 +375,7 @@ class Form {
 	 * 检查验证码是否正确
 	 */
 	private function valid_code($str) {
-		$msg = Lang::_('valid_code');
+		$msg = Lang::_('form_valid_code');
 		$code = Session::flash('valid_code');
 		if(empty($code)) {
 			return $msg;
