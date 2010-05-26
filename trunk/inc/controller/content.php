@@ -6,52 +6,17 @@
 class ctrl_content extends controller {
 
 	private $content = NULL;
-	private $channel = array();
+	private $cateinfo = NULL;
 
-	public function  __construct($channel = NULL) {
-		if(is_null($channel)) {
-			show_404();
-		}
+	public function  __construct() {
 		parent::__construct();
 		cache_page_load();
 		$this->content =& load_class('content');
-		$this->channel = $this->content->set_channel($channel);
-		if($this->channel == FALSE) {
-			show_404();
-		}
-	}
-
-	//用于内容模块插件的钩子
-	public function  __call($name,  $arguments = NULL) {
-		$plugin_name = $this->channel['mod_plugin'];
-		$plugin_file = DIR_INC.'plugin/'.$plugin_name.'.php';
-		if(!is_file($plugin_file)) {
-			show_404();
-		}
-		@include_once $plugin_file;
-		$obj_plugin =& instantiate_class(new $plugin_name);
-		if(!method_exists($obj_plugin, $name)) {
-			show_404();
-		}
-		$obj_plugin->$name();
-		return TRUE;
 	}
 
 	//频道首页
 	public function action_index() {
-		$this->out->set_title($this->channel['name']);
-		$this->out->set_keywords($this->channel['keywords']);
-		$this->out->set_description($this->channel['description']);
-		$template_path = $this->channel['template'];
-		//页面可用变量列表
-		$pagedata = array(
-			'channel_id' => $this->channel['id'],				//频道ID
-			'channel_name' => $this->channel['name'],			//频道名称
-			'channel_key' => $this->channel['key'],				//频道目录
-			'channel_desc' => $this->channel['description']		//频道简介
-		);
-		$this->out->view($template_path.'/channel', $pagedata);
-		cache_page_save();
+		show_404();
 	}
 
 	//分类页
@@ -70,10 +35,7 @@ class ctrl_content extends controller {
 		$this->out->set_title($cate_info['name']);
 		$this->out->set_keywords($cate_info['keywords']);
 		$this->out->set_description($cate_info['description']);
-		$template_path = $this->channel['template'].'/';
-		if(!empty($cate_info['template'])) {
-			$template_path .= $cate_info['template'].'/';
-		}
+		$template_path = $cate_info['template'].'/';
 
 		//判断页面展示形式
 		if($show_type == 'list') {
@@ -117,10 +79,6 @@ class ctrl_content extends controller {
 
 		//页面可用变量列表
 		$pagedata = array(
-			'channel_id' => $this->channel['id'],				//频道ID
-			'channel_name' => $this->channel['name'],			//频道名称
-			'channel_key' => $this->channel['key'],				//频道目录
-			'channel_desc' => $this->channel['description'],	//频道简介
 			'category_id' => $cate_info['id'],					//分类ID
 			'category_name' => $cate_info['name'],				//分类名称
 			'category_key' => $cate_info['key'],				//分类目录
@@ -159,7 +117,7 @@ class ctrl_content extends controller {
 			$this->out->view('system/error', array('error_msg'=>$this->content->msg));
 			return TRUE;
 		}else{
-			$cate_info = $this->content->get_category(NULL, $content['cateid']);
+			$cate_info = $this->content->get_category($content['cateid']);
 		}
 		//设置页面头信息
 		$this->out->set_title($content['title']);
@@ -167,10 +125,6 @@ class ctrl_content extends controller {
 		$this->out->set_description($cate_info['description']);
 		//页面可用变量列表
 		$pagedata = array(
-			'channel_id' => $this->channel['id'],				//频道ID
-			'channel_name' => $this->channel['name'],			//频道名称
-			'channel_key' => $this->channel['key'],				//频道目录
-			'channel_desc' => $this->channel['description'],	//频道简介
 			'category_id' => $cate_info['id'],					//分类ID
 			'category_name' => $cate_info['name'],				//分类名称
 			'category_key' => $cate_info['key'],				//分类目录
@@ -181,9 +135,10 @@ class ctrl_content extends controller {
 		$pagedata = array_merge($content, $pagedata);
 
 		//读取模板路径
-		$template_path = $this->channel['template'].'/';
-		if(!empty($cate_info['template'])) {
-			$template_path .= $cate_info['template'].'/';
+		if(empty($cate_info['template'])) {
+			$template_path = $cate_info['modclass'].'/';
+		}else{
+			$template_path = $cate_info['template'].'/';
 		}
 		//选择视图
 		if($show_type == 'print') {

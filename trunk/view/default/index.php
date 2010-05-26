@@ -2,9 +2,6 @@
 hello, world!
 <!--#get:clist{
 	array(
-		'where' => array(
-			'chid' => 1
-		),
 		'order' => array(					//排序条件
 			'time' => 'desc'				//时间降序排列
 		),

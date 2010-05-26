@@ -63,17 +63,18 @@ class cls_lang {
 	 * @param string $path
 	 * @return unknown
 	 */
-	public function get($path = NULL) {
-		$arglist = func_get_args();
+	public function get($str) {
 		$argcount = func_num_args();
 		if($argcount > 1) {
+			$arglist = func_get_args();
 			for($i = 1; $i < $argcount; $i++) {
 				$args[] = "'{$arglist[$i]}'";
 			}
-			eval('$value=sprintf(path_array($this->lang, $path), '.implode(',', $args).');');
+			eval('$value=sprintf(path_array($this->lang, $str), '.implode(',', $args).');');
 		}else{
-			$value = path_array($this->lang, $path);
+			$value = path_array($this->lang, $str);
 		}
+		if(empty($value)) $value = $str;
 		return $value;
 	}
 }

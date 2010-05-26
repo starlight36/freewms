@@ -6,9 +6,9 @@
 $route['info'] = 'page/index/name';
 
 //分类页路由
-$route['#(\w*+)\/category\/(\w*+)#'] = '$1/category/key/$2';
+$route['#category\/(\w*+)#'] = 'content/category/key/$1';
 
 //内容页路由
-$route['#(\w*+)\/view\/(\w*+)#'] = '$1/view/key/$2';
+$route['#view\/(\w*+)#'] = 'content/view/key/$1';
 
 /* End of the file */
