@@ -1,0 +1,94 @@
+/* 后台布局CSS文件 */
+html {
+	padding: 70px 0 0 0;
+	overflow:hidden;
+}
+
+body {
+	height: 100%;
+	min-height: 100%;
+}
+
+/*
+ * 后台主页面框架布局
+ * By Felix Dong
+ */
+#topframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 69px;
+	overflow: hidden;
+}
+
+#leftframe {
+	position:absolute;
+	top: 70px;
+	left: 0;
+	bottom: 0;
+	width: 175px;
+	overflow: auto;
+}
+
+* html #mainframe {
+	margin-left: 200px;
+	height: 100%;
+}
+
+* html #leftframe {
+	height: 100%;
+}
+
+#mainframe {
+	position: fixed;
+	top: 70px;
+	bottom: 0;
+	left: 185px;
+	right: 0;
+	overflow: hidden;
+	width: auto;
+}
+
+/* 顶部导航 */
+div#topframe { background: url(topbg.gif) repeat-x; background-color: #e5f0fd; margin: 0; padding: 0; font: bold 12px tahoma, verdana, sans-serif; }
+div#topleft { float: left; width: 230px; height: 70px; }
+div#topleft img { margin: 0; padding: 0; border: 0; }
+div#topright { position: relative; background: url(cloud.gif) no-repeat right center; height: 70px; margin: 0 0 0 350px; }
+div.menubar { position: absolute; left: 0; bottom: 0; margin-bottom: 3px; }
+div#topmsg { float: right; background: #f8ffe7; border: 1px solid #adcd3c; margin: 0; padding: 4px; color: #333333; font-weight: normal; z-index: 50; }
+#navlist { padding: 0; margin: 10px 0 4px 0; clear: both; }
+#navlist li { float: left; width: 66px; list-style-type: none; margin: 0 2px; padding: 0; }
+#navlist li a { background: url(trmenubg.gif) repeat-x; border: 1px solid #86b9d6; border-bottom: 0; padding: 4px 6px; text-decoration: none; color: #5f8eb9; cursor: pointer; display: block; }
+#navlist li a:link, #navlist li a:visited { color: #5f8eb9; }
+#navlist li a:hover, #navlist li.current a { background: #ffffff; border-color: #7197b8; border-bottom: 0; }
+#navlist img { cursor: pointer; padding-top: 50px; margin-top: 50px; }
+
+/* 左边栏导航 */
+div#leftframe { overflow: hidden; margin: 0; padding: 0px 5px 8px 5px; height: 100%; }
+div#menu { background-color: #97b4d5; margin: 0; padding: 0; font-size: 12px; font-family: tahoma, verdana, arial, helvetica, sans-serif; height: 100%; }
+div#menuall { clear: both; background: #e0f2ff; border: 1px solid #7197b8; height: 100%; }
+div.sdmenu { /*background: url(menu_bottom.gif) no-repeat right bottom;*/ width: 100%; padding-bottom: 10px; /*padding-right: 1px;*/ /*padding-left: 1px;*/ color: #ffffff; }
+div#leftmenu { float: left; }
+div.sdmenu div { background: url(menu_title.gif) no-repeat; overflow: hidden; }
+div.sdmenu div:first-child { }
+div.sdmenu div span { background: url(menu_action.gif) no-repeat; /*background: url(menu_expanded.gif) no-repeat 10px center;*/ display: block; /*border-top: 1px solid #e0f2ff;*/ padding: 6px 20px 7px 40px; font-weight: bold; color: #ffffff; cursor: pointer; text-align: left; }
+div.sdmenu div.collapsed { height: 27px; margin-bottom: 1px; }
+div.sdmenu div.collapsed span {  color: #5f81af; }
+div.sdmenu div.collapsed span.sys { background: url(menu_collapsed_sys.gif) no-repeat; }
+div.sdmenu div.collapsed span.comment { background: url(menu_collapsed_comment.gif) no-repeat; }
+div.sdmenu div.collapsed span.content { background: url(menu_collapsed_content.gif) no-repeat; }
+div.sdmenu div.collapsed span.create { background: url(menu_collapsed_create.gif) no-repeat; }
+div.sdmenu div.collapsed span.user { background: url(menu_collapsed_user.gif) no-repeat; }
+div.sdmenu div.collapsed span.theme { background: url(menu_collapsed_theme.gif) no-repeat; }
+div.sdmenu div.collapsed span.support { background: url(menu_collapsed_support.gif) no-repeat;
+    font-family: 'Courier New',Courier,monospace;
+}
+div.sdmenu div.collapsed span.data { background: url(menu_collapsed_data.gif) no-repeat; }
+div.sdmenu div.collapsed span.plugin { background: url(menu_collapsed_plugin.gif) no-repeat; }
+div.sdmenu div a { background: #e0f2ff; display: block; /*border-bottom: 1px solid #ddd;*/ color: #3b577b; padding: 6px 10px; padding-left: 30px; text-align: left;}
+div.sdmenu div a.current { background: #fefefe url(menu_arrow1.gif) no-repeat right center; border-top: 1px solid #97b4d5; border-bottom: 1px solid #97b4d5; padding: 5px 10px; padding-left: 30px; color: #7cc417; font-weight: bold; text-decoration: none; }
+div.sdmenu div a:link { text-decoration: none; }
+div.sdmenu div a:visited { text-decoration: none; }
+div.sdmenu div a:hover { background: #fefefe; border-top: 1px solid #97b4d5; border-bottom: 1px solid #97b4d5; padding: 5px 10px; padding-left: 30px; color: #ff6600; text-decoration: none; }
+

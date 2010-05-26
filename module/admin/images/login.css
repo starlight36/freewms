@@ -1,0 +1,58 @@
+/* 后台登录页CSS样式 */
+body {
+	background: #edeffe url('loginbg.gif') top left repeat-x;
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+	font-family: verdana, arial, tahoma, helvetica, sans-serif;
+	text-align: center;
+	color: #0855a5;
+}
+form {
+	margin: 0;
+	padding: 0;
+}
+input {
+	font-size: 12px;
+	font-family: tahoma, verdana, arial, helvetica, sans-serif;
+	margin: 0 8px 0 2px;
+	border: 1px solid #3d73bd;
+	color: #0855a5;
+	padding: 2px 3px;
+}
+input.text {
+	width: 80px;
+}
+input.checkcode {
+	width: 38px;
+}
+input.btn{
+	background-image: url('actionbtn.gif');
+	background-repeat: no-repeat;
+	background-color: #f2fbff;
+	border-width: 0;
+	padding-top: 0 !important; padding-top: 2px;
+	width: 65px;
+	height: 23px;
+	font-size: 12px;
+	color: #023d97;
+}
+#all {
+	background: url('loginbox.jpg') no-repeat center;
+	width: 635px;
+	height: 300px;
+	margin-top: 140px;
+	margin-left: auto;
+	margin-right: auto;
+	line-height: 22px;
+}
+#loginbox {
+	padding-top: 247px;
+	margin-left: 23px;
+	text-align: left;
+}
+#loginbox img {
+	margin-left: 10px;
+	margin-right: 10px;
+	cursor: pointer;
+}
