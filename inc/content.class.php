@@ -13,6 +13,11 @@
 
 class Content {
 
+	public $msg = NULL;
+
+	public function  __construct() {
+		Lang::load('content');
+	}
 	/**
 	 * 读取一个分类的信息
 	 * @param string $key 分类关键字, ID或KEY
@@ -35,12 +40,16 @@ class Content {
 
 		//读取分类信息
 		$db = DB::get_instance();
-		$db->select('*')->from('category')->sql_add($sql_where, $key);
+		$db->select('*')->from('category')->from('module')->sql_add($sql_where, $key);
+		$db->sql_add('AND `cate_modid` = `mod_id`');
 		$cate = $db->get();
 		if($cate == NULL) {
 			return FALSE;
 		}
 		$cate = $cate[0];
+
+		//处理默认模板
+		$cate['cate_template'] = empty($cate['cate_template']) ? $cate['mod_template'] : $cate['cate_template'];
 
 		//递归获取当前分类的路径
 		if(!empty($cate['cate_parentid'])) {
@@ -70,6 +79,45 @@ class Content {
 
 		//返回分类信息
 		return $cate;
+	}
+
+	/**
+	 * 读取内容
+	 * @param string $key 内容KEY/ID
+	 * @return mixed
+	 */
+	public function get_content($key) {
+		//检查KEY形式
+		if(preg_match( '/^[0-9]+$/', $key)) {
+			$sql_where = 'WHERE `content_id` = ?';
+		}else{
+			$sql_where = 'WHERE `content_key` = ?';
+		}
+		$sql_where .= ' AND user_id = content_userid';
+
+		//从数据库读取
+		$db = DB::get_instance();
+		$db->select('$prefixcontent.*')->select('$prefixuser.user_name')->from('content')->from('user');
+		$db->sql_add($sql_where, $key);
+		$content = $db->get();
+		if($content == NULL) {
+			$this->msg = Lang::_('sys_content_no_such_content');
+			return FALSE;
+		}
+		$content = $content[0];
+
+		$cateinfo = $this->get_category($content['content_cateid']);
+		$content = array_merge($content, $cateinfo);
+
+		//调入处理类进行内容处理
+		$objname = ucfirst($content['mod_class']);
+		$obj = new $objname($content);
+		$content_outer = $obj->get();
+		if($content_outer === FALSE) {
+			$this->msg = $obj->msg;
+			return FALSE;
+		}
+		return array_merge($content, $content_outer);
 	}
 }
 
