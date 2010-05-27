@@ -45,7 +45,12 @@
 			<div id="leftmenu" class="sdmenu">
 				<div class="collapsed">
 					<span class="content">网站内容管理</span>
-					<a href="#" title="">发表新内容</a>
+					<a onclick="return false;" title="发布内容" style="padding-left: 10px;">
+						<select onchange="window.main.location.href='?m=admin&a='+this.value;" style="width:140px">
+							<option value="main" selected="selected" disabled="disabled">选择分类发布新内容</option>
+							<?php echo $cate_select_tree; ?>
+						</select>
+					</a>
 					<a href="#" title="">全部内容管理</a>
 					<a href="#" title="">内容审核管理</a>
 					<a href="#" title="">内容分类管理</a>
