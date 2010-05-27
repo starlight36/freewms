@@ -293,7 +293,7 @@ class User {
 		$u['user_regip'] = get_ip();
 		$db = DB::get_instance();
 		$uid = $db->insert('user', $u);
-		return TRUE;
+		return $uid;
 	}
 }
 /* End of this file */
