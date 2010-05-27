@@ -16,5 +16,25 @@ require_once MOD_PATH.'common.php';
 
 //载入语言文件
 Lang::load('admin/index');
+
+//--------------------------------------------
+//  添加文章处分类列表树获取
+//--------------------------------------------
+$db = DB::get_instance();
+$db->select('cate_id, cate_name, cate_parentid')->from('category');
+$query = $db->query();
+$catelist = NULL;
+if($db->num_rows($query) > 0) {
+	while($row = $db->fetch($query)) {
+		$catelist[$row['cate_id']]['name'] = $row['cate_name'];
+		$catelist[$row['cate_id']]['parentid'] = $row['cate_parentid'];
+	}
+}
+$db->free($query);
+
+$tree = new Tree($catelist);
+$cate_select_tree = $tree->plant(0, "<option value=\"\$id\"\$selected>\$value</option>\n");
+//--------------------------------------------
+
 include MOD_PATH.'templates/index.tpl.php';
 /* End of this file */

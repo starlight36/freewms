@@ -14,6 +14,9 @@
 //载入公共文件
 require_once MOD_PATH.'common.php';
 
+//载入语言文件
+Lang::load('admin/main');
+
 //保存后台便签
 if(Form::is_post()) {
 	$note = $_POST['admin_note'];
