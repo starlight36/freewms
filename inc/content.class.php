@@ -18,6 +18,7 @@ class Content {
 	public function  __construct() {
 		Lang::load('content');
 	}
+
 	/**
 	 * 读取一个分类的信息
 	 * @param string $key 分类关键字, ID或KEY
@@ -49,7 +50,7 @@ class Content {
 		$cate = $cate[0];
 
 		//处理默认模板
-		$cate['cate_template'] = empty($cate['cate_template']) ? $cate['mod_template'] : $cate['cate_template'];
+		$cate['cate_template'] = $cate['cate_template'] ? $cate['mod_template'] : $cate['cate_template'];
 
 		//递归获取当前分类的路径
 		if(!empty($cate['cate_parentid'])) {
@@ -88,7 +89,7 @@ class Content {
 	 */
 	public function get_content($key) {
 		//检查KEY形式
-		if(preg_match( '/^[0-9]+$/', $key)) {
+		if(preg_match('/^[0-9]+$/', $key)) {
 			$sql_where = 'WHERE `content_id` = ?';
 		}else{
 			$sql_where = 'WHERE `content_key` = ?';
@@ -112,12 +113,17 @@ class Content {
 		//调入处理类进行内容处理
 		$objname = ucfirst($content['mod_class']);
 		$obj = new $objname($content);
-		$content_outer = $obj->get();
+		$obj->get();
 		if($content_outer === FALSE) {
 			$this->msg = $obj->msg;
 			return FALSE;
 		}
-		return array_merge($content, $content_outer);
+		return $content;
+	}
+
+	public function get_content_list($args, $pagesize = NULL, $pagenum = NULL) {
+		$args = path_array(Spyc::YAMLLoadString($args), 'args');
+		
 	}
 }
 
