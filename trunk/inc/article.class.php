@@ -16,10 +16,14 @@ class Article {
 	private $content = NULL;
 	public $msg = NULL;
 	
-	public function  __construct($content) {
-		$this->content = $content;
+	public function  __construct(&$content) {
+		$this->content =& $content;
 	}
 
+	/**
+	 * 读取内容扩展处理
+	 * @return mixed
+	 */
 	public function get() {
 		$db = DB::get_instance();
 		$db->select('*')->from('content_article');
@@ -29,7 +33,15 @@ class Article {
 			$this->msg = 'ERROR';
 			return FALSE;
 		}
+		$this->content = array_merge($this->content, $article[0]);
 		return $article[0];
+	}
+
+	/**
+	 * 设置内容扩展处理
+	 */
+	public function set() {
+		
 	}
 }
 

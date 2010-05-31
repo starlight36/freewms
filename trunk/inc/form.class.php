@@ -8,7 +8,7 @@
  *-------------------------------------------------*/
 
 class Form {
-	private $post = NULL;
+	private static $post = NULL;
 	private $fields = NULL;
 	private $errors = NULL;
 	private $errormsg = NULL;
@@ -16,7 +16,7 @@ class Form {
 	public function  __construct(&$postarray) {
 		Lang::load('form');
 		if(is_array($postarray) && !empty($postarray)) {
-			$this->post =& $postarray;
+			self::$post =& $postarray;
 		}
 	}
 
@@ -41,7 +41,7 @@ class Form {
 				'label' => $lable,
 				'rules' => $rules,
 				'filters' => $filters,
-				'value' => $this->post[$field]
+				'value' => self::$post[$field]
 			);
 		}
 	}
@@ -63,13 +63,13 @@ class Form {
 	 * @return bool
 	 */
 	public function run() {
-		if(count($this->post) == 0 || $_SERVER['REQUEST_METHOD'] != 'POST') {
+		if(count(self::$post) == 0 || $_SERVER['REQUEST_METHOD'] != 'POST') {
 			//return FALSE;
 		}
 		if(count($this->fields) == 0) {
 			return FALSE;
 		}
-		$this->post = NULL;
+		self::$post = NULL;
 		foreach($this->fields as $row) {
 			//执行表单验证
 			if(empty($row['rules'])) {
@@ -118,7 +118,7 @@ class Form {
 					$value = $filter($value);
 				}
 			}
-			$this->post[$row['field']] = $value;
+			self::$post[$row['field']] = $value;
 		}
 		if(count($this->errors) > 0) {
 			return FALSE;
@@ -160,11 +160,11 @@ class Form {
 	 * @param string $default
 	 * @return string
 	 */
-	public function set_value($field, $default = NULL) {
-		if(!isset($this->post[$field])) {
+	public static function set_value($field, $default = NULL) {
+		if(!isset(self::$post[$field])) {
 			return $default;
 		}else{
-			return $this->post[$field];
+			return self::$post[$field];
 		}
 	}
 
@@ -195,7 +195,7 @@ class Form {
 	private function matches($str, $field) {
 		$fieldname = empty($this->fields[$field]['label']) ? $field : $this->fields[$field]['label'];
 		$msg = str_replace('$1', $fieldname, Lang::_('form_matches'));
-		$field = $this->post[$field]['value'];
+		$field = self::$post[$field]['value'];
 		return ($str !== $field) ? $msg : FALSE;
 	}
 
