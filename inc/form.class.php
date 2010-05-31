@@ -89,18 +89,10 @@ class Form {
 						continue;
 					}
 				}
-				if($param == FALSE) {
-					if($is_method == TRUE) {
-						$rst = $this->$rule($row['value']);
-					}else{
-						$rst = $rule($row['value']);
-					}
+				if($is_method == TRUE) {
+					$rst = $this->$rule($row['value'], $param);
 				}else{
-					if($is_method == TRUE) {
-						$rst = $this->$rule($row['value'], $param);
-					}else{
-						$rst = $rule($row['value'], $param);
-					}
+					$rst = $rule($row['value'], $param);
 				}
 				if($rst != FALSE) {
 					$rst = sprintf($rst, $row['label']);
@@ -195,7 +187,7 @@ class Form {
 	private function matches($str, $field) {
 		$fieldname = empty($this->fields[$field]['label']) ? $field : $this->fields[$field]['label'];
 		$msg = str_replace('$1', $fieldname, Lang::_('form_matches'));
-		$field = self::$post[$field]['value'];
+		$field = $this->fields[$field]['value'];
 		return ($str !== $field) ? $msg : FALSE;
 	}
 
@@ -332,6 +324,17 @@ class Form {
 		$msg = Lang::_('form_dir_name');
 		return (!preg_match("/^([a-z0-9_])+$/i", $str)) ? $msg : FALSE;
 	}
+
+	/**
+	 * 检查一个正确的用户名格式
+	 * @param string $str 输入
+	 * @return bool
+	 */
+	private function user_name($str) {
+		$msg = Lang::_('form_user_name');
+		return (!preg_match('/^[\x{4e00}-\x{9fa5}a-z_A-Z0-9]+$/u', $str)) ? $msg : FALSE;
+	}
+
 
 	/**
 	 * 检查是否为数字形式
