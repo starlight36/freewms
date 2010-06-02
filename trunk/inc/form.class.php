@@ -9,9 +9,8 @@
 
 class Form {
 	private static $post = NULL;
-	private $fields = NULL;
-	private $errors = NULL;
-	private $errormsg = NULL;
+	private static $fields = NULL;
+	private static $errors = NULL;
 
 	public function  __construct(&$postarray) {
 		Lang::load('form');
@@ -36,7 +35,7 @@ class Form {
 			$lable = empty($lable) ? $field : $lable;
 			$rules = explode('|', $rules);
 			$filters = explode('|', $filters);
-			$this->fields[$field] = array(
+			self::$fields[$field] = array(
 				'field' => $field,
 				'label' => $lable,
 				'rules' => $rules,
@@ -64,13 +63,13 @@ class Form {
 	 */
 	public function run() {
 		if(count(self::$post) == 0 || $_SERVER['REQUEST_METHOD'] != 'POST') {
-			//return FALSE;
+			return FALSE;
 		}
-		if(count($this->fields) == 0) {
+		if(count(self::$fields) == 0) {
 			return FALSE;
 		}
 		self::$post = NULL;
-		foreach($this->fields as $row) {
+		foreach(self::$fields as $row) {
 			//执行表单验证
 			if(empty($row['rules'])) {
 				continue;
@@ -96,7 +95,7 @@ class Form {
 				}
 				if($rst != FALSE) {
 					$rst = sprintf($rst, $row['label']);
-					$this->errors[$row['field']] = $rst;
+					self::$errors[$row['field']] = $rst;
 					break;
 				}
 			}
@@ -112,7 +111,7 @@ class Form {
 			}
 			self::$post[$row['field']] = $value;
 		}
-		if(count($this->errors) > 0) {
+		if(count(self::$errors) > 0) {
 			return FALSE;
 		}
 		return TRUE;
@@ -122,12 +121,12 @@ class Form {
 	 * 取得所有错误消息
 	 * @return mixed
 	 */
-	public function get_all_errors($type = 'array') {
-		if(count($this->errors) > 0) {
-			if($type == 'array') {
-				return array_values($this->errors);
+	public static function get_all_errors($type = NULL) {
+		if(count(self::$errors) > 0) {
+			if($type == NULL) {
+				return array_values(self::$errors);
 			}else{
-				return implode('<br />', array_values($this->errors));
+				return implode($type, array_values(self::$errors));
 			}
 		}
 		return FALSE;
@@ -138,9 +137,9 @@ class Form {
 	 * @param string $field
 	 * @return mixed
 	 */
-	public function get_error($field) {
-		if(!empty($this->errors[$field])) {
-			return $this->errors[$field];
+	public static function get_error($field) {
+		if(!empty(self::$errors[$field])) {
+			return self::$errors[$field];
 		}else{
 			return FALSE;
 		}
@@ -185,9 +184,9 @@ class Form {
 	 * @return bool
 	 */
 	private function matches($str, $field) {
-		$fieldname = empty($this->fields[$field]['label']) ? $field : $this->fields[$field]['label'];
+		$fieldname = empty(self::$fields[$field]['label']) ? $field : self::$fields[$field]['label'];
 		$msg = str_replace('$1', $fieldname, Lang::_('form_matches'));
-		$field = $this->fields[$field]['value'];
+		$field = self::$fields[$field]['value'];
 		return ($str !== $field) ? $msg : FALSE;
 	}
 
