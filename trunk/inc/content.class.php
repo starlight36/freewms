@@ -110,13 +110,11 @@ class Content {
 		$cateinfo = $this->get_category($content['content_cateid']);
 		$content = array_merge($content, $cateinfo);
 
-		//调入处理类进行内容处理
-		$objname = ucfirst($content['mod_class']);
-		$obj = new $objname($content);
-		$obj->get();
-		if($content_outer === FALSE) {
-			$this->msg = $obj->msg;
-			return FALSE;
+		//读取自定义字段
+		$field = new Field();
+		$ext_field = $field->get_value($content['content_id']);
+		if(is_array($ext_field) && !empty($ext_field)) {
+			$content = array_merge($content, $ext_field);
 		}
 		return $content;
 	}
