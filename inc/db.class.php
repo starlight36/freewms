@@ -173,6 +173,18 @@ class DB extends DB_DRIVER {
 	}
 
 	/**
+	 * 删除记录
+	 * @param string $table
+	 * @return void
+	 */
+	public function delete($table) {
+		$sql = "DELETE FROM `".DB_PREFIX.$table.implode(' ', $this->sql_add);
+		$this->query($sql);
+		$this->reset_sql();
+		return;
+	}
+
+	/**
 	 * 复位SQL参数以便下次查询
 	 */
 	private function reset_sql() {

@@ -21,5 +21,6 @@ View::load('index/index');
 Cache::set_page('index');
 
  */
-
+$content = new Content();
+var_dump($content->get_content(1));
 /* End of this file */
