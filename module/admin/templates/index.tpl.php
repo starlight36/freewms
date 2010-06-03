@@ -89,7 +89,7 @@
 				</div>
 				<div class="collapsed">
 					<span class="sys"><?php echo Lang::_('admin_sys_center_tip');?></span>
-					<a href="#" title=""><?php echo Lang::_('admin_survey_set_tip');?></a>
+					<a href="index.php?m=admin&amp;a=config" title=""><?php echo Lang::_('admin_survey_set_tip');?></a>
 					<a href="#" title=""><?php echo Lang::_('admin_content_model_tip');?></a>
 					<a href="#" title=""><?php echo Lang::_('admin_upload_tip');?></a>
 					<a href="#" title=""><?php echo Lang::_('admin_vote_tip');?></a>

@@ -81,9 +81,6 @@ $lang = array(
 	'admin_pro_team_tip' => 'FreeWMS项目组',
 	'admin_get_network_title' => '取得FreeWMS商业支持',
 	'admin_network_tip' => '维动网络',
-
-
-
 );
 
 /* End of this file */

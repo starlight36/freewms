@@ -1,4 +1,4 @@
-﻿/*全局样式定义开始*/
+/*全局样式定义开始*/
 html {
 	overflow-x: hidden;
 	overflow-y: scroll;
@@ -310,6 +310,12 @@ div#showmain div#themediv div#thememoudle li label.thememodulelabel {
 	width: 240px;
 	cursor: pointer;
 	overflow: hidden;
+}
+div#showmain .fielderrormsg {
+	margin-left: 10px;
+	padding-left: 18px;
+	font-weight: bold;
+	background: url('ico_wrong.gif') no-repeat;
 }
 table.thememoudletable {
 	border: 1px solid #a9c9e2;
