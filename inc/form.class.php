@@ -19,6 +19,11 @@ class Form {
 		}
 	}
 
+	public function  __destruct() {
+		self::$errors = NULL;
+		self::$fields = NULL;
+	}
+
 	/**
 	 * 设置一个字段过滤
 	 * @param string $field 字段名
@@ -137,11 +142,11 @@ class Form {
 	 * @param string $field
 	 * @return mixed
 	 */
-	public static function get_error($field) {
+	public static function get_error($field, $prefix = NULL, $surfix = NULL) {
 		if(!empty(self::$errors[$field])) {
-			return self::$errors[$field];
+			return $prefix.self::$errors[$field].$surfix;
 		}else{
-			return FALSE;
+			return NULL;
 		}
 	}
 
