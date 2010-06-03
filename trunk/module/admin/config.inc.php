@@ -40,7 +40,7 @@ $group_list = $db->get();
 
 $form = new Form($_POST['config']);
 
-//设置验证规则, 待完成
+//设置验证规则, 未完成
 $form->set_field('site_name', '站点名称', 'required', 'trim');
 $form->set_field('site_desc', '站点简介', NULL, 'trim');
 
