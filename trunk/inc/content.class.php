@@ -120,8 +120,16 @@ class Content {
 	}
 
 	public function get_content_list($args, $pagesize = NULL, $pagenum = NULL) {
+		$list = Cache::get('content_list/'.md5($args));
+		if($list != FALSE) {
+			return $list;
+		}
 		$args = path_array(Spyc::YAMLLoadString($args), 'args');
-		
+		$sql = NULL;
+		if(!empty($args['where'])) {
+			$sql .= 'WHERE ';
+
+		}
 	}
 }
 
