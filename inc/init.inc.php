@@ -89,8 +89,13 @@ if(SITE_GZIP && function_exists('ob_gzhandler')) {
 /*-------------------------------------------------
  | 载入要进入的模块
  *-----------------------------------------------*/
-$module = empty($_GET['m']) ? 'index' : $_GET['m'];
-$action = empty($_GET['a']) ? 'index' : $_GET['a'];
+if(defined('PAGE_MOD') && defined('PAGE_ACT')) {
+	$module = PAGE_MOD;
+	$action = PAGE_ACT;
+}else{
+	$module = empty($_GET['m']) ? 'index' : $_GET['m'];
+	$action = empty($_GET['a']) ? 'index' : $_GET['a'];
+}
 
 if(!preg_match('/^[a-z0-9-_]+$/i', $module.$action)) {
 	$module = $action = 'index';

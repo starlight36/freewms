@@ -8,19 +8,13 @@
  *-------------------------------------------------*/
 
 /*
- * 首页模块
+ * URL方案
  */
 
+$url = array(
+	'normal_content_view' => 'index.php?m={m}&k={k}',
+	'path_content_view' => 'view.php/{key}',
+	'rewrite_content_view' => 'view/{key}'
+);
 
-/**
-Cache::get_page('index', 7200);
-
-Lang::load('index');
-View::set_title(Lang::_('mod_index_title'));
-View::load('index/index');
-Cache::set_page('index');
-
- */
-$content = new Content();
-var_dump($content->get_content_list("args: {category: 1}"));
 /* End of this file */

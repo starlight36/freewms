@@ -101,8 +101,8 @@
 				<p><span class="left"><?php echo Lang::_('admin_site_url_plan_tip');?>:</span>
 					<select name="config[site_url_plan]">
 						<option value="normal"<?php if(Config::get('site_url_plan') == 'normal') echo ' selected="selected"' ?>><?php echo Lang::_('admin_site_url_plan_normal');?></option>
-						<option value="php_path"<?php if(Config::get('site_url_plan') == 'php_path') echo ' selected="selected"' ?>><?php echo Lang::_('admin_site_url_plan_php_path');?></option>
-						<option value="url_rewrite"<?php if(Config::get('site_url_plan') == 'url_rewrite') echo ' selected="selected"' ?>><?php echo Lang::_('admin_site_url_plan_url_rewrite');?></option>
+						<option value="path"<?php if(Config::get('site_url_plan') == 'path') echo ' selected="selected"' ?>><?php echo Lang::_('admin_site_url_plan_php_path');?></option>
+						<option value="rewrite"<?php if(Config::get('site_url_plan') == 'rewrite') echo ' selected="selected"' ?>><?php echo Lang::_('admin_site_url_plan_url_rewrite');?></option>
 					</select>
 					<a class="tip" href="javascript:void(0)">[?]</a>
 					<?php echo Form::get_error('site_url_plan', '<span class="fielderrormsg">', '</span>');?>

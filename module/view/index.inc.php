@@ -8,19 +8,7 @@
  *-------------------------------------------------*/
 
 /*
- * 首页模块
+ * 内容查看模块
  */
 
-
-/**
-Cache::get_page('index', 7200);
-
-Lang::load('index');
-View::set_title(Lang::_('mod_index_title'));
-View::load('index/index');
-Cache::set_page('index');
-
- */
-$content = new Content();
-var_dump($content->get_content_list("args: {category: 1}"));
 /* End of this file */
