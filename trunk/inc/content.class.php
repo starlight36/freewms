@@ -50,7 +50,7 @@ class Content {
 		$cate = $cate[0];
 
 		//处理默认模板
-		$cate['cate_template'] = $cate['cate_template'] ? $cate['mod_template'] : $cate['cate_template'];
+		$cate['cate_template'] = $cate['cate_template'] ? $cate['cate_template'] : $cate['mod_template'];
 
 		//递归获取当前分类的路径
 		if(!empty($cate['cate_parentid'])) {
@@ -119,13 +119,14 @@ class Content {
 		return $content;
 	}
 
+	/**
+	 * 取得一个内容列表
+	 * @param string $args YAML风格的参数列表
+	 * @param int $pagesize 分页大小
+	 * @param int $pagenum 显示页码
+	 * @return mixed
+	 */
 	public function get_content_list($args, $pagesize = NULL, $pagenum = NULL) {
-		//先检查是否在缓存中存在
-		$cache_name = 'content_list/'.md5($args);
-		$list = Cache::get($cache_name);
-		if($list != FALSE) {
-			return $list;
-		}
 		//解析参数标记
 		$args = path_array(Spyc::YAMLLoadString($args), 'args');
 
@@ -194,18 +195,31 @@ class Content {
 		$db->select('*')->from('content');
 		$db->sql_add($sql_where.$sql_order.$sql_limit);
 		$list = $db->get();
+
+		//处理结果
 		if($list == NULL) {
 			return FALSE;
 		}
 		foreach ($list as $row) {
 			$cate_info = $this->get_category($row['content_cateid']);
-			//处理URL
-			//未完成
-			$new_list[] = array_merge($row, $cate_info);
+			$content_key = $row['content_key'] ? $row['content_key'] : $row['content_id'];
+			if($cate_info['cate_static'] && empty($row['content_viewrole']) &&
+					empty($row['content_viewuser']) && empty($row['content_viewpass'])) {
+				$url = $cate_info['cate_path'].$content_key.'.'.Config::get('site_staticize_extname');
+			}else{
+				$url = URL::get_url('content_view', 'm=view&k='.$content_key);
+			}
+			$row['content_url'] = $url;
+			$content_add = array(
+				'cate_name' => $cate_info['cate_name'],
+				'cate_key' => $cate_info['cate_key'],
+				'cate_template' => $cate_info['cate_template'],
+				'mod_id' => $cate_info['mod_id'],
+				'mod_name' => $cate_info['mod_name']
+			);
+			$new_list[] = array_merge($row, $content_add);
 		}
-		$list = $new_list;
-		Cache::set($cache_name, $list);
-		return $list;
+		return $new_list;
 	}
 }
 
