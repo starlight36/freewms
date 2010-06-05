@@ -8,12 +8,11 @@
  *-------------------------------------------------*/
 
 /*
- * 视图语言支持文件
+ * 分类页显示模块
  */
-
-$lang = array(
-	'sys_view_show_message_title' => '出错消息',
-	'sys_view_goto_pre_page' => '返回前页'
-);
-
+class mod_category {
+	public function action_index() {
+		echo 'ddd';
+	}
+}
 /* End of this file */

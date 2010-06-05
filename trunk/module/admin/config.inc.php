@@ -40,7 +40,7 @@ $group_list = $db->get();
 
 $form = new Form($_POST['config']);
 
-//设置验证规则, 未完成
+//设置验证规则
 $form->set_field('site_name', Lang::_('admin_site_name_tip'), 'required', 'trim');
 $form->set_field('site_desc', Lang::_('admin_site_profile_tip'), NULL, 'trim');
 $form->set_field('site_keywords', Lang::_('admin_site_keywords_tip'), NULL, 'trim');
@@ -62,9 +62,9 @@ $form->set_field('user_unvalid_gid', Lang::_('admin_user_unvalid_gid_tip'), NULL
 $form->set_field('user_name_length', Lang::_('admin_user_name_length_tip'), NULL, 'trim');
 $form->set_field('user_name_denylist', Lang::_('admin_user_name_denylist_tip'), NULL, 'trim');
 
-$form->set_field('upload_save_path', Lang::_('admin_upload_save_path_tip'), NULL, 'trim');
-$form->set_field('upload_url', Lang::_('admin_upload_url_tip'), NULL, 'trim');
-$form->set_field('upload_size', Lang::_('admin_upload_size_tip'), NULL, 'trim');
+$form->set_field('upload_save_path', Lang::_('admin_upload_save_path_tip'), 'required', 'trim');
+$form->set_field('upload_url', Lang::_('admin_upload_url_tip'), 'required', 'trim');
+$form->set_field('upload_size', Lang::_('admin_upload_size_tip'), 'integer', 'trim');
 $form->set_field('upload_extname', Lang::_('admin_upload_extname_tip'), NULL, 'trim');
 
 $form->set_field('pic_thumb', Lang::_('admin_pic_thumb_tip'), NULL, 'trim');
@@ -80,7 +80,7 @@ $form->set_field('pic_watermark_postion', Lang::_('admin_pic_watermark_postion_t
 $form->set_field('mail_lib_tip', Lang::_('admin_mail_lib_tip'), NULL, 'trim');
 $form->set_field('mail_account', Lang::_('admin_mail_account_tip'), NULL, 'trim');
 $form->set_field('mail_smtp_host', Lang::_('admin_mail_smtp_host_tip'), NULL, 'trim');
-$form->set_field('mail_smtp_port', Lang::_('admin_mail_smtp_port_tip'), NULL, 'trim');
+$form->set_field('mail_smtp_port', Lang::_('admin_mail_smtp_port_tip'), 'integer', 'trim');
 $form->set_field('mail_smtp_user', Lang::_('admin_mail_smtp_user_tip'), NULL, 'trim');
 $form->set_field('mail_smtp_pass', Lang::_('admin_mail_smtp_pass_tip'), NULL, 'trim');
 
@@ -97,6 +97,7 @@ if ($form->run()) {
 		$config_content = preg_replace('/\$config\[\''.$key.'\'\] = \'(.*)\';/i', '$config[\''.$key.'\'] = \''.$value.'\';', $config_content);
 	}
 	file_put_contents($config_file, $config_content);
+	show_message('success', '保存成功!');
 	echo '保存成功!';
 }else{
 	include MOD_PATH.'templates/config.tpl.php';

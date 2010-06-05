@@ -82,6 +82,10 @@ class Content {
 		return $cate;
 	}
 
+	public function set_category($in) {
+
+	}
+
 	/**
 	 * 读取内容
 	 * @param string $key 内容KEY/ID
@@ -120,13 +124,15 @@ class Content {
 	}
 
 	/**
-	 * 取得一个内容列表
-	 * @param string $args YAML风格的参数列表
-	 * @param int $pagesize 分页大小
-	 * @param int $pagenum 显示页码
+	 * 取得一个分页列表
+	 * @param string $args YAML风格的查询参数
+	 * @param int $pagesize 每页内容条数
+	 * @param int $pagenum 要显示的内容列表页码
+	 * @param int $record_count 总共记录数
+	 * @param int $pagecount 总共分页数
 	 * @return mixed
 	 */
-	public function get_content_list($args, $pagesize = NULL, $pagenum = NULL) {
+	public function get_content_list($args, $pagesize = NULL, &$pagenum = NULL, &$record_count = NULL, &$pagecount = NULL) {
 		//解析参数标记
 		$args = path_array(Spyc::YAMLLoadString($args), 'args');
 
