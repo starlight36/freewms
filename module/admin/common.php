@@ -15,14 +15,38 @@
 Lang::load('admin/admin');
 
 //判断后台界面进入权限
-$user = User::get_instance();
-if(!$user->check_admin()) {
-	$golist = array(
-		'前往登录页' => 'index.php?m=admin&a=login',
-		'返回网站首页' => 'index.php'
-	);
-	View::show_message('error', Lang::_('admin_access_denied'), $golist, 3);
+check_admin();
+
+/**
+ * 检查后台页面访问权限
+ */
+function check_admin() {
+	$user = User::get_instance();
+	if(!$user->check_admin()) {
+		$golist = array(
+			Lang::_('admin_goto_login') => 'index.php?m=admin&a=login',
+			Lang::_('admin_goto_index')  => 'index.php'
+		);
+		View::show_message('error', Lang::_('admin_access_denied'), $golist, 3);
+	}
 }
 
+/**
+ * 直接输出消息页
+ * @param string $type
+ * @param string $msg
+ * @param mixed $go_url
+ * @param int $autogo
+ */
+function show_message($type = 'error', $msg = NULL, $go_url = NULL, $autogo = NULL) {
+	if(!is_array($go_url) || $go_url == NULL) {
+		$go_url = array(Lang::_('admin_goto_pre_page') => $go_url);
+	}
+	if($autogo != NULL) {
+		$redirect = current($go_url);
+	}
+	include MOD_PATH.'templates/message.tpl.php';
+	exit();
+}
 
 /* End of this file */

@@ -104,15 +104,16 @@ class View {
 	}
 
 	/**
-	 * 直接输出错误消息页
+	 * 直接输出消息页
 	 * @param string $type
 	 * @param string $msg
 	 * @param mixed $go_url
 	 * @param int $autogo
 	 */
 	public static function show_message($type = 'error', $msg = NULL, $go_url = NULL, $autogo = NULL) {
+		Lang::load('view');
 		if(!is_array($go_url) || $go_url == NULL) {
-			$go_url = array('返回前页' => $go_url);
+			$go_url = array(Lang::_('sys_view_goto_pre_page') => $go_url);
 		}
 		if($autogo != NULL) {
 			$redirect = current($go_url);
@@ -123,7 +124,6 @@ class View {
 			'msgtype' => $type,
 			'msgstr' => $msg
 		);
-		Lang::load('view');
 		self::set_title(Lang::_('sys_view_show_message_title').' - '.Config::get('site_name'));
 		self::load('system/message', $pdata);
 		exit();
