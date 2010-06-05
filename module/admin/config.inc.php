@@ -41,9 +41,52 @@ $group_list = $db->get();
 $form = new Form($_POST['config']);
 
 //设置验证规则, 未完成
-$form->set_field('site_name', '站点名称', 'required', 'trim');
-$form->set_field('site_desc', '站点简介', NULL, 'trim');
+$form->set_field('site_name', Lang::_('admin_site_name_tip'), 'required', 'trim');
+$form->set_field('site_desc', Lang::_('admin_site_profile_tip'), NULL, 'trim');
+$form->set_field('site_keywords', Lang::_('admin_site_keywords_tip'), NULL, 'trim');
+$form->set_field('site_url', Lang::_('admin_site_URL_tip'), NULL, 'trim');
+$form->set_field('site_theme', Lang::_('admin_sys_default_theme_tip'), NULL, 'trim');
+$form->set_field('site_state', Lang::_('admin_site_state_tip'), NULL, 'trim');
+$form->set_field('site_page_cache', Lang::_('admin_site_page_cache_tip'), NULL, 'trim');
+$form->set_field('site_staticize_extname', Lang::_('admin_site_staticize_extname_tip'), NULL, 'trim');
+$form->set_field('site_index_staticize', Lang::_('admin_site_index_staticize_tip'), NULL, 'trim');
+$form->set_field('site_url_plan', Lang::_('admin_site_url_plan_tip'), NULL, 'trim');
 
+$form->set_field('user_guest_gid', Lang::_('admin_user_guest_gid_tip'), NULL, 'trim');
+$form->set_field('user_reg', Lang::_('admin_user_reg_tip'), NULL, 'trim');
+$form->set_field('user_regvalidcode',Lang::_('admin_user_regvalidcode_tip'), NULL, 'trim');
+$form->set_field('user_emailvalid', Lang::_('admin_user_emailvalid_tip'), NULL, 'trim');
+$form->set_field('user_adminvalid', Lang::_('admin_user_adminvalid_tip'), NULL, 'trim');
+$form->set_field('user_default_gid', Lang::_('admin_user_default_gid_tip'), NULL, 'trim');
+$form->set_field('user_unvalid_gid', Lang::_('admin_user_unvalid_gid_tip'), NULL, 'trim');
+$form->set_field('user_name_length', Lang::_('admin_user_name_length_tip'), NULL, 'trim');
+$form->set_field('user_name_denylist', Lang::_('admin_user_name_denylist_tip'), NULL, 'trim');
+
+$form->set_field('upload_save_path', Lang::_('admin_upload_save_path_tip'), NULL, 'trim');
+$form->set_field('upload_url', Lang::_('admin_upload_url_tip'), NULL, 'trim');
+$form->set_field('upload_size', Lang::_('admin_upload_size_tip'), NULL, 'trim');
+$form->set_field('upload_extname', Lang::_('admin_upload_extname_tip'), NULL, 'trim');
+
+$form->set_field('pic_thumb', Lang::_('admin_pic_thumb_tip'), NULL, 'trim');
+$form->set_field('pic_thumb_size', Lang::_('admin_pic_thumb_size_tip'), NULL, 'trim');
+$form->set_field('pic_resize', Lang::_('admin_pic_resize_tip'), NULL, 'trim');
+$form->set_field('pic_resize_size', Lang::_('admin_pic_resize_size_tip'), NULL, 'trim');
+$form->set_field('pic_watermark', Lang::_('admin_pic_watermark_tip'), NULL, 'trim');
+$form->set_field('pic_watermark_size', Lang::_('admin_pic_watermark_size_tip'), NULL, 'trim');
+$form->set_field('pic_watermark_path', Lang::_('admin_pic_watermark_path_tip'), NULL, 'trim');
+$form->set_field('pic_watermark_pct', Lang::_('admin_pic_watermark_pct_tip'), NULL, 'trim');
+$form->set_field('pic_watermark_postion', Lang::_('admin_pic_watermark_postion_tip'), NULL, 'trim');
+
+$form->set_field('mail_lib_tip', Lang::_('admin_mail_lib_tip'), NULL, 'trim');
+$form->set_field('mail_account', Lang::_('admin_mail_account_tip'), NULL, 'trim');
+$form->set_field('mail_smtp_host', Lang::_('admin_mail_smtp_host_tip'), NULL, 'trim');
+$form->set_field('mail_smtp_port', Lang::_('admin_mail_smtp_port_tip'), NULL, 'trim');
+$form->set_field('mail_smtp_user', Lang::_('admin_mail_smtp_user_tip'), NULL, 'trim');
+$form->set_field('mail_smtp_pass', Lang::_('admin_mail_smtp_pass_tip'), NULL, 'trim');
+
+$form->set_field('safe_wordfilt_plan', Lang::_('admin_safe_wordfilt_plan_tip'), NULL, 'trim');
+$form->set_field('safe_denyword', Lang::_('admin_safe_denyword_tip'), NULL, 'trim');
+$form->set_field('safe_denyip', Lang::_('admin_safe_denyip_tip'), NULL, 'trim');
 
 if ($form->run()) {
 	$config_file = BASEPATH.'config/site.php';
