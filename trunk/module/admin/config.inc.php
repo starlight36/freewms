@@ -97,7 +97,7 @@ if ($form->run()) {
 		$config_content = preg_replace('/\$config\[\''.$key.'\'\] = \'(.*)\';/i', '$config[\''.$key.'\'] = \''.$value.'\';', $config_content);
 	}
 	file_put_contents($config_file, $config_content);
-	show_message('success');
+	show_message();
 }else{
 	include MOD_PATH.'templates/config.tpl.php';
 }

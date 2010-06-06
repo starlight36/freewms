@@ -178,7 +178,7 @@ class DB extends DB_DRIVER {
 	 * @return void
 	 */
 	public function delete($table) {
-		$sql = "DELETE FROM `".DB_PREFIX.$table.implode(' ', $this->sql_add);
+		$sql = "DELETE FROM `".DB_PREFIX.$table.'` '.implode(' ', $this->sql_add);
 		$this->query($sql);
 		$this->reset_sql();
 		return;
