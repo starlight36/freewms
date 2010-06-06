@@ -52,7 +52,7 @@ class Cache extends Cache_Adapter {
 	 * @return bool
 	 */
 	public static function delete($key) {
-		unset(self::$cache[$key]);
+		self::$cache[$key] = NULL;
 		return parent::delete($key);
 	}
 
@@ -61,7 +61,7 @@ class Cache extends Cache_Adapter {
 	 * @return bool
 	 */
 	public static function clear() {
-		unset(self::$cache);
+		self::$cache = NULL;
 		return parent::clear();
 	}
 	
