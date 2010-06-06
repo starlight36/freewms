@@ -64,7 +64,7 @@ Config::load('site');
  | 初始化SESSION设置
  *-----------------------------------------------*/
 if(SESSION_TYPE == 'file') {
-	session_save_path(BASEPATH.SESSION_PATH);
+	session_save_path(SESSION_PATH);
 }else{
 	$session_lib_file = BASEPATH.'inc/session/'.SESSION_TYPE.'.php';
 	if(is_file($session_lib_file)) {

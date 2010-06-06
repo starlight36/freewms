@@ -65,6 +65,7 @@ $lang = array(
 	'admin_vote_tip' => '调查投票管理',
 	'admin_links_tip' => '友情链接管理',
 	'admin_URL_tip' => 'URL方案管理',
+	'admin_rebuild_cache_tip' => '清空全部缓存',
 	'admin_dm_tip' => '数据管理中心',
 	'admin_backup_tip' => '全站数据备份',
 	'admin_resture_tip' => '数据备份恢复',

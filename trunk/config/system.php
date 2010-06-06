@@ -31,7 +31,7 @@ define('CACHE_PAGE_EXPIRES', 7200); //页面缓存寿命, 单位秒, 0为不缓�
 //SESSION配置
 define('SESSION_TYPE', 'file'); //session存储方式, 包括file文件, db数据库, mencache缓存服务器
 define('SESSION_EXPIRES', 1800); //session生命周期, 单位秒
-define('SESSION_PATH', 'temp/'); //session文件方式存储位置
+define('SESSION_PATH', BASEPATH.'temp/'); //session文件方式存储位置
 
 //COOKIE配置
 define('COOKIE_PREFIX', 'freewms_'); //cookie前缀
