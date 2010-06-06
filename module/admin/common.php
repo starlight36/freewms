@@ -38,12 +38,13 @@ function check_admin() {
  * @param mixed $go_url
  * @param int $autogo
  */
-function show_message($type = 'error', $msg = NULL, $go_url = NULL, $autogo = NULL) {
+function show_message($type = 'error', $msg = NULL, $go_url = NULL, $autogo = 3) {
 	if(!is_array($go_url) || $go_url == NULL) {
-		$go_url = array(Lang::_('admin_goto_pre_page') => $go_url);
+		$go_url[Lang::_('admin_goto_pre_page')] = $_SERVER["HTTP_REFERER"];
 	}
-	if($autogo != NULL) {
-		$redirect = current($go_url);
+	$redirect = current($go_url);
+	if($type == 'success' && $msg == NULL) {
+		$msg = Lang::_('admin_sys_success_reslut');
 	}
 	include MOD_PATH.'templates/message.tpl.php';
 	exit();
