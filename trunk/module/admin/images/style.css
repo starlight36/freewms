@@ -611,34 +611,24 @@ div.ubbcontent textarea {
 	width: 550px;
 	margin-bottom: 2px;
 }
-/*进度条定义部分*/
-div.showprogressdiv {
-	text-align: center;
+/* 后台消息页定义部分 */
+div#msg_area {
+	margin-left: 200px;
 }
-div.currenttask {
-	text-align: center;
-	margin: 0 auto 15px auto;
+div#msg_success {
+	background: url('success_msg.png') no-repeat;
+	float: left;
+	width: 128px;
+	height: 128px;
 }
-div.finishtext {
-	margin: 15px auto 0 auto;
-	border: 1px solid #97b4d5;
-	text-align: left;
-	width: 394px;
-	height: 230px;
-	overflow-y: scroll;
-	overflow-x: hidden;
-	padding: 2px 3px;
-	line-height: 23px;
+div#msg_error {
+	background: url('error_msg.png') no-repeat;
+	float: left;
+	width: 128px;
+	height: 128px;
 }
-div#barouter {
-	background: url(progressbar.gif);
-	border: 1px solid #6593cf;
-	height: 18px;
-	width: 400px;
-	text-align: left;
-}
-div#barinner {
-	background: url(progressbar_back.gif);
-	height: 18px;
-	width: 0%;
+div#msg_info {
+	float: left;
+	margin-left: 30px;
+	padding: 18px 0 18px 0;
 }

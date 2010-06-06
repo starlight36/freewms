@@ -13,12 +13,27 @@
 ?>
 <?php include MOD_PATH.'templates/header.tpl.php'; ?>
 <div id="showmain">
-	<div class="titlebar">系统提示消息</div>
-	<div class="showsimplecon">
-		<p><?php echo $type ?></p>
-		<p><?php echo $msg ?></p>
-		<p><?php var_dump($go_url, $autogo); ?></p>
+	<div class="titlebar"><?php echo Lang::_('admin_sys_message_title'); ?></div>
+	<div id="tabcontent">
+		<div class="showsimplecon">
+			<div id="msg_area">
+				<div id="msg_<?php echo $type ?>"></div>
+				<div id="msg_info">
+					<span class="alert bold"><?php echo $msg ?></span>
+					<ul style="margin: 0;padding: 10px 0 0 10px;">
+					<?php
+					foreach($go_url as $key => $url) {
+						echo '<li><a class="bold" href="'.$url.'">'.$key.'</a></li>'."\n";
+					}
+					?>
+					</ul>
+				</div>
+			</div>
+			<div style="clear: both;"></div>
+		</div>
 	</div>
-	<div style="clear: both;"></div>
 </div>
+<script type="text/javascript">
+setTimeout("window.location.href='<?php echo $redirect; ?>'",<?php echo $autogo; ?>*1000);
+</script>
 <?php include MOD_PATH.'templates/footer.tpl.php'; ?>
