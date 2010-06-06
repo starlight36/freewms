@@ -365,7 +365,7 @@ class Form {
 	 * @param string $str
 	 * @return bool
 	 */
-	private function is_natural($str) {
+	private function natural($str) {
 		$msg = Lang::_('form_is_natural');
    		return (bool)preg_match('/^[0-9]+$/', $str) ? FALSE : $msg;
     }
@@ -375,7 +375,7 @@ class Form {
 	 */
 	private function regex($str, $pattern) {
 		$msg = Lang::_('form_regex');
-		return (bool)preg_match($pattern, $str) ? FALSE : $msg;
+		return (bool)preg_match('/'.$pattern.'/i', $str) ? FALSE : $msg;
 	}
 
 	/**

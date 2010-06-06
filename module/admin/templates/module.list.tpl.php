@@ -44,7 +44,7 @@
 			</td>
 			<td class="listtd">
 				<a href="index.php?m=admin&amp;a=module&amp;do=edit&amp;id=<?php echo $row['mod_id']; ?>" title="修改模型">修改模型</a> |
-				<a href="index.php?m=admin&amp;a=field&amp;id=<?php echo $row['mod_id']; ?>" title="编辑字段">编辑字段</a> |
+				<a href="index.php?m=admin&amp;a=field&amp;modid=<?php echo $row['mod_id']; ?>" title="编辑字段">管理字段</a> |
 				<a href="<?php if($row['mod_is_system']){echo 'javascript:alert(\'您不能删除一个系统模型\');';}else{echo 'index.php?m=admin&amp;a=module&amp;do=rm&amp;id='.$row['mod_id'];} ?>" onclick="return confirm('你确定要删除这个模型吗? \n一旦执行无法撤销.');" title="删除模型">删除模型</a>
 			</td>
 		</tr>
