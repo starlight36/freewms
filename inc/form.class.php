@@ -157,7 +157,7 @@ class Form {
 	 * @return string
 	 */
 	public static function set_value($field, $default = NULL) {
-		if(!isset(self::$post[$field])) {
+		if(is_null(self::$post[$field])) {
 			return $default;
 		}else{
 			return self::$post[$field];
