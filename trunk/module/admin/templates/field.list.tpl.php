@@ -14,20 +14,20 @@
 <?php include MOD_PATH.'templates/header.tpl.php'; ?>
 <div id="showmain">
 	<div class="titlebar">
-		<a href="index.php?m=admin&amp;a=field&amp;modid=<?php echo $modid; ?>&amp;do=edit" title="添加新字段">添加新字段</a><br />
-		自定义字段说明
+		<a href="index.php?m=admin&amp;a=field&amp;modid=<?php echo $modid; ?>&amp;do=edit" title="<?php echo Lang::_('admin_add_new_field_title');?>"><?php echo Lang::_('admin_add_new_field_tip');?></a><br />
+		<?php echo Lang::_('admin_field_desc');?>
 	</div>
 	<table cellspacing="1" cellpadding="3" border="0" align="center" width="100%" class="listtable">
 		<tr>
-			<td class="titletd" width="10%">字段ID</td>
-			<td class="titletd" width="20%">字段名称</td>
-			<td class="titletd">字段说明</td>
-			<td class="titletd" width="15%">默认值</td>
-			<td class="titletd" width="15%">操作</td>
+			<td class="titletd" width="10%"><?php echo Lang::_('admin_field_ID_tip');?></td>
+			<td class="titletd" width="20%"><?php echo Lang::_('admin_field_name_tip');?></td>
+			<td class="titletd"><?php echo Lang::_('admin_field_desc_tip');?></td>
+			<td class="titletd" width="15%"><?php echo Lang::_('admin_default_tip');?></td>
+			<td class="titletd" width="15%"><?php echo Lang::_('admin_operation_tip');?></td>
 		</tr>
 		<?php if($flist == NULL): ?>
 		<tr>
-			<td class="titletd" colspan="6">没找到任何自定义字段.</td>
+			<td class="titletd" colspan="6"><?php echo Lang::_('admin_no_found_tip');?></td>
 		</tr>
 		<?php else: ?>
 		<?php foreach ($flist as $row): ?>
@@ -37,8 +37,8 @@
 			<td class="listtd"><?php echo $row['field_desc']; ?></td>
 			<td class="listtd"><?php if($row['field_default'] == ''){echo '<span class="alert">NULL</span>';}else{echo $row['field_default'];} ?></td>
 			<td class="listtd">
-				<a href="index.php?m=admin&amp;a=field&amp;do=edit&amp;modid=<?php echo $modid; ?>&amp;id=<?php echo $row['field_id']; ?>" title="修改字段">修改</a> |
-				<a href="index.php?m=admin&amp;a=field&amp;do=rm&amp;modid=<?php echo $modid; ?>&amp;id=<?php echo $row['field_id']; ?>" title="删除字段" onclick="return confirm('你确定要删除此字段吗?\n删除此字段会同时删除字段的所有值,\n一旦进行则无法回复.');">删除</a>
+				<a href="index.php?m=admin&amp;a=field&amp;do=edit&amp;modid=<?php echo $modid; ?>&amp;id=<?php echo $row['field_id']; ?>" title="<?php echo Lang::_('admin_field_edit_title');?>"><?php echo Lang::_('admin_field_edit_tip');?></a> |
+				<a href="index.php?m=admin&amp;a=field&amp;do=rm&amp;modid=<?php echo $modid; ?>&amp;id=<?php echo $row['field_id']; ?>" title="<?php echo Lang::_('admin_field_del_title');?>" onclick="return confirm('<?php echo Lang::_('admin_field_del_warning');?>');"><?php echo Lang::_('admin_field_del_tip');?></a>
 			</td>
 		</tr>
 		<?php endforeach; ?>
