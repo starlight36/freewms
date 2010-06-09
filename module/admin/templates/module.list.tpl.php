@@ -14,20 +14,20 @@
 <?php include MOD_PATH.'templates/header.tpl.php'; ?>
 <div id="showmain">
 	<div class="titlebar">
-		<a href="index.php?m=admin&amp;a=module&amp;do=edit" title="添加新模型">添加新模型</a><br />
-		系统模型简介
+		<a href="index.php?m=admin&amp;a=module&amp;do=edit" title="<?php echo Lang::_('admin_add_new_mod_title');?>"><?php echo Lang::_('admin_add_new_mod_tip');?></a><br />
+		<?php echo Lang::_('admin_sys_mod_desc_tip');?>
 	</div>
 	<table cellspacing="1" cellpadding="3" border="0" align="center" width="100%" class="listtable">
 		<tr>
-			<td class="titletd" width="7%">模型ID</td>
-			<td class="titletd" width="18%">模型名称</td>
-			<td class="titletd">模型说明</td>
-			<td class="titletd" width="18%">模型类型</td>
-			<td class="titletd" width="24%">操作</td>
+			<td class="titletd" width="7%"><?php echo Lang::_('admin_mod_ID_tip');?></td>
+			<td class="titletd" width="18%"><?php echo Lang::_('admin_mod_name_tip');?></td>
+			<td class="titletd"><?php echo Lang::_('admin_mod_desc_tip');?></td>
+			<td class="titletd" width="18%"><?php echo Lang::_('admin_mod_type_tip');?></td>
+			<td class="titletd" width="24%"><?php echo Lang::_('admin_operate_tip');?></td>
 		</tr>
 		<?php if($mlist == NULL): ?>
 		<tr>
-			<td class="titletd" colspan="5">没找到任何模型, 请检查数据库是否被破坏.</td>
+			<td class="titletd" colspan="5"><?php echo Lang::_('admin_mod_warn_tip');?></td>
 		</tr>
 		<?php else: ?>
 		<?php foreach ($mlist as $row): ?>
@@ -37,15 +37,15 @@
 			<td class="listtd"><?php echo $row['mod_desc']; ?></td>
 			<td class="listtd">
 				<?php if($row['mod_is_system']): ?>
-				<span class="alert">[系统模型]</span>
+				<span class="alert"><?php echo Lang::_('admin_sys_mod_tip');?></span>
 				<?php else: ?>
-				<span class="green">[用户模型]</span>
+				<span class="green"><?php echo Lang::_('admin_user_mod_tip');?></span>
 				<?php endif; ?>
 			</td>
 			<td class="listtd">
-				<a href="index.php?m=admin&amp;a=module&amp;do=edit&amp;id=<?php echo $row['mod_id']; ?>" title="修改模型">修改模型</a> |
-				<a href="index.php?m=admin&amp;a=field&amp;modid=<?php echo $row['mod_id']; ?>" title="编辑字段">管理字段</a> |
-				<a href="<?php if($row['mod_is_system']){echo 'javascript:alert(\'您不能删除一个系统模型\');';}else{echo 'index.php?m=admin&amp;a=module&amp;do=rm&amp;id='.$row['mod_id'];} ?>" onclick="return confirm('你确定要删除这个模型吗? \n一旦执行无法撤销.');" title="删除模型">删除模型</a>
+				<a href="index.php?m=admin&amp;a=module&amp;do=edit&amp;id=<?php echo $row['mod_id']; ?>" title="<?php echo Lang::_('admin_mod_edit_title');?>"><?php echo Lang::_('admin_mod_edit_tip');?></a> |
+				<a href="index.php?m=admin&amp;a=field&amp;modid=<?php echo $row['mod_id']; ?>" title="<?php echo Lang::_('admin_feild_edit_title');?>"><?php echo Lang::_('admin_mang_field_tip');?></a> |
+				<a href="<?php if($row['mod_is_system']){echo 'javascript:alert(\''.Lang::_('admin_no_mod_del_tip').'\');';}else{echo 'index.php?m=admin&amp;a=module&amp;do=rm&amp;id='.$row['mod_id'];} ?>" onclick="return confirm('<?php echo Lang::_('admin_mod_del_warn_tip');?>');" title="<?php echo Lang::_('admin_mod_del_title');?>"><?php echo Lang::_('admin_mod_del_tip');?></a>
 			</td>
 		</tr>
 		<?php endforeach; ?>

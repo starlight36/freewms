@@ -32,16 +32,16 @@ if($_GET['do'] == 'edit') {
 		$db->select('*')->from('module')->sql_add('WHERE `mod_id` = ?', $id);
 		$mod = $db->get();
 		if($mod == NULL) {
-			show_message('error', '没有找到要编辑的模型.');
+			show_message('error', ''.Lang::_('admin_error_tip').'');
 		}
 		$mod = $mod[0];
 	}
 	$form = new Form($_POST);
-	$form->set_field('mod_name', '模型名称', 'required|max_lenght[50]', 'trim');
-	$form->set_field('mod_desc', '模型简介', 'required|max_lenght[200]', 'trim');
-	$form->set_field('mod_itemname', '内容条目名称', 'required|max_lenght[20]', 'trim');
-	$form->set_field('mod_itemunit', '内容条目单位', 'required|max_lenght[20]', 'trim');
-	$form->set_field('mod_template', '模型默认模板文件夹', 'required|max_lenght[200]', 'trim');
+	$form->set_field('mod_name', ''.Lang::_('admin_mod_name_tip').'', 'required|max_lenght[50]', 'trim');
+	$form->set_field('mod_desc', ''.Lang::_('admin_mod_desc_tip').'', 'required|max_lenght[200]', 'trim');
+	$form->set_field('mod_itemname', ''.Lang::_('admin_mod_itemname_tip').'', 'required|max_lenght[20]', 'trim');
+	$form->set_field('mod_itemunit', ''.Lang::_('admin_mod_itemunit_tip').'', 'required|max_lenght[20]', 'trim');
+	$form->set_field('mod_template', ''.Lang::_('admin_mod_template_tip').'', 'required|max_lenght[200]', 'trim');
 	if($form->run()) {
 		$db->sql_add('WHERE `mod_id` = ?', $id);
 		$db->set($_POST);
@@ -50,7 +50,7 @@ if($_GET['do'] == 'edit') {
 		}else{
 			$db->update('module');
 		}
-		show_message('success', '保存模型成功', array('返回模型列表页' => 'index.php?m=admin&a=module'));
+		show_message('success', ''.Lang::_('admin_mod_save_success_tip').'', array(''.Lang::_('admin_return_mod_tip').'' => 'index.php?m=admin&a=module'));
 	}else{
 		include MOD_PATH.'templates/module.edit.tpl.php';
 	}
@@ -64,21 +64,21 @@ if($_GET['do'] == 'edit') {
 if($_GET['do'] == 'rm') {
 	$id = $_GET['id'];
 	if(!preg_match('/^[0-9]+$/', $id)) {
-		show_message('error', '非法的参数格式.');
+		show_message('error', ''.Lang::_('admin_show_message_error_0').'.');
 	}
 	$db->select('*')->from('module')->sql_add('WHERE `mod_id` = ?', $id);
 	$mod = $db->get();
 	if($mod == NULL) {
-		show_message('error', '没有找到要删除的模型.');
+		show_message('error', ''.Lang::_('admin_show_message_error_1').'.');
 	}
 	$mod = $mod[0];
 	if($mod['mod_is_system']) {
-		show_message('error', '您不能删除一个系统模型.');
+		show_message('error', ''.Lang::_('admin_show_message_error_2').'.');
 	}
 	$db->select('*')->from('category')->sql_add('WHERE `cate_modid` = ?', $id);
 	$mod = $db->get();
 	if($mod != NULL) {
-		show_message('error', '当前模型正在被使用, 您不能删除. 如果您一定要删除此模型, 请先删除使用此模型的分类.');
+		show_message('error', ''.Lang::_('admin_show_message_error_3').'');
 	}
 	$db->sql_add('WHERE `mod_id` = ?', $id);
 	$db->delete('module');

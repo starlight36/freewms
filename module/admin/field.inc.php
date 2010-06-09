@@ -23,12 +23,12 @@ $db = DB::get_instance();
 //读取对应的模型ID并验证
 $modid = $_GET['modid'];
 if(!preg_match('/^[0-9]+$/', $modid)) {
-	show_message('error', '非法的参数格式.');
+	show_message('error', ''.Lang::_('admin_show_message_error_0').'');
 }
 $db->select('*')->from('module')->sql_add('WHERE `mod_id` = ?', $modid);
 $mod = $db->get();
 if($mod == NULL) {
-	show_message('error', '指定的模型不存在.');
+	show_message('error', ''.Lang::_('admin_show_message_error_1').'');
 }
 unset($mod);
 
@@ -44,18 +44,18 @@ if($_GET['do'] == 'edit') {
 		$db->select('*')->from('field')->sql_add('WHERE `field_id` = ?', $id);
 		$field = $db->get();
 		if($field == NULL) {
-			show_message('error', '没有找到要编辑的字段.');
+			show_message('error', ''.Lang::_('admin_show_message_error_2').'');
 		}
 		$field = $field[0];
 	}
 	$form = new Form($_POST);
-	$form->set_field('field_name', '字段名', 'required|max_lenght[50]', 'trim');
-	$form->set_field('field_key', '字段关键字', 'required|dir_name|max_lenght[50]', 'trim');
-	$form->set_field('field_desc', '字段说明', 'max_lenght[220]', 'trim');
-	$form->set_field('field_input', '字段输入框', 'required', 'trim');
-	$form->set_field('field_default', '字段默认值');
-	$form->set_field('field_rules', '字段规则', NULL, 'trim');
-	$form->set_field('field_filters', '字段过滤器', NULL, 'trim');
+	$form->set_field('field_name', ''.Lang::_('admin_field_name_tip').'', 'required|max_lenght[50]', 'trim');
+	$form->set_field('field_key', ''.Lang::_('admin_field_key_tip').'', 'required|dir_name|max_lenght[50]', 'trim');
+	$form->set_field('field_desc', ''.Lang::_('admin_field_desc_tip').'', 'max_lenght[220]', 'trim');
+	$form->set_field('field_input', ''.Lang::_('admin_field_input_tip').'', 'required', 'trim');
+	$form->set_field('field_default', ''.Lang::_('admin_field_default_tip').'');
+	$form->set_field('field_rules', ''.Lang::_('admin_field_rules_tip').'', NULL, 'trim');
+	$form->set_field('field_filters', ''.Lang::_('admin_field_filters_tip').'', NULL, 'trim');
 	if($form->run()) {
 		$_POST['field_modid'] = $modid;
 		$db->sql_add('WHERE `field_id` = ?', $id);
@@ -65,7 +65,7 @@ if($_GET['do'] == 'edit') {
 		}else{
 			$db->update('field');
 		}
-		show_message('success', '保存字段设置成功', array('返回字段列表页' =>
+		show_message('success', ''.Lang::_('admin_field_success_tip').'', array(''.Lang::_('admin_return_field_tip').'' =>
 								'index.php?m=admin&a=field&modid='.$modid));
 	}else{
 		include MOD_PATH.'templates/field.edit.tpl.php';
@@ -80,12 +80,12 @@ if($_GET['do'] == 'edit') {
 if($_GET['do'] == 'rm') {
 	$id = $_GET['id'];
 	if(!preg_match('/^[0-9]+$/', $id)) {
-		show_message('error', '非法的参数格式.');
+		show_message('error', ''.Lang::_('admin_show_message_error_0').'');
 	}
 	$db->select('*')->from('field')->sql_add('WHERE `field_id` = ?', $id);
 	$field = $db->get();
 	if($field == NULL) {
-		show_message('error', '没有找到要删除的字段.');
+		show_message('error', ''.Lang::_('admin_show_message_error_3').'');
 	}
 	$db->sql_add('WHERE `field_id` = ?', $id);
 	$db->delete('field');
