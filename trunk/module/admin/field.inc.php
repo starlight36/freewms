@@ -23,12 +23,12 @@ $db = DB::get_instance();
 //读取对应的模型ID并验证
 $modid = $_GET['modid'];
 if(!preg_match('/^[0-9]+$/', $modid)) {
-	show_message('error', ''.Lang::_('admin_show_message_error_0').'');
+	show_message('error', Lang::_('admin_show_message_error_0'));
 }
 $db->select('*')->from('module')->sql_add('WHERE `mod_id` = ?', $modid);
 $mod = $db->get();
 if($mod == NULL) {
-	show_message('error', ''.Lang::_('admin_show_message_error_1').'');
+	show_message('error', Lang::_('admin_show_message_error_1'));
 }
 unset($mod);
 
@@ -44,7 +44,7 @@ if($_GET['do'] == 'edit') {
 		$db->select('*')->from('field')->sql_add('WHERE `field_id` = ?', $id);
 		$field = $db->get();
 		if($field == NULL) {
-			show_message('error', ''.Lang::_('admin_show_message_error_2').'');
+			show_message('error', Lang::_('admin_show_message_error_2'));
 		}
 		$field = $field[0];
 	}
@@ -57,15 +57,15 @@ if($_GET['do'] == 'edit') {
 	$form->set_field('field_rules', ''.Lang::_('admin_field_rules_tip').'', NULL, 'trim');
 	$form->set_field('field_filters', ''.Lang::_('admin_field_filters_tip').'', NULL, 'trim');
 	if($form->run()) {
-		$_POST['field_modid'] = $modid;
 		$db->sql_add('WHERE `field_id` = ?', $id);
 		$db->set($_POST);
 		if($id == 0) {
+			$_POST['field_modid'] = $modid;
 			$db->insert('field');
 		}else{
 			$db->update('field');
 		}
-		show_message('success', ''.Lang::_('admin_field_success_tip').'', array(''.Lang::_('admin_return_field_tip').'' =>
+		show_message('success', Lang::_('admin_field_success_tip'), array(Lang::_('admin_return_field_tip') =>
 								'index.php?m=admin&a=field&modid='.$modid));
 	}else{
 		include MOD_PATH.'templates/field.edit.tpl.php';
@@ -80,12 +80,12 @@ if($_GET['do'] == 'edit') {
 if($_GET['do'] == 'rm') {
 	$id = $_GET['id'];
 	if(!preg_match('/^[0-9]+$/', $id)) {
-		show_message('error', ''.Lang::_('admin_show_message_error_0').'');
+		show_message('error', Lang::_('admin_show_message_error_0'));
 	}
 	$db->select('*')->from('field')->sql_add('WHERE `field_id` = ?', $id);
 	$field = $db->get();
 	if($field == NULL) {
-		show_message('error', ''.Lang::_('admin_show_message_error_3').'');
+		show_message('error', Lang::_('admin_show_message_error_3'));
 	}
 	$db->sql_add('WHERE `field_id` = ?', $id);
 	$db->delete('field');

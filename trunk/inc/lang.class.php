@@ -8,7 +8,7 @@
  *-------------------------------------------------*/
 
 class Lang {
-	private static $lang = array();
+	public static $lang = array();
 
 	private function   __construct() {
 		return FALSE;

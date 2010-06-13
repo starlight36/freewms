@@ -1,13 +1,6 @@
 /* 后台布局CSS文件 */
-html {
-	padding: 70px 0 0 0;
-	overflow:hidden;
-}
-
-body {
-	height: 100%;
-	min-height: 100%;
-}
+html { _padding: 70px 0 0 0; _overflow: hidden; overflow: hidden; } /* ie6 */
+body { 	height: 100%; min-height: 100%; }
 
 /*
  * 后台主页面框架布局
@@ -26,20 +19,9 @@ body {
 	position:absolute;
 	top: 70px;
 	left: 0;
-	bottom: 0;
 	width: 175px;
 	overflow: auto;
 }
-
-* html #mainframe {
-	margin-left: 200px;
-	height: 100%;
-}
-
-* html #leftframe {
-	height: 100%;
-}
-
 #mainframe {
 	position: fixed;
 	top: 70px;
@@ -48,6 +30,9 @@ body {
 	right: 0;
 	overflow: hidden;
 	width: auto;
+	_height: 100%; 
+	_margin-left: 185px;
+	_margin-right: 0;
 }
 
 /* 顶部导航 */

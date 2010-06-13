@@ -12,7 +12,8 @@
  */
 
 $lang = array(
-	'sys_content_no_such_content' => '内容不存在或已经删除.'
+	'sys_content_no_such_content' => '内容不存在或已经删除.',
+	'sys_content_no_such_category' => '分类不存在或者已被删除.'
 );
 
 /* End of this file */
