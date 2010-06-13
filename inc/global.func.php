@@ -288,4 +288,12 @@ function get_micro_time() {
 	list($msec, $sec) = explode(" ",microtime());
 	return ((float)$msec + (float)$sec);
 }
+
+/**
+ * 取得系统运行时长(单位: ms)
+ * @return float
+ */
+function get_running_time() {
+	return round((get_micro_time() - SYS_START_TIME) * 1000, 3);
+}
 /* End of this file */

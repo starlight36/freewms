@@ -231,10 +231,11 @@ class Form {
 	 */
 	private function max_num($str, $val) {
 		$msg = str_replace('$1', $val, Lang::_('form_max_num'));
-		if (preg_match("/[^0-9]/", $val)) {
+		if($str > $val) {
 			return $msg;
+		}else{
+			return FALSE;
 		}
-		return ($s > $val) ? $msg : FALSE;
 	}
 
 	/**
@@ -245,10 +246,11 @@ class Form {
 	 */
 	private function min_num($str, $val) {
 		$msg = str_replace('$1', $val, Lang::_('form_min_num'));
-		if (preg_match("/[^0-9]/", $val)) {
+		if($str < $val) {
 			return $msg;
+		}else{
+			return FALSE;
 		}
-		return ($s < $val) ? $msg : FALSE;
 	}
 
 	/**

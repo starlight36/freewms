@@ -82,8 +82,28 @@ class Content {
 		return $cate;
 	}
 
-	public function set_category($in) {
-
+	/**
+	 * 取得子分类列表
+	 * @param int $parentid
+	 * @return mixed
+	 */
+	public function get_category_list($parentid = 0) {
+		$catelist = Cache::get('category_list_'.$parentid);
+		if($catelist != FALSE) {
+			return $catelist;
+		}
+		$db = DB::get_instance();
+		$db->select('cate_id')->from('category')->sql_add('WHERE `cate_parentid` = ?', $parentid);
+		$catelist = $db->get();
+		if($catelist == NULL) {
+			return FALSE;
+		}
+		foreach($catelist as $row) {
+			$list[] = $this->get_category($row['cate_id']);
+		}
+		$catelist = $list;
+		Cache::set('category_list_'.$parentid, $catelist);
+		return $catelist;
 	}
 
 	/**
@@ -111,14 +131,26 @@ class Content {
 		}
 		$content = $content[0];
 
+		//加载内容分类及关联模型信息
 		$cateinfo = $this->get_category($content['content_cateid']);
 		$content = array_merge($content, $cateinfo);
 
-		//读取自定义字段
+		//加载自定义字段信息
 		$field = new Field();
 		$ext_field = $field->get_value($content['content_id']);
 		if(is_array($ext_field) && !empty($ext_field)) {
 			$content = array_merge($content, $ext_field);
+		}
+
+		//加载TAG信息
+		$db->select('*')->from('tags')->from('tag_content');
+		$db->sql_add('WHERE `tc_tagid` = `tag_id` AND `tc_cid` = ?', $content['content_cateid']);
+		$taglist = $db->get();
+		if($taglist != NULL) {
+			foreach($taglist as $row) {
+				$tags[] = $row['tag_name'];
+			}
+			$content = array_merge($content, array('content_tags' => $tags));
 		}
 		return $content;
 	}
@@ -169,6 +201,10 @@ class Content {
 		if(preg_match('/^[0-9]+$/', $args['state'])) {
 			$sql_where[] = "`content_state` = '{$args['state']}'";
 		}
+		//附加查询条件
+		if(!empty($args['where'])) {
+			$sql_where[] = $args['where'];
+		}
 		if(!empty($sql_where)) {
 			$sql_where = ' WHERE '.implode(' AND ', $sql_where);
 		}
@@ -214,6 +250,7 @@ class Content {
 				$url = $cate_info['cate_path'].$content_key.'.'.Config::get('site_staticize_extname');
 			}else{
 				$url = URL::get_url('content_view', 'm=view&k='.$content_key);
+				$cate_info['cate_static'] = 0;
 			}
 			$row['content_url'] = $url;
 			$content_add = array(
@@ -226,6 +263,84 @@ class Content {
 			$new_list[] = array_merge($row, $content_add);
 		}
 		return $new_list;
+	}
+
+	/**
+	 * 保存内容
+	 * @param array $in 内容基本字段
+	 * @param array $ext_value 内容扩展字段
+	 * @return mixed
+	 */
+	public function set_content($in, $ext_value) {
+		//验证输入是否为数组
+		if(!is_array($in) || !is_array($ext_value)) {
+			return FALSE;
+		}
+
+		//初始化局部ID
+		$id = $in['content_id'];
+		if(!preg_match('/^[0-9]+$/', $id)) {
+			$id = 0;
+		}
+
+		//载入数据库对象
+		$db = DB::get_instance();
+
+		//检查分类是否存在
+		$cate = $this->get_category($in['content_cateid']);
+		if(!$cate) {
+			$this->msg = Lang::_('sys_content_no_such_category');
+			return FALSE;
+		}
+		$modid = $cate['mod_id'];
+
+		//分离TAG列表
+		$tags = explode(',', $in['content_tags']);
+		unset($in['content_tags']);
+
+		if($id != 0) {
+			//检查要编辑的内容是否存在
+			$old_content = $this->get_content($id);
+			if(!$old_content) {
+				return FALSE;
+			}
+			//更新内容主体
+			$db->set($in);
+			$db->sql_add('WHERE `content_id` = ?', $id);
+			$db->update('content');
+		}else{
+			$db->set($in);
+			$db->insert('content');
+			$id = $db->insert_id();
+		}
+
+		//更新自定义字段
+		$field = new Field();
+		$field->set_value($ext_value, $modid, $id);
+
+		//更新TAG列表
+		if(!empty($tags)) {
+			$db->sql_add('WHERE `tc_cid` = ?', $id);
+			$db->delete('tag_content');
+			foreach($tags as $row) {
+				$db->select('tag_id')->from('tags')->sql_add('WHERE `tag_name` = ?', $row);
+				$tagid = $db->result($db->query());
+				if($tagid == NULL) {
+					$db->set('tag_name' ,$row);
+					$db->insert('tags');
+					$tagid = $db->insert_id();
+				}
+				$db->set('tc_cid', $id);
+				$db->set('tc_tagid', $tagid);
+				$db->insert('tag_content');
+			}
+		}
+
+		//更新缓存
+		Cache::clear();
+
+		//返回更新的内容的ID
+		return $id;
 	}
 }
 
