@@ -89,6 +89,7 @@ if($_GET['do'] == 'edit') {
 		//输出列表
 		include MOD_PATH.'templates/category.edit.tpl.php';
 	}
+	Cache::clear();
 	exit();
 }
 //--------------------------------------------
@@ -136,6 +137,7 @@ if($_GET['do'] == 'rm') {
 	$db->sql_add('WHERE `cate_id` = ?', $id);
 	$db->delete('category');
 	Cache::clear();
+	Cache::delete_page();
 	show_message();
 	exit();
 }
