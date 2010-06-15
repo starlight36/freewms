@@ -47,17 +47,17 @@
 					<span class="content"><?php echo Lang::_('admin_content_tip');?></span>
 					<a onclick="return false;" title="<?php echo Lang::_('admin_release_content_title');?>" style="padding-left: 10px;">
 						<select onchange="window.main.location.href='index.php?m=admin&a=content&do=save&cid='+this.value;" style="width:140px">
-							<option value="main" selected="selected" disabled="disabled"><?php echo Lang::_('admin_select_content_tip');?></option>
+							<option value="main" id="df_main" selected="selected" disabled="disabled"><?php echo Lang::_('admin_select_content_tip');?></option>
 							<?php echo $cate_select_tree; ?>
 						</select>
 					</a>
-					<a href="#" title=""><?php echo Lang::_('admin_all_content_tip');?></a>
-					<a href="#" title=""><?php echo Lang::_('admin_review_content_tip');?></a>
+					<a href="index.php?m=admin&amp;a=content&amp;state=0" title=""><?php echo Lang::_('admin_all_content_tip');?></a>
+					<a href="index.php?m=admin&amp;a=content&amp;state=1" title=""><?php echo Lang::_('admin_review_content_tip');?></a>
 					<a href="index.php?m=admin&amp;a=category" title=""><?php echo Lang::_('admin_classify_content_tip');?></a>
 					<a href="#" title=""><?php echo Lang::_('admin_sub_content_tip');?></a>
 					<a href="#" title=""><?php echo Lang::_('admin_recommend_content_tip');?></a>
-					<a href="#" title=""><?php echo Lang::_('admin_draft_box_tip');?></a>
-					<a href="#" title=""><?php echo Lang::_('admin_recycle_tip');?></a>
+					<a href="index.php?m=admin&amp;a=content&amp;state=3" title=""><?php echo Lang::_('admin_draft_box_tip');?></a>
+					<a href="index.php?m=admin&amp;a=content&amp;state=4" title=""><?php echo Lang::_('admin_recycle_tip');?></a>
 				</div>
 				<div class="collapsed">
 					<span class="comment"><?php echo Lang::_('admin_comment_tip');?></span>

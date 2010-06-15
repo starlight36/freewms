@@ -30,19 +30,55 @@ if($_GET['do'] == 'save') {
 //--------------------------------------------
 
 //--------------------------------------------
-//	批量设置属性(改)
+//	批量设置属性/删除(改/删)
 //--------------------------------------------
-if($_GET['do'] == 'set') {
+if(in_array($_REQUEST['do'], array('normal', 'lock', 'recycle', 'drafts', 'rm'))) {
+	$id = $_POST['id'];
+	if(empty($id)) {
+		show_message('error', '没有选中任何内容.');
+	}
+	$clist = explode(",", $id);
 
-	exit();
-}
-//--------------------------------------------
-
-//--------------------------------------------
-//	删除内容(删)
-//--------------------------------------------
-if($_GET['do'] == 'rm') {
-
+	$i = 0;
+	$content = new Content();
+	foreach($clist as $id) {
+		$cinfo = $content->get_content($id);
+		if(!$cinfo) {
+			continue;
+		}
+		//删除静态文件
+		if($cinfo['cate_static']) {
+			rm_file(BASEPATH.$cinfo['content_url']);
+		}
+		$db->sql_add('WHERE `content_id` = ?', $id);
+		switch($_REQUEST['do']) {
+			case 'rm':
+				$db->delete('content');
+				break;
+			case 'normal':
+				$db->set('content_state', 0);
+				$db->update('content');
+				break;
+			case 'lock':
+				$db->set('content_state', 2);
+				$db->update('content');
+				break;
+			case 'recycle':
+				$db->set('content_state', 4);
+				$db->update('content');
+				break;
+			case 'drafts':
+				$db->set('content_state', 3);
+				$db->update('content');
+				break;
+			default:
+				break;
+		}
+		$i++;
+	}
+	Cache::clear();
+	Cache::delete_page();
+	show_message('success', '操作成功! 共处理内容'.$i.'条.');
 	exit();
 }
 //--------------------------------------------
@@ -53,14 +89,103 @@ if($_GET['do'] == 'rm') {
 $cate_id = $_REQUEST['cid']; //分类ID
 $user_id = $_REQUEST['uid']; //用户ID
 $state = $_REQUEST['state']; //状态
-$search_type = $_REQUEST['search_type']; //搜索关键字
+$search_type = $_REQUEST['search_type']; //搜索类型
 $keywords = $_REQUEST['keywords']; //查找关键字
 $start_time = $_REQUEST['start_time']; //开始时间
 $end_time = $_REQUEST['end_time']; //结束时间
 $sid = $_REQUEST['sid']; //专题ID
 $rid = $_REQUEST['rid']; //推荐位ID
+$pagesize = $_REQUEST['pagesize'] ? $_REQUEST['pagesize'] : 30; //每页显示数
+$pagenum = $_REQUEST['page'] ? $_REQUEST['page'] : 1; //页码
+$record_count = 0; //总记录数
+$pagecount = 0; //总分页数
+$args = array();
 
+//筛选分类
+if(preg_match('/^[0-9]+$/', $cate_id)) {
+	$args['category'] = $cate_id;
+}
 
+//筛选用户
+if(preg_match('/^[0-9]+$/', $user_id)) {
+	$args['uid'] = $user_id;
+}
+
+//筛选状态
+if(preg_match('/^[0-9]+$/', $state)) {
+	$args['state'] = $state;
+}
+
+//筛选专题
+if(preg_match('/^[0-9]+$/', $sid)) {
+	$args['subject'] = $sid;
+}
+
+//筛选推荐位
+if(preg_match('/^[0-9]+$/', $ridid)) {
+	$args['recommend'] = $rid;
+}
+
+//筛选起始时间
+if(!empty($start_time)) {
+	$args['where'][] = 'content_time >= '.strtotime($start_time);
+}
+
+//筛选结束时间
+if(!empty ($end_time)) {
+	$args['where'][] = 'content_time <= '.strtotime($end_time);
+}
+
+//设置排序方式
+$args['order'][] = '`content_time` DESC';
+$args['order'][] = '`content_istop` ASC';
+
+//关键字搜索
+if(!empty($keywords)) {
+	if($search_type == 'id') {
+		$args['where'][] = 'content_id = \''.addslashes($keywords).'\'';
+	}elseif($search_type == 'key') {
+		$args['where'][] = 'content_key = \''.addslashes($keywords).'\'';
+	}elseif($search_type == 'title') {
+		$args['where'][] = 'content_title LIKE \'%'.addslashes($keywords).'%\'';
+	}elseif($search_type == 'desc') {
+		$args['where'][] = 'content_intro LIKE \'%'.addslashes($keywords).'%\'';
+	}elseif($search_type == 'tag') {
+		$args['tag'] = $keywords;
+	}
+}
+
+//创建内容对象
+$content = new Content();
+$clist = $content->get_content_list($args, $pagesize, $pagenum, $record_count, $pagecount);
+
+//处理翻页URL
+$url = 'index.php?'.$_SERVER["QUERY_STRING"];
+if(strpos('page=', $url) === FALSE) {
+	$url .= empty($url) ? 'page={page}':'&page={page}';
+}else{
+	$url = preg_replace('/page=(\d+)/i', 'page={page}', $url);
+}
+//生成一个翻页导航条
+Paginate::set_paginate($url, $pagenum, $pagecount, $pagesize, 2);
+
+//分类选择树生成
+$db->select('cate_id, cate_name, cate_parentid')->from('category');
+$query = $db->query();
+$catelist = NULL;
+if($db->num_rows($query) > 0) {
+	while($row = $db->fetch($query)) {
+		$catelist[$row['cate_id']]['name'] = $row['cate_name'];
+		$catelist[$row['cate_id']]['parentid'] = $row['cate_parentid'];
+	}
+}
+$db->free($query);
+
+$tree = new Tree($catelist);
+$cate_select_tree = $tree->plant(0, "<option value=\"\$id\"\$selected>\$value</option>\n", $cate_id);
+
+//载入模板
+include MOD_PATH.'templates/content.list.tpl.php';
 
 //--------------------------------------------
 

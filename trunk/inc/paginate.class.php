@@ -47,10 +47,10 @@ class Paginate {
 		$str = NULL;
 		switch (self::$style) {
 			case '0': //样式0 显示全部分页列表
-				$str .= '<span class="pageinfo">Page'.self::$pagenum.'/'.self::$pagecount.'<span>';
+				$str .= '<a class="pageinfo">Page'.self::$pagenum.'/'.self::$pagecount.'<a>';
 				for($i = 1; $i <= self::$pagecount; $i++) {
 					if(self::$pagenum == $i) {
-						$str .= '<span class="'.$curr_sytle.'">'.$i.'</span>';
+						$str .= '<a class="'.$curr_sytle.'">'.$i.'</a>';
 					}else{
 						$url = str_replace('{page}', $i, self::$url_tpl);
 						$str .= '<a class="'.$link_style.'" href="'.$url.'" title="Page '.$i.'">'.$i.'</a>';
@@ -58,7 +58,7 @@ class Paginate {
 				}
 				break;
 			case '1': //样式1 以"首页/上一页/下一页/末页"导航
-				$str .= '<span class="pageinfo">Page'.self::$pagenum.'/'.self::$pagecount.'<span>';
+				$str .= '<a class="pageinfo">Page'.self::$pagenum.'/'.self::$pagecount.'<a>';
 				if(self::$pagenum > 1) {
 					$str .= '<a class="'.$link_style.'" href="'.str_replace('{page}', 1, $url).'" title="'.
 							Lang::_('page_first_page').'">'.Lang::_('page_first_page').'</a>';
@@ -73,26 +73,26 @@ class Paginate {
 				}
 				break;
 			case '2': //样式2 以"首页/上一页/中间页码/下一页/末页"导航
-				$str .= '<span class="pageinfo">Page'.self::$pagenum.'/'.self::$pagecount.'<span>';
+				$str .= '<a class="pageinfo">Page'.self::$pagenum.'/'.self::$pagecount.'<a>';
 				if(self::$pagenum > 1) {
-					$str .= '<a class="'.$link_style.'" href="'.str_replace('{page}', 1, $url).'" title="'.
+					$str .= '<a class="'.$link_style.'" href="'.str_replace('{page}', 1, self::$url_tpl).'" title="'.
 							Lang::_('page_first_page').'">'.Lang::_('page_first_page').'</a>';
-					$str .= '<a class="'.$link_style.'" href="'.str_replace('{page}', self::$pagenum - 1, $url).'" title="'.
+					$str .= '<a class="'.$link_style.'" href="'.str_replace('{page}', self::$pagenum - 1, self::$url_tpl).'" title="'.
 							Lang::_('page_pre_page').'">'.Lang::_('page_pre_page').'</a>';
 				}
 				$p = intval((self::$pagenum - 1) / $link_num);
 				for($i = $p * $link_num + 1; $i <= ($p + 1)*$link_num; $i++) {
 					if(self::$pagenum == $i) {
-						$str .= '<span class="'.$curr_sytle.'">'.$i.'</span>';
+						$str .= '<a class="'.$curr_sytle.'">'.$i.'</a>';
 					}else{
 						$url = str_replace('{page}', $i, self::$url_tpl);
 						$str .= '<a class="'.$link_style.'" href="'.$url.'" title="Page '.$i.'">'.$i.'</a>';
 					}
 				}
 				if(self::$pagenum < self::$pagecount) {
-					$str .= '<a class="'.$link_style.'" href="'.str_replace('{page}', self::$pagenum + 1, $url).'" title="'.
+					$str .= '<a class="'.$link_style.'" href="'.str_replace('{page}', self::$pagenum + 1, self::$url_tpl).'" title="'.
 							Lang::_('page_next_page').'">'.Lang::_('page_next_page').'</a>';
-					$str .= '<a class="'.$link_style.'" href="'.str_replace('{page}', self::$pagecount, $url).'" title="'.
+					$str .= '<a class="'.$link_style.'" href="'.str_replace('{page}', self::$pagecount, self::$url_tpl).'" title="'.
 							Lang::_('page_last_page').'">'.Lang::_('page_last_page').'</a>';
 				}
 				break;

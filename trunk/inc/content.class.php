@@ -133,6 +133,15 @@ class Content {
 
 		//加载内容分类及关联模型信息
 		$cateinfo = $this->get_category($content['content_cateid']);
+		$content_key = $row['content_key'] ? $row['content_key'] : $row['content_id'];
+		if($cateinfo['cate_static'] && empty($content['content_viewrole']) &&
+				empty($content['content_viewuser']) && empty($content['content_viewpass'])) {
+			$url = $cateinfo['cate_path'].$content_key.'.'.Config::get('site_staticize_extname');
+		}else{
+			$url = URL::get_url('content_view', 'm=view&k='.$content_key);
+			$cateinfo['cate_static'] = 0;
+		}
+		$content['content_url'] = $url;
 		$content = array_merge($content, $cateinfo);
 
 		//加载自定义字段信息
@@ -166,10 +175,12 @@ class Content {
 	 */
 	public function get_content_list($args, $pagesize = NULL, &$pagenum = NULL, &$record_count = NULL, &$pagecount = NULL) {
 		//解析参数标记
-		$args = path_array(Spyc::YAMLLoadString($args), 'args');
-
+		if(!is_array($args)) {
+			$args = path_array(Spyc::YAMLLoadString($args), 'args');
+		}
+		
 		$db = DB::get_instance();
-		$sql_where = array();
+		$sql_where = NULL;
 		//指定专题
 		if(preg_match('/^[0-9]+$/', $args['subject'])) {
 			$sql_where[] = "`content_id` IN (SELECT `sc_contentid` FROM `".DB_PREFIX
@@ -179,6 +190,12 @@ class Content {
 		if(preg_match('/^[0-9]+$/', $args['recommend'])) {
 			$sql_where[] = "`content_id` IN (SELECT `rc_contentid` FROM `".DB_PREFIX
 					."recommend_content` WHERE `rc_recid` = '{$args['recommend']}')";
+		}
+		//指定TAG
+		if(!empty($args['tag'])) {
+			$args['tag'] = addslashes($args['tag']);
+			$sql_where[] = "`content_id` IN (SELECT `tc_cid` FROM `".DB_PREFIX."tag_content`, `"
+					.DB_PREFIX."tags` WHERE `tc_tagid` = `tag_id` AND `tag_name` = '{$args['tag']}'";
 		}
 		//指定用户ID
 		if(preg_match('/^[0-9]+$/', $args['uid'])) {
@@ -203,7 +220,13 @@ class Content {
 		}
 		//附加查询条件
 		if(!empty($args['where'])) {
-			$sql_where[] = $args['where'];
+			if(is_array($args['where'])) {
+				foreach($args['where'] as $row) {
+					$sql_where[] = $row;
+				}
+			}else{
+				$sql_where[] = $args['where'];
+			}
 		}
 		if(!empty($sql_where)) {
 			$sql_where = ' WHERE '.implode(' AND ', $sql_where);
@@ -234,7 +257,13 @@ class Content {
 		}
 
 		//查询数据库
-		$db->select('*')->from('content');
+		$db->select('$prefixcontent.*, $prefixuser.user_name')->from('content')->from('user');
+		if(empty($sql_where)) {
+			$sql_where = 'WHERE `content_userid` = `user_id`';
+		}else{
+			$sql_where = $sql_where. ' AND ' . '`content_userid` = `user_id`';
+		}
+
 		$db->sql_add($sql_where.$sql_order.$sql_limit);
 		$list = $db->get();
 
@@ -257,6 +286,7 @@ class Content {
 				'cate_name' => $cate_info['cate_name'],
 				'cate_key' => $cate_info['cate_key'],
 				'cate_template' => $cate_info['cate_template'],
+				'cate_static' => $cate_info['cate_static'],
 				'mod_id' => $cate_info['mod_id'],
 				'mod_name' => $cate_info['mod_name']
 			);
