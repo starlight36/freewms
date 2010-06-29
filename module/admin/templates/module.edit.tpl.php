@@ -45,6 +45,11 @@
 					<a class="tip" href="javascript:void(0)" title="<?php echo Lang::_('admin_mod_itemunit_title');?>">[?]</a>
 					<?php echo Form::get_error('mod_itemunit', '<span class="fielderrormsg">', '</span>');?>
 				</p>
+				<p><span class="left"><?php echo Lang::_('admin_mod_filter_tip');?>: </span>
+					<input type="text" class="text shorttext" name="mod_filter" value="<?php echo Form::set_value('mod_filter', $mod['mod_filter']);?>" />
+					<a class="tip" href="javascript:void(0)" title="<?php echo Lang::_('admin_mod_filter_title');?>">[?]</a>
+					<?php echo Form::get_error('mod_filter', '<span class="fielderrormsg">', '</span>');?>
+				</p>
 				<p><span class="left"><?php echo Lang::_('admin_mod_template_tip');?>: </span>
 					<input type="text" class="text shorttext" name="mod_template" value="<?php echo Form::set_value('mod_template', $mod['mod_template']);?>" />
 					<a class="tip" href="javascript:void(0)" title="<?php echo Lang::_('admin_mod_template_title');?>">[?]</a>

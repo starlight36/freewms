@@ -42,6 +42,7 @@ if($_GET['do'] == 'edit') {
 	$form->set_field('mod_itemname', ''.Lang::_('admin_mod_itemname_tip').'', 'required|max_lenght[20]', 'trim');
 	$form->set_field('mod_itemunit', ''.Lang::_('admin_mod_itemunit_tip').'', 'required|max_lenght[20]', 'trim');
 	$form->set_field('mod_template', ''.Lang::_('admin_mod_template_tip').'', 'required|max_lenght[200]', 'trim');
+	$form->set_field('mod_filter', ''.Lang::_('admin_mod_filter_tip').'', 'required|max_lenght[50]', 'trim');
 	if($form->run()) {
 		$db->sql_add('WHERE `mod_id` = ?', $id);
 		$db->set($_POST);

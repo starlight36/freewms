@@ -15,19 +15,10 @@
 <script type="text/javascript">
 //<!--
 function DoFitter() {
-	var cid = escape($('#cid').val());
-	var search_type = escape($('#search_type').val());
-	var keywords = escape($('#keywords').val());
-	var start_time = escape($('#start_time').val());
-	var end_time = escape($('#end_time').val());
-	var state = escape($('#state').val());
 	var url = 'index.php?m=admin&a=content';
-	if(cid) url+='&cid='+cid;
-	if(search_type) url+='&search_type='+search_type;
-	if(keywords) url+='&keywords='+keywords;
-	if(start_time) url+='&start_time='+start_time;
-	if(end_time) url+='&end_time='+end_time;
-	if(state) url+='&state='+state;
+	$.each($('#fitter_form *[name]'), function(i, row) {
+		url += '&'+$(row).attr('name')+'='+escape($(row).val());
+	});
 	window.location.href = url;
 	return false;
 }
@@ -44,26 +35,26 @@ function DoFitter() {
 			<a href="index.php?m=admin&amp;a=content&amp;state=3" title="草稿箱中的内容"<?php if($state=='3') echo ' style="color: #FF0000;"'; ?>>草稿箱</a> |
 			<a href="index.php?m=admin&amp;a=content&amp;state=4" title="列出已删除的内容"<?php if($state=='4') echo ' style="color: #FF0000;"'; ?>>回收站</a>
 		</p>
-		<form method="post" onsubmit="return DoFitter();">
+		<form method="post" onsubmit="return DoFitter();" id="fitter_form">
 			<p>
-				<input type="hidden" id="state" value="<?php echo $state; ?>" />
+				<input type="hidden" name="state" value="<?php echo $state; ?>" />
 				选择分类: 
-				<select id="cid">
+				<select name="cid">
 					<option value="all">全部分类</option>
 					<?php echo $cate_select_tree; ?>
 				</select>
 				搜索:
-				<select id="search_type">
+				<select name="search_type">
 					<option value="id"<?php if($search_type=='id') echo ' selected=selected'; ?>>内容ID</option>
 					<option value="key"<?php if($search_type=='key') echo ' selected=selected'; ?>>URL名</option>
 					<option value="tag"<?php if($search_type=='tag') echo ' selected=selected'; ?>>TAG</option>
 					<option value="title"<?php if($search_type=='title') echo ' selected=selected'; ?>>标题</option>
 					<option value="desc"<?php if($search_type=='desc') echo ' selected=selected'; ?>>摘要</option>
 				</select>
-				<input type="text" class="text shorttext" id="keywords" value="<?php echo $keywords; ?>" />
+				<input type="text" class="text shorttext" name="keywords" value="<?php echo $keywords; ?>" />
 				时间范围:
-				<input type="text" class="text" id="start_time" size="10" value="<?php echo $start_time; ?>" /> -
-				<input type="text" class="text" id="end_time" size="10" value="<?php echo $end_time; ?>" />
+				<input type="text" class="text" name="start_time" size="10" value="<?php echo $start_time; ?>" /> -
+				<input type="text" class="text" name="end_time" size="10" value="<?php echo $end_time; ?>" />
 				<input type="submit" value="筛选内容" class="searchbtn pointer" />
 			</p>
 		</form>
@@ -98,7 +89,7 @@ function DoFitter() {
 				<td class="listtd"><?php echo $row['user_name'];?></td>
 				<td class="listtd"><?php echo date(SITE_DATETIME_FORMAT, $row['content_time']); ?></td>
 				<td class="listtd">
-					<a href="" title="">编辑</a> | 
+					<a href="index.php?m=admin&amp;a=content&amp;do=save&amp;id=<?php echo $row['content_id'];?>" title="编辑">编辑</a> |
 					<a href="" title="">评论</a> | 
 					<a href="" title="">删除</a>
 				</td>

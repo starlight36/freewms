@@ -135,7 +135,7 @@ class Content {
 		$cateinfo = $this->get_category($content['content_cateid']);
 		$content_key = $row['content_key'] ? $row['content_key'] : $row['content_id'];
 		if($cateinfo['cate_static'] && empty($content['content_viewrole']) &&
-				empty($content['content_viewuser']) && empty($content['content_viewpass'])) {
+				empty($content['content_viewpass'])) {
 			$url = $cateinfo['cate_path'].$content_key.'.'.Config::get('site_staticize_extname');
 		}else{
 			$url = URL::get_url('content_view', 'm=view&k='.$content_key);
@@ -161,6 +161,9 @@ class Content {
 			}
 			$content = array_merge($content, array('content_tags' => $tags));
 		}
+
+		//套用内容过滤器
+		$this->get_filter($content['mod_filter'])->out($content);
 		return $content;
 	}
 
@@ -275,7 +278,7 @@ class Content {
 			$cate_info = $this->get_category($row['content_cateid']);
 			$content_key = $row['content_key'] ? $row['content_key'] : $row['content_id'];
 			if($cate_info['cate_static'] && empty($row['content_viewrole']) &&
-					empty($row['content_viewuser']) && empty($row['content_viewpass'])) {
+					empty($row['content_viewpass'])) {
 				$url = $cate_info['cate_path'].$content_key.'.'.Config::get('site_staticize_extname');
 			}else{
 				$url = URL::get_url('content_view', 'm=view&k='.$content_key);
@@ -298,10 +301,9 @@ class Content {
 	/**
 	 * 保存内容
 	 * @param array $in 内容基本字段
-	 * @param array $ext_value 内容扩展字段
 	 * @return mixed
 	 */
-	public function set_content($in, $ext_value) {
+	public function set_content($in) {
 		//验证输入是否为数组
 		if(!is_array($in) || !is_array($ext_value)) {
 			return FALSE;
@@ -323,10 +325,14 @@ class Content {
 			return FALSE;
 		}
 		$modid = $cate['mod_id'];
+		$mod_filter = $cate['mod_filter'];
 
 		//分离TAG列表
-		$tags = explode(',', $in['content_tags']);
+		$tags = explode(' ', $in['content_tags']);
 		unset($in['content_tags']);
+		
+		//执行内容过滤器
+		$this->get_filter($mod_filter)->in($in);
 
 		if($id != 0) {
 			//检查要编辑的内容是否存在
@@ -346,7 +352,7 @@ class Content {
 
 		//更新自定义字段
 		$field = new Field();
-		$field->set_value($ext_value, $modid, $id);
+		$field->set_value($in, $modid, $id);
 
 		//更新TAG列表
 		if(!empty($tags)) {
@@ -372,6 +378,35 @@ class Content {
 		//返回更新的内容的ID
 		return $id;
 	}
+
+	/**
+	 * 取得内容过滤器
+	 * @param string $filtername 过滤器名称
+	 * @return filtername 
+	 */
+	private function &get_filter($filtername) {
+		require_once BASEPATH.'inc/content/'.$filtername.'.filter.php';
+		$filtername = 'filter_'.$filtername;
+		return new $filtername();
+	}
+}
+
+/*
+ * 内容过滤器接口
+ */
+interface if_content_filter {
+	
+	/**
+	 * 对将要输出的内容进行过滤
+	 * @param array $content_info
+	 */
+	public function out(&$content_info);
+
+	/**
+	 * 对将要保存进入数据库的内容进行过滤
+	 * @param array $content_info
+	 */
+	public function in(&$content_info);
 }
 
 /* End of this file */

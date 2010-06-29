@@ -33,7 +33,7 @@ if($_GET['do'] == 'edit') {
 		$db->select('*')->from('category')->sql_add('WHERE `cate_id` = ?', $id);
 		$cate = $db->get();
 		if($cate == NULL) {
-			show_message('error', '没有找到要编辑的字段.');
+			show_message('error', '没有找到要编辑的分类.');
 		}
 		$cate = $cate[0];
 		$parentid = $cate['cate_parentid'];
@@ -89,7 +89,6 @@ if($_GET['do'] == 'edit') {
 		//输出列表
 		include MOD_PATH.'templates/category.edit.tpl.php';
 	}
-	Cache::clear();
 	exit();
 }
 //--------------------------------------------

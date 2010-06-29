@@ -1,0 +1,38 @@
+/* artdialog对话框样式 For FreeWMS*/
+.ui_title_wrap, .ui_bottom button { font-size:12px 'Microsoft Yahei', Arial; }
+.ui_content_wrap { min-width:9em; }/*设置对话框最小尺寸*/
+.ui_dialog { border:1px solid #98B2DD!important; }
+.ui_td_00, .ui_td_02, .ui_td_20, .ui_td_22 { width:0; height:0; padding: 0; margin: 0;}/*设置边框厚度*/
+.ui_td_11 table { width: 100%; }
+.ui_overlay div { background:#000; filter:alpha(opacity=70); opacity:0.7; }/*设置遮罩颜色与透明度*/
+.ui_dialog { -moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.7); -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.7); box-shadow: 0 0 3px rgba(0, 0, 0, 0.7); }
+.ui_dialog_main { background-color:#F1F8FB; margin: 0; }
+.ui_title { position:relative; height:100%; background: url('titlebar.gif') repeat-x; border-bottom:1px solid #AAC0E3; }
+.ui_move .ui_title { /*border-bottom:2px solid #FFF;*/ }
+.ui_title_text { height:26px; line-height:26px; padding:0 30px 0 10px; font-weight:700; color: #CCC; }
+.ui_focus .ui_title_text { color:#5571AA; }
+.ui_close { padding:0; top:6px; right:6px; width:13px; height:13px; line-height:13px; text-align:center; color:#5571AA!important; font-weight: bold; text-decoration:none; border:1px solid #98B2DD; }
+.ui_close:hover { text-decoration:none; background-color:#97B4D5; border:1px solid #6D94CA; cursor:default; }
+.ui_content { color:#666; }
+.ui_focus .ui_content { color:#000; }
+.ui_resize { width:8px; height:8px; }
+.ui_loading_tip { color:#808080; }/*loading提示*/
+.ui_move_temp div { background-color:#214FA3; filter:alpha(opacity=40); opacity:0.4; }/*拖动用的替身对话框*/
+.ui_btns { background-color:#DDF0F5; border-top:1px solid #AAC0E3; }
+.ui_btns button { background-color:#F2FBFF; background-image: url('btn.gif'); background-repeat:no-repeat; border:0 none; color:#506B9E; height:23px; margin:3px; padding:0; width:65px; cursor:pointer; }
+* html .ui_ie6_select_mask { left:-1px!important; top:-1px!important; }
+
+/*
+风格拓展参数[可添加组合在'style'参数中]
+可用来支持消息类型图标等
+*/
+
+/*没有标题栏*/
+.noTitleBar .ui_title_wrap { height:0; _display:none; visibility:hidden; }
+/*去除所有背景*/
+.noSkin .ui_border, .noSkin .ui_title_wrap, .noSkin .ui_dialog_icon { display:none; }
+.noSkin .ui_bottom_wrap { display:none; *display:block; *height:0; overflow:hidden; }
+* html .noSkin .ui_btns { height:0; overflow:hidden; position:absolute; left:-99999em; }
+.noSkin .ui_content { margin:0; }
+.noSkin .ui_dialog_main { background:transparent; border:none 0!important; }
+.noSkin .ui_content_wrap { min-width:inherit; _width:auto; }

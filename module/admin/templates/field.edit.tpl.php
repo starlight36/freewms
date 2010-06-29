@@ -62,7 +62,7 @@ function add_role() {
 					<?php echo Form::get_error('field_desc', '<span class="fielderrormsg">', '</span>');?>
 				</p>
 				<p><span class="left"><?php echo Lang::_('admin_field_input_tip');?>: </span>
-					<textarea class="normaltextarea" name="field_input"><?php echo Form::set_value('field_input', $field['field_input']);?></textarea>
+					<textarea class="normaltextarea" name="field_input"><?php echo htmlspecialchars(Form::set_value('field_input', $field['field_input']));?></textarea>
 					<a class="tip" href="javascript:void(0)" title="<?php echo Lang::_('admin_field_input_title');?>">[?]</a>
 					<?php echo Form::get_error('field_input', '<span class="fielderrormsg">', '</span>');?>
 				</p>
