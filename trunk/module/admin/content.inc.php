@@ -24,7 +24,70 @@ $db = DB::get_instance();
 //	保存内容(增/改)
 //--------------------------------------------
 if($_GET['do'] == 'save') {
+	$id = $_GET['id'];
+	if(!preg_match('/^[0-9]+$/', $id)) {
+		$id = 0;
+	}
 
+	$content = new Content();
+	//读取内容填充表单
+	if($id > 0) {
+		$cinfo = $content->get_content($id);
+		if(!$cinfo) {
+			show_message('error', '没有找到要编辑的内容.');
+		}
+	}else{
+		$cid = $_GET['cid'];
+		$cinfo = $content->get_category($cid);
+		if(!$cinfo) {
+			show_message('error', '要添加新内容的分类没找到, 或者已经被删除.');
+		}
+		$cate_select_tree = NULL;
+	}
+
+	//读取分类选择树
+	$db->select('cate_id, cate_name, cate_parentid')->from('category');
+	$db->sql_add('WHERE `cate_modid` = ?', $cinfo['mod_id']);
+	$query = $db->query();
+	$catelist = NULL;
+	if($db->num_rows($query) > 0) {
+		while($row = $db->fetch($query)) {
+			$catelist[$row['cate_id']]['name'] = $row['cate_name'];
+			$catelist[$row['cate_id']]['parentid'] = $row['cate_parentid'];
+		}
+	}
+	$db->free($query);
+	$tree = new Tree($catelist);
+	$cate_select_tree = $tree->plant(0, "<option value=\"\$id\"\$selected>\$value</option>\n", $cinfo['cate_id']);
+
+	//创建管理角色用户组列表
+	$db->select('group_id, group_name')->from('group');
+	$role_select_list = $db->get();
+
+	//设置表单验证
+	$form = new Form($_POST);
+	$form->set_field('content_title', '标题', 'required|max_length[255]', 'trim');
+
+	//添加自定义字段的表单验证
+	$field = new Field();
+	$fieldlist = $field->get_field($cinfo['mod_id']);
+	foreach($fieldlist as $row) {
+		$form->set_field($row['field_key'], $row['field_name'], $row['field_rules'], $row['field_filters']);
+	}
+
+	if($form->run()) {
+		//保存数据
+		if(!$content->set_content($in)) {
+			show_message('error', $content->msg);
+		}
+		show_message('success', '保存内容成功!<br /> 如果您开启了生成静态, 请前往生成静态文件.',
+				array('返回内容列表页' => 'index.php?m=admin&a=content&state=0'));
+	}else{
+		//创建用户组列表
+		$db->select('group_id, group_name')->from('group');
+		$role_select_list = $db->get();
+		include MOD_PATH.'templates/content.edit.tpl.php';
+	}
 	exit();
 }
 //--------------------------------------------
