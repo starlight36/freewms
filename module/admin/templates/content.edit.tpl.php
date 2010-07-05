@@ -19,7 +19,7 @@
 <script type="text/javascript" src="<?php echo Url::base();?>js/calendar/syscalendar-setup.js"></script>
 <div id="showmain">
 	<div class="titlebar">编辑内容提示</div>
-	<form method="post" action="index.php?m=admin&amp;a=content&amp;do=save">
+	<form method="post" id="cform" action="index.php?m=admin&amp;a=content&amp;do=save">
 		<ul id="tabs">
 			<li id="tab1" class="selecttab">
 				<a href="javascript:void(0);" title="基本内容信息" onclick="SelectTab('tabcontent1','tab1');">基本内容信息</a>
@@ -36,9 +36,9 @@
 					</select>
 				</p>
 				<p><span class="left"><?php echo $cinfo['mod_itemname']; ?>标题:</span>
-					<input type="text" class="text normaltext" name="content_title" value="<?php echo Form::set_value('content_title', $cinfo['content_title']);?>" />
-					<a style="position: absolute; margin: 6px 0 0 -27px ! important;" title="编辑标题样式"><img alt="编辑标题样式" align="absmiddle" class="pointer" id="title_style_icon" src="<?php echo Url::base();?>module/admin/images/titlecbar.gif"></a>
-					<input type="hidden" id="content_titlestyle" name="content_titlestyle" value="<?php echo Form::set_value('content_titlestyle', $cinfo['content_titlestyle']);?>" />
+					<input type="text" class="text normaltext" id="content_titlestyle_field" name="content_title" value="<?php echo Form::set_value('content_title', $cinfo['content_title']);?>" />
+					<a style="position: absolute; margin: 6px 0 0 -27px ! important;" title="编辑标题样式"><img alt="编辑标题样式" align="absmiddle" class="pointer" onclick="ShowStylePicker();" src="<?php echo Url::base();?>module/admin/images/titlecbar.gif"></a>
+					<input type="hidden" id="content_titlestyle" id="content_titlestyle" name="content_titlestyle" value="<?php echo Form::set_value('content_titlestyle', $cinfo['content_titlestyle']);?>" />
 					<?php echo Form::get_error('content_title', '<span class="fielderrormsg">', '</span>');?>
 				</p>
 				<p><span class="left">TAG:</span>
@@ -127,18 +127,61 @@
 					<?php echo Form::get_error('content_viewpass', '<span class="fielderrormsg">', '</span>');?>
 				</p>
 				<p><span class="left">所属推荐位:</span>
-					添加
+					<?php if($recmd_select_list != NULL): ?>
+					<?php foreach($recmd_select_list as $row): ?>
+					<label><input type="checkbox" name="content_recmd_list" value="<?php echo $row['rec_id']; ?>"<?php if(in_array($row['rec_id'], $cinfo['recmd_list'])){echo ' checked="checked"';} ?> />&nbsp;<?php echo $row['rec_name']; ?></label>
+					<?php endforeach; ?>
+					<?php else: ?>
+					<span class="alert bold">没有推荐位可选</span>
+					<?php endif; ?>
 				</p>
 				<p><span class="left">所属专题:</span>
-					添加
+					<?php if($subject_select != NULL): ?>
+					<?php foreach($subject_select_list as $row): ?>
+					<label><input type="checkbox" name="content_recmd_list" value="<?php echo $row['subject_id']; ?>"<?php if(in_array($row['subject_id'], $cinfo['subj_list'])){echo ' checked="checked"';} ?> />&nbsp;<?php echo $row['subject_title']; ?></label>
+					<?php endforeach; ?>
+					<?php else: ?>
+					<span class="alert bold">没有专题可选</span>
+					<?php endif; ?>
 				</p>
 			</div>
+		</div>
+		<div>
+			<input type="hidden" name="content_id" value="<?php echo $id; ?>" />
+			<input type="hidden" id="content_state" name="content_state" value="<?php echo $cinfo['content_state'] ? $cinfo['content_state'] : '0'; ?>" />
+			<input type="submit" class="actionbtn pointer" value="保存修改" />&nbsp;
+			<input type="button" class="actionbtn pointer" onclick="SaveAsDraft();" value="存为草稿" />&nbsp;
+			<input type="button" class="actionbtn pointer" onclick="history.go(-1);" value="返回列表" />
 		</div>
 	</form>
 </div>
 <script type="text/javascript">
 //<!--
+
+//存为草稿
+function SaveAsDraft() {
+	$('#content_state').val('3');
+	$('#cform').submit();
+}
+
 //标题样式选择器
+$('#content_titlestyle_field').attr('style', $('#content_titlestyle').val());
+function ShowStylePicker() {
+	art.dialog({
+			title:'标题样式',
+			content:'dddd',
+			menuBtn:$(this)
+		},
+		function(){
+			alert('aaa');
+		}
+	);
+}
+
+//常用TAG选择器
+function TagPicker() {
+	
+}
 
 //日历选择控件
 Calendar.setup({

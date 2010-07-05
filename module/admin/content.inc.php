@@ -30,11 +30,32 @@ if($_GET['do'] == 'save') {
 	}
 
 	$content = new Content();
+	
 	//读取内容填充表单
 	if($id > 0) {
 		$cinfo = $content->get_content($id);
 		if(!$cinfo) {
 			show_message('error', '没有找到要编辑的内容.');
+		}
+
+		//加载所属推荐位列表
+		$db->select('rc_recid')->from('recommend_content');
+		$db->sql_add('WHERE `rc_contentid` = ?', $id);
+		$rc_list = $db->get();
+		if($rc_list != NULL) {
+			foreach($rc_list as $row) {
+				$cinfo['recmd_list'][] = $row['rc_recid'];
+			}
+		}
+
+		//加载所属专题列表
+		$db->select('sc_subjectid')->from('subject_content');
+		$db->sql_add('WHERE `sc_contentid` = ?', $id);
+		$subj_list = $db->get();
+		if($subj_list != NULL) {
+			foreach($subj_list as $row) {
+				$cinfo['subj_list'][] = $row['sc_subjectid'];
+			}
 		}
 	}else{
 		$cid = $_GET['cid'];
@@ -45,28 +66,10 @@ if($_GET['do'] == 'save') {
 		$cate_select_tree = NULL;
 	}
 
-	//读取分类选择树
-	$db->select('cate_id, cate_name, cate_parentid')->from('category');
-	$db->sql_add('WHERE `cate_modid` = ?', $cinfo['mod_id']);
-	$query = $db->query();
-	$catelist = NULL;
-	if($db->num_rows($query) > 0) {
-		while($row = $db->fetch($query)) {
-			$catelist[$row['cate_id']]['name'] = $row['cate_name'];
-			$catelist[$row['cate_id']]['parentid'] = $row['cate_parentid'];
-		}
-	}
-	$db->free($query);
-	$tree = new Tree($catelist);
-	$cate_select_tree = $tree->plant(0, "<option value=\"\$id\"\$selected>\$value</option>\n", $cinfo['cate_id']);
-
-	//创建管理角色用户组列表
-	$db->select('group_id, group_name')->from('group');
-	$role_select_list = $db->get();
-
 	//设置表单验证
 	$form = new Form($_POST);
 	$form->set_field('content_title', '标题', 'required|max_length[255]', 'trim');
+	$form->set_field('content_cateid', '分类', 'required|integer', 'trim');
 
 	//添加自定义字段的表单验证
 	$field = new Field();
@@ -75,19 +78,84 @@ if($_GET['do'] == 'save') {
 		$form->set_field($row['field_key'], $row['field_name'], $row['field_rules'], $row['field_filters']);
 	}
 
+	//捕获推荐位和专题选择列表
+	$recmd_list = explode(',', $cinfo['recmd_list']);
+	$subj_list = explode(',', $cinfo['$subj_list']);
+
+	//验证并保存
 	if($form->run()) {
 		//保存数据
 		if(!$content->set_content($in)) {
 			show_message('error', $content->msg);
 		}
+
+		//添加到专题
+		$db->sql_add('WHERE `sc_contentid` = ?', $in['content_id']);
+		$db->delete('subject_content');
+		if(is_array($subj_list)) {
+			foreach($subj_list as $subj_id) {
+				$db->set('sc_subjectid', $subj_id);
+				$db->set('sc_contentid', $in['content_id']);
+				$db->insert('subject_content');
+			}
+		}
+
+		//添加到推荐位
+		$db->sql_add('WHERE `rc_contentid` = ?', $in['content_id']);
+		$db->delete('recommend_content');
+		if(is_array($recmd_list)) {
+			foreach($recmd_list as $recmd_id) {
+				$db->set('rc_recid', $recmd_id);
+				$db->set('rc_contentid', $in['content_id']);
+				$db->insert('recommend_content');
+			}
+		}
+
+		//返回操作成功消息
 		show_message('success', '保存内容成功!<br /> 如果您开启了生成静态, 请前往生成静态文件.',
 				array('返回内容列表页' => 'index.php?m=admin&a=content&state=0'));
 	}else{
+		//创建推荐位选择列表
+		$db->select('rec_id, rec_name')->from('recommend');
+		$recmd_select_list = $db->get();
+
+		//创建专题选择列表
+		$db->select('subject_id, subject_title')->from('subject');
+		$subject_select_list = $db->get();
+
 		//创建用户组列表
 		$db->select('group_id, group_name')->from('group');
 		$role_select_list = $db->get();
+
+		//读取分类选择树
+		$db->select('cate_id, cate_name, cate_parentid')->from('category');
+		$db->sql_add('WHERE `cate_modid` = ?', $cinfo['mod_id']);
+		$query = $db->query();
+		$catelist = NULL;
+		if($db->num_rows($query) > 0) {
+			while($row = $db->fetch($query)) {
+				$catelist[$row['cate_id']]['name'] = $row['cate_name'];
+				$catelist[$row['cate_id']]['parentid'] = $row['cate_parentid'];
+			}
+		}
+		$db->free($query);
+		$tree = new Tree($catelist);
+		$cate_select_tree = $tree->plant(0, "<option value=\"\$id\"\$selected>\$value</option>\n", $cinfo['cate_id']);
+
+		//加载编辑页面模板
 		include MOD_PATH.'templates/content.edit.tpl.php';
 	}
+	exit();
+}
+//--------------------------------------------
+
+//--------------------------------------------
+//	批量设置属性/删除(改/删)
+//--------------------------------------------
+if($_REQUEST['do'] == 'taglist') {
+	$db->select('*')->from('tags')->sql_add('ORDER BY `tag_id` DESC LIMIT 30');
+	$taglist = $db->get();
+	include MOD_PATH.'templates/content.taglist.tpl.php';
 	exit();
 }
 //--------------------------------------------
@@ -252,3 +320,4 @@ include MOD_PATH.'templates/content.list.tpl.php';
 
 //--------------------------------------------
 
+/* End of this file */
