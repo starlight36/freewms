@@ -16,7 +16,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="<?php echo Url::base();?>module/admin/images/style.css" type="text/css" rel="stylesheet" />
-<link href="<?php echo Url::base();?>js/artdialog/admin/style.css" type="text/css" rel="stylesheet" />
+<link href="<?php echo Url::base();?>js/artdialog/skin/admin/style.css" type="text/css" rel="stylesheet" />
 <script type="text/javascript" src="<?php echo Url::base();?>js/jquery/core.js"></script>
 <script type="text/javascript" src="<?php echo Url::base();?>module/admin/images/common.js"></script>
 <script type="text/javascript" src="<?php echo Url::base();?>js/artdialog/artDialog.min.js"></script>
