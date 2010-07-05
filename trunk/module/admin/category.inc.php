@@ -33,7 +33,7 @@ if($_GET['do'] == 'edit') {
 		$db->select('*')->from('category')->sql_add('WHERE `cate_id` = ?', $id);
 		$cate = $db->get();
 		if($cate == NULL) {
-			show_message('error', '没有找到要编辑的分类.');
+			show_message('error',Lang::_('admin_no_found_edit_tip'));
 		}
 		$cate = $cate[0];
 		$parentid = $cate['cate_parentid'];
@@ -43,17 +43,17 @@ if($_GET['do'] == 'edit') {
 	}
 	//进行输入验证
 	$form = new Form($_POST);
-	$form->set_field('cate_parentid', '所属分类', 'required|integer');
-	$form->set_field('cate_modid', '绑定内容模型', 'required|integer');
-	$form->set_field('cate_name', '分类名称', 'required|max_length[200]', 'trim');
-	$form->set_field('cate_key', '分类目录名', 'required|max_length[50]|dir_name', 'trim');
-	$form->set_field('cate_keywords', '分类关键字', 'max_length[255]', 'trim');
-	$form->set_field('cate_description', '分类简介', 'max_length[255]', 'trim');
-	$form->set_field('cate_template', '分类模板目录名称', 'max_length[200]', 'trim');
-	$form->set_field('cate_pagesize', '分类内容列表每页条数', 'required|integer|min_num[1]', 'trim');
-	$form->set_field('cate_order', '分类排序序号');
-	$form->set_field('cate_role', '为用户组赋予管理权');
-	$form->set_field('cate_static', '是否开启生成静态');
+	$form->set_field('cate_parentid', Lang::_('admin_cate_parentid_tip'), 'required|integer');
+	$form->set_field('cate_modid', Lang::_('admin_cate_modid_tip'), 'required|integer');
+	$form->set_field('cate_name', Lang::_('admin_cate_name_tip'), 'required|max_length[200]', 'trim');
+	$form->set_field('cate_key',Lang::_('admin_cate_key_tip'), 'required|max_length[50]|dir_name', 'trim');
+	$form->set_field('cate_keywords', Lang::_('admin_cate_keywords_tip'), 'max_length[255]', 'trim');
+	$form->set_field('cate_description',Lang::_('admin_cate_description_tip'), 'max_length[255]', 'trim');
+	$form->set_field('cate_template', Lang::_('admin_cate_template_tip'), 'max_length[200]', 'trim');
+	$form->set_field('cate_pagesize', Lang::_('admin_cate_pagesize_tip'), 'required|integer|min_num[1]', 'trim');
+	$form->set_field('cate_order', Lang::_('admin_cate_order_tip'));
+	$form->set_field('cate_role', Lang::_('admin_cate_role_tip'));
+	$form->set_field('cate_static', Lang::_('admin_cate_static_tip'));
 	if($form->run()) {
 		$db->sql_add('WHERE `cate_id` = ?', $id);
 		$db->set($_POST);
@@ -63,7 +63,7 @@ if($_GET['do'] == 'edit') {
 			$db->update('category');
 		}
 		Cache::clear();
-		show_message('success', '保存分类成功', array('返回分类列表页' =>
+		show_message('success', Lang::_('admin_cate_success_tip'), array(Lang::_('admin_cate_return_tip') =>
 											'index.php?m=admin&a=category'));
 	}else{
 		//创建父分类选择树
@@ -117,21 +117,21 @@ if($_GET['do'] == 'order') {
 if($_GET['do'] == 'rm') {
 	$id = $_GET['id'];
 	if(!preg_match('/^[0-9]+$/', $id)) {
-		show_message('error', '非法的参数.');
+		show_message('error',  Lang::_('admin_show_message_error_1'));
 	}
 	$db->select('*')->from('category')->sql_add('WHERE `cate_id` = ?', $id);
 	$cate = $db->get();
 	if($cate == NULL) {
-		show_message('error', '要删除的分类不存在或者已被删除.');
+		show_message('error',  Lang::_('admin_show_message_error_2'));
 	}
 	$db->select('*')->from('category')->sql_add('WHERE `cate_parentid` = ?', $id);
 	$cate = $db->get();
 	if($cate != NULL) {
-		show_message('error', '当前分类下存在子分类,要删除此分类请先删除其下的子分类.');
+		show_message('error', Lang::_('admin_show_message_error_3'));
 	}
 	$db->select('COUNT(*)')->from('content')->sql_add('WHERE `content_cateid` = ?', $id);
 	if($db->result($db->query()) > 0) {
-		show_message('error', '当前分类下存在内容,要删除此分类请先清空其下的内容.');
+		show_message('error',  Lang::_('admin_show_message_error_4'));
 	}
 	$db->sql_add('WHERE `cate_id` = ?', $id);
 	$db->delete('category');
@@ -148,12 +148,12 @@ if($_GET['do'] == 'rm') {
 if($_GET['do'] == 'del') {
 	$id = $_GET['id'];
 	if(!preg_match('/^[0-9]+$/', $id)) {
-		show_message('error', '非法的参数.');
+		show_message('error', Lang::_('admin_show_message_error_1'));
 	}
 	$db->select('*')->from('category')->sql_add('WHERE `cate_id` = ?', $id);
 	$cate = $db->get();
 	if($cate == NULL) {
-		show_message('error', '要删除的分类不存在或者已被删除.');
+		show_message('error', Lang::_('admin_show_message_error_2'));
 	}
 	$db->sql_add('WHERE `content_cateid` = ?', $id);
 	$db->delete('content');

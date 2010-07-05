@@ -49,13 +49,13 @@ if($_GET['do'] == 'edit') {
 		$field = $field[0];
 	}
 	$form = new Form($_POST);
-	$form->set_field('field_name', ''.Lang::_('admin_field_name_tip').'', 'required|max_lenght[50]', 'trim');
-	$form->set_field('field_key', ''.Lang::_('admin_field_key_tip').'', 'required|dir_name|max_lenght[50]', 'trim');
-	$form->set_field('field_desc', ''.Lang::_('admin_field_desc_tip').'', 'max_lenght[220]', 'trim');
-	$form->set_field('field_input', ''.Lang::_('admin_field_input_tip').'', 'required', 'trim');
-	$form->set_field('field_default', ''.Lang::_('admin_field_default_tip').'');
-	$form->set_field('field_rules', ''.Lang::_('admin_field_rules_tip').'', NULL, 'trim');
-	$form->set_field('field_filters', ''.Lang::_('admin_field_filters_tip').'', NULL, 'trim');
+	$form->set_field('field_name', Lang::_('admin_field_name_tip'), 'required|max_lenght[50]', 'trim');
+	$form->set_field('field_key', Lang::_('admin_field_key_tip'), 'required|dir_name|max_lenght[50]', 'trim');
+	$form->set_field('field_desc', Lang::_('admin_field_desc_tip'), 'max_lenght[220]', 'trim');
+	$form->set_field('field_input', Lang::_('admin_field_input_tip'), 'required', 'trim');
+	$form->set_field('field_default', Lang::_('admin_field_default_tip'));
+	$form->set_field('field_rules', Lang::_('admin_field_rules_tip'), NULL, 'trim');
+	$form->set_field('field_filters', Lang::_('admin_field_filters_tip'), NULL, 'trim');
 	if($form->run()) {
 		$db->sql_add('WHERE `field_id` = ?', $id);
 		$db->set($_POST);

@@ -14,21 +14,21 @@
 <?php include MOD_PATH.'templates/header.tpl.php'; ?>
 <div id="showmain">
 	<div class="titlebar">
-		<a href="index.php?m=admin&amp;a=category&amp;do=edit" title="添加新分类">添加新分类</a>
-		自定义分类说明
+		<a href="index.php?m=admin&amp;a=category&amp;do=edit" title="<?php echo Lang::_('admin_cate_tip');?>"><?php echo Lang::_('admin_cate_tip');?></a>
+		<?php echo Lang::_('admin_custom_classification_tip');?>
 	</div>
 	<form method="post" action="index.php?m=admin&amp;a=category&amp;do=order">
 		<table cellspacing="1" cellpadding="3" border="0" align="center" width="100%" class="listtable">
 			<tr>
-				<td class="titletd" width="70">排序</td>
-				<td class="titletd" width="20%">分类名称</td>
-				<td class="titletd">分类说明</td>
-				<td class="titletd" width="15%">关联模型</td>
-				<td class="titletd" width=270">操作</td>
+				<td class="titletd" width="70"><?php echo Lang::_('admin_cate_order_tip');?></td>
+				<td class="titletd" width="20%"><?php echo Lang::_('admin_cate_name_tip');?></td>
+				<td class="titletd"><?php echo Lang::_('admin_cate_description_tip');?></td>
+				<td class="titletd" width="15%"><?php echo Lang::_('admin_correlation_model_tip');?></td>
+				<td class="titletd" width=270"><?php echo Lang::_('admin_cate_operate_tip');?></td>
 			</tr>
 			<?php if($clist == NULL): ?>
 			<tr>
-				<td class="titletd" colspan="6">没找到任何分类.</td>
+				<td class="titletd" colspan="6"><?php echo Lang::_('admin_cate_no_found_tip');?></td>
 			</tr>
 			<?php else: ?>
 			<!--{分类层次列表开始}-->
@@ -40,11 +40,11 @@
 				<td class="listtd"><?php echo $row['cate_desc']; ?></td>
 				<td class="listtd"><?php echo $row['mod_name']; ?></td>
 				<td class="listtd">
-					<a href="index.php?m=admin&amp;a=category&amp;do=edit&amp;id=<?php echo $row['cate_id']; ?>" title="修改">修改</a> |
-					<a href="index.php?m=admin&amp;a=category&amp;do=del&amp;id=<?php echo $row['cate_id']; ?>" title="" onclick="return confirm('你确认要清空此分类下的所有内容吗?\n一旦进行则无法恢复!');">清空内容</a> |
-					<a href="#" title="">生成静态</a> |
-					<a href="index.php?m=admin&amp;a=content&amp;cid=<?php echo $row['cate_id']; ?>" title="">管理内容</a> |
-					<a href="index.php?m=admin&amp;a=category&amp;do=rm&amp;id=<?php echo $row['cate_id']; ?>" title="" onclick="return confirm('你确认要删除此分类吗?\n一旦进行则无法恢复!');">删除</a>
+					<a href="index.php?m=admin&amp;a=category&amp;do=edit&amp;id=<?php echo $row['cate_id']; ?>" title="<?php echo Lang::_('admin_cate_modify_title');?>"><?php echo Lang::_('admin_cate_modify_tip');?></a> |
+					<a href="index.php?m=admin&amp;a=category&amp;do=del&amp;id=<?php echo $row['cate_id']; ?>" title="" onclick="return confirm('<?php echo Lang::_('admin_empty_title');?>');"><?php echo Lang::_('admin_empty_tip');?></a> |
+					<a href="#" title=""><?php echo Lang::_('admin_static_tip');?></a> |
+					<a href="index.php?m=admin&amp;a=content&amp;cid=<?php echo $row['cate_id']; ?>" title=""><?php echo Lang::_('admin_management_content_tip');?></a> |
+					<a href="index.php?m=admin&amp;a=category&amp;do=rm&amp;id=<?php echo $row['cate_id']; ?>" title="" onclick="return confirm('<?php echo Lang::_('admin_cate_delete_title');?>');"><?php echo Lang::_('admin_cate_delete_tip');?></a>
 				</td>
 			</tr>
 			<?php
@@ -58,7 +58,7 @@
 			<?php endif;?>
 		</table>
 		<div>
-			<input type="submit" class="actionbtn pointer" value="保存排序">
+			<input type="submit" class="actionbtn pointer" value="<?php echo Lang::_('admin_submit_order_tip');?>">
 		</div>
 	</form>
 </div>
