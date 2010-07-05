@@ -70,6 +70,20 @@ if($_GET['do'] == 'save') {
 	$form = new Form($_POST);
 	$form->set_field('content_title', '标题', 'required|max_length[255]', 'trim');
 	$form->set_field('content_cateid', '分类', 'required|integer', 'trim');
+    $form->set_field('content_titlestyle', '', ' required|max_length[200]', 'trim');
+    $form->set_field('content_tags', 'TAG', NULL, 'trim');
+    $form->set_field('content_key', 'URL名称', NULL, 'trim');
+    $form->set_field('content_thumb', '图片', NULL, 'trim');
+    $form->set_field('content_intro', '简介', 'required', 'trim');
+    $form->set_field('content_tags', '作者', NULL, 'trim');
+    $form->set_field('content_from', '来源', NULL, 'trim');
+    $form->set_field('content_time', '发布时间', 'required', 'trim');
+    $form->set_field('content_readnum', '浏览人数',NULL, 'trim');
+    $form->set_field('content_istop', '置顶级别', 'required|numeric|exact_length[1]|min_num[1]|max_num[6]', 'trim');
+    $form->set_field('content_iscomment', '评论状态', 'required|natural|exact_length[1]|max_num[1]', 'trim');
+    $form->set_field('content_viewrole', '允许浏览的用户组', 'required', 'trim');
+    $form->set_field('content_viewpass', '访问密码', 'required|max_length[16]', 'trim');
+    $form->set_field('content_id', '', 'required|integer', 'trim');
 
 	//添加自定义字段的表单验证
 	$field = new Field();

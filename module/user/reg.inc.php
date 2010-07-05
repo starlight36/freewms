@@ -18,4 +18,13 @@ View::set_title(Lang::_('mod_index_title'));
 View::load('index/index');
 Cache::set_page('index');
 
+//处理登录动作
+$form = new Form($_POST);
+if($form->is_post()) {
+    $form->set_field('admin', Lang::_('admin_login_user_name_tip'), 'required', 'trim');
+
+
+
+$sql=insert into user () values ('');
+}
 /* End of this file */

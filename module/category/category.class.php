@@ -12,7 +12,7 @@
  */
 class mod_category {
 	public function action_index() {
-		echo 'ddd';
+		echo 'ddhhhd';
 	}
 }
 /* End of this file */
