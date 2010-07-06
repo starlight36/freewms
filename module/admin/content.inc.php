@@ -311,6 +311,7 @@ if(strpos('page=', $url) === FALSE) {
 }else{
 	$url = preg_replace('/page=(\d+)/i', 'page={page}', $url);
 }
+
 //生成一个翻页导航条
 Paginate::set_paginate($url, $pagenum, $pagecount, $pagesize, 2);
 
