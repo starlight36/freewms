@@ -80,7 +80,7 @@ function DoFitter() {
 				<td class="listtd"><input type="checkbox" name="id" value="<?php echo $row['content_id'];?>" onchange="ChangeColor(this);" /></td>
 				<td class="listtd"><?php echo $row['mod_name']; ?></td>
 				<td class="listtd" style="text-align: left;">
-					<?php if($row['content_istop'] > 6 && $row['content_istop'] > 0): ?><span class="green">[顶<?php echo $row['content_istop']; ?>]</span><?php endif; ?>
+					<?php if($row['content_istop'] < 6 && $row['content_istop'] > 0): ?><span class="green">[顶<?php echo $row['content_istop']; ?>]</span><?php endif; ?>
 					<?php if($row['content_state'] == 1): ?><span class="alert">[待审]</span><?php elseif($row['content_state'] == 2): ?><span class="alert">[锁定]</span><?php elseif($row['content_state'] == 3): ?><span class="alert">[草稿]</span><?php elseif($row['content_state'] == 4): ?><span class="alert">[回收]</span><?php endif; ?>
 					<?php if($row['content_viewrole']): ?><span class="alert">[定组]</span><?php endif; ?><?php if($row['content_viewuser']): ?><span class="alert">[定员]</span><?php endif; ?><?php if($row['content_viewpass']): ?><span class="alert">[加密]</span><?php endif; ?>
 					<a href="<?php echo $row['content_url']; ?>" target="_blank" title="浏览该内容"><?php echo Format::str_sub($row['content_title'], 50);?></a>(<?php echo $row['content_readnum']; ?>/<?php echo $row['content_commentnum']; ?>)

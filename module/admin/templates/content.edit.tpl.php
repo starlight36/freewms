@@ -19,7 +19,7 @@
 <script type="text/javascript" src="<?php echo Url::base();?>js/calendar/syscalendar-setup.js"></script>
 <div id="showmain">
 	<div class="titlebar">编辑内容提示</div>
-	<form method="post" id="cform" action="index.php?m=admin&amp;a=content&amp;do=save">
+	<form method="post" id="cform" action="index.php?m=admin&amp;a=content&amp;do=save&amp;id=<?php echo $id; ?>">
 		<ul id="tabs">
 			<li id="tab1" class="selecttab">
 				<a href="javascript:void(0);" title="基本内容信息" onclick="SelectTab('tabcontent1','tab1');">基本内容信息</a>
@@ -36,14 +36,14 @@
 					</select>
 				</p>
 				<p><span class="left"><?php echo $cinfo['mod_itemname']; ?>标题:</span>
-					<input type="text" class="text normaltext" id="content_titlestyle_field" name="content_title" value="<?php echo Form::set_value('content_title', $cinfo['content_title']);?>" />
+					<input type="text" class="text normaltext" id="content_title" name="content_title" value="<?php echo Form::set_value('content_title', $cinfo['content_title']);?>" style="<?php echo Form::set_value('content_titlestyle', $cinfo['content_titlestyle']);?>" />
 					<a style="position: absolute; margin: 6px 0 0 -27px ! important;" title="编辑标题样式"><img alt="编辑标题样式" align="absmiddle" class="pointer" onclick="ShowStylePicker();" src="<?php echo Url::base();?>module/admin/images/titlecbar.gif"></a>
 					<input type="hidden" id="content_titlestyle" id="content_titlestyle" name="content_titlestyle" value="<?php echo Form::set_value('content_titlestyle', $cinfo['content_titlestyle']);?>" />
 					<?php echo Form::get_error('content_title', '<span class="fielderrormsg">', '</span>');?>
 				</p>
 				<p><span class="left">TAG:</span>
-					<input type="text" class="text normaltext" name="content_tags" value="<?php echo Form::set_value('content_tags', implode(' ', $cinfo['content_tags']));?>" />
-					<a style="position: absolute; margin: 6px 0 0 -30px ! important;" title="显示常用TAG"><img alt="显示常用TAG" align="absmiddle" class="pointer" onclick="" src="<?php echo Url::base();?>module/admin/images/taginput.gif"></a>
+					<input type="text" class="text normaltext" id="content_tags" name="content_tags" value="<?php echo Form::set_value('content_tags', implode(' ', $cinfo['content_tags']));?>" />
+					<a style="position: absolute; margin: 6px 0 0 -30px ! important;" title="显示常用TAG"><img alt="显示常用TAG" align="absmiddle" class="pointer" onclick="TagPicker();" src="<?php echo Url::base();?>module/admin/images/taginput.gif"></a>
 					<a class="tip" href="javascript:void(0)" title="多个TAG请用空格分隔">[?]</a>
 					<?php echo Form::get_error('content_tags', '<span class="fielderrormsg">', '</span>');?>
 				</p>
@@ -84,11 +84,11 @@
 			</div>
 			<div id="tabcontent2" class="showtabcon" style="display: none;">
 				<p><span class="left"><?php echo $cinfo['mod_itemname']; ?>作者:</span>
-					<input type="text" class="text shorttext" name="content_tags" value="<?php echo Form::set_value('content_author', $cinfo['content_author']?$cinfo['content_author']:'未知');?>" />
+					<input type="text" class="text shorttext" name="content_author" value="<?php echo Form::set_value('content_author', $cinfo['content_author']?$cinfo['content_author']:'未知');?>" />
 					<?php echo Form::get_error('content_author', '<span class="fielderrormsg">', '</span>');?>
 				</p>
 				<p><span class="left"><?php echo $cinfo['mod_itemname']; ?>来源:</span>
-					<input type="text" class="text shorttext" name="content_from" value="<?php echo Form::set_value('content_from', $cinfo['content_from']?$cinfo['content_author']:'未知');?>" />
+					<input type="text" class="text shorttext" name="content_from" value="<?php echo Form::set_value('content_from', $cinfo['content_from']?$cinfo['content_from']:'未知');?>" />
 					<?php echo Form::get_error('content_from', '<span class="fielderrormsg">', '</span>');?>
 				</p>
 				<p><span class="left">发布时间:</span>
@@ -111,13 +111,13 @@
 					<?php echo Form::get_error('content_istop', '<span class="fielderrormsg">', '</span>');?>
 				</p>
 				<p><span class="left">评论状态:</span>
-					<label><input type="radio" name="content_iscomment" value="1"<?php if($cinfo['content_iscomment'] || !$id) echo ' checked="checked"';?> />允许评论</label>
+					<label><input type="radio" name="content_iscomment" value="1"<?php if($cinfo['content_iscomment'] != '0') echo ' checked="checked"';?> />允许评论</label>
 					<label><input type="radio" name="content_iscomment" value="0"<?php if($cinfo['content_iscomment'] == '0') echo ' checked="checked"';?> />禁止评论</label>
 					<?php echo Form::get_error('content_iscomment', '<span class="fielderrormsg">', '</span>');?>
 				</p>
 				<p><span class="left">允许浏览的用户组:</span>
 					<?php foreach($role_select_list as $row): ?>
-					<label><input type="checkbox" name="content_viewrole" value="<?php echo $row['group_id']; ?>"<?php if(in_array($row['group_id'], explode(",", $cinfo['content_viewrole']))){echo ' checked="checked"';} ?> />&nbsp;<?php echo $row['group_name']; ?></label>
+					<label><input type="checkbox" name="content_viewrole[]" value="<?php echo $row['group_id']; ?>"<?php if(in_array($row['group_id'], $cinfo['content_viewrole'])){echo ' checked="checked"';} ?> />&nbsp;<?php echo $row['group_name']; ?></label>
 					<?php endforeach; ?>
 					<a class="tip" href="javascript:void(0)" title="选择特定用户组能访问此内容, 全不选表示可被任何用户访问.">[?]</a>
 				</p>
@@ -129,7 +129,7 @@
 				<p><span class="left">所属推荐位:</span>
 					<?php if($recmd_select_list != NULL): ?>
 					<?php foreach($recmd_select_list as $row): ?>
-					<label><input type="checkbox" name="content_recmd_list" value="<?php echo $row['rec_id']; ?>"<?php if(in_array($row['rec_id'], $cinfo['recmd_list'])){echo ' checked="checked"';} ?> />&nbsp;<?php echo $row['rec_name']; ?></label>
+					<label><input type="checkbox" name="content_recmd_list[]" value="<?php echo $row['rec_id']; ?>"<?php if(in_array($row['rec_id'], $cinfo['recmd_list'])){echo ' checked="checked"';} ?> />&nbsp;<?php echo $row['rec_name']; ?></label>
 					<?php endforeach; ?>
 					<?php else: ?>
 					<span class="alert bold">没有推荐位可选</span>
@@ -138,7 +138,7 @@
 				<p><span class="left">所属专题:</span>
 					<?php if($subject_select != NULL): ?>
 					<?php foreach($subject_select_list as $row): ?>
-					<label><input type="checkbox" name="content_recmd_list" value="<?php echo $row['subject_id']; ?>"<?php if(in_array($row['subject_id'], $cinfo['subj_list'])){echo ' checked="checked"';} ?> />&nbsp;<?php echo $row['subject_title']; ?></label>
+					<label><input type="checkbox" name="content_subj_list[]" value="<?php echo $row['subject_id']; ?>"<?php if(in_array($row['subject_id'], $cinfo['subj_list'])){echo ' checked="checked"';} ?> />&nbsp;<?php echo $row['subject_title']; ?></label>
 					<?php endforeach; ?>
 					<?php else: ?>
 					<span class="alert bold">没有专题可选</span>
@@ -165,22 +165,67 @@ function SaveAsDraft() {
 }
 
 //标题样式选择器
-$('#content_titlestyle_field').attr('style', $('#content_titlestyle').val());
 function ShowStylePicker() {
 	art.dialog({
 			title:'标题样式',
-			content:'dddd',
-			menuBtn:$(this)
+			content:'<span class="alert bold">颜色: </span>'
+					+'<label><input type="radio" name="title_color" value="#000" />默认</label> '
+					+'<label><input type="radio" name="title_color" value="#f00" />红色</label> '
+					+'<label><input type="radio" name="title_color" value="#0f0" />绿色</label> '
+					+'<label><input type="radio" name="title_color" value="#00f" />蓝色</label> '
+					+'<span class="alert bold">字体: </span>'
+					+'<label><input type="checkbox" name="title_font_bold" value="true" />加粗</label> '
+					+'<label><input type="checkbox" name="title_font_italic" value="true" />斜体</label>',
+			menuBtn:$(this),
+			id:'style_picker'
 		},
 		function(){
-			alert('aaa');
+			var obj = $('input[name=title_color]');
+			for(var i = 0; i < obj.length; i++) {
+				if(obj[i].checked == true) {
+					$('#content_title').css('color', obj[i].value);
+					break;
+				}
+			}
+			obj = $("input[name=title_font_bold]");
+			if(obj.attr('checked') == true) {
+				$('#content_title').css('font-weight', 'bold');
+			}else{
+				$('#content_title').css('font-weight', 'normal');
+			}
+			obj = $("input[name=title_font_italic]");
+			if(obj.attr('checked') == true) {
+				$('#content_title').css('font-style', 'italic');
+			}else{
+				$('#content_title').css('font-style', 'normal');
+			}
+			$('#content_titlestyle').val($('#content_title').attr('style'));
 		}
 	);
 }
 
 //常用TAG选择器
 function TagPicker() {
-	
+	art.dialog({
+			title:'TAG列表',
+			content:'<span id="taglist">Loading...</span>',
+			menuBtn:$(this),
+			width:'280px',
+			height:'120px',
+			id:'tag_picker'
+		},
+		function() {
+			var obj = $('input[name=tag_item]');
+			var tags = '';
+			for(var i = 0; i < obj.length; i++) {
+				if(obj[i].checked == true) {
+					tags += obj[i].value+' ';
+				}
+			}
+			$('#content_tags').val($.trim(tags));
+		}
+	);
+	$('#taglist').load('index.php?m=admin&a=content&do=taglist');
 }
 
 //日历选择控件

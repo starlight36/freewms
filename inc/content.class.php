@@ -131,6 +131,9 @@ class Content {
 		}
 		$content = $content[0];
 
+		//对读出数据进行预处理
+		$content['content_viewrole'] = unserialize($content['content_viewrole']);
+
 		//加载内容分类及关联模型信息
 		$cateinfo = $this->get_category($content['content_cateid']);
 		$content_key = $row['content_key'] ? $row['content_key'] : $row['content_id'];
@@ -244,7 +247,7 @@ class Content {
 			$record_count = $db->result($db->query()); //总记录数
 			$pagecount = ceil($record_count); //总分页数
 			$pagenum = is_null($pagenum) ? 1 : $pagenum;
-			$pagenum = $pagenum > $pagecount ? $pagenum : $pagecount;
+			$pagenum = $pagenum > $pagecount ? $pagecount : $pagenum;
 			$offset = ($pagenum - 1) * $pagesize;
 			$sql_limit = " LIMIT {$offset}, {$pagesize}";
 		}
@@ -275,6 +278,7 @@ class Content {
 			return FALSE;
 		}
 		foreach ($list as $row) {
+			$row['content_viewrole'] = unserialize($row['content_viewrole']);
 			$cate_info = $this->get_category($row['content_cateid']);
 			$content_key = $row['content_key'] ? $row['content_key'] : $row['content_id'];
 			if($cate_info['cate_static'] && empty($row['content_viewrole']) &&
@@ -305,7 +309,7 @@ class Content {
 	 */
 	public function set_content($in) {
 		//验证输入是否为数组
-		if(!is_array($in) || !is_array($ext_value)) {
+		if(!is_array($in)) {
 			return FALSE;
 		}
 
@@ -328,11 +332,23 @@ class Content {
 		$mod_filter = $cate['mod_filter'];
 
 		//分离TAG列表
-		$tags = explode(' ', $in['content_tags']);
+		$tags = explode(' ', trim($in['content_tags']));
 		unset($in['content_tags']);
 		
 		//执行内容过滤器
 		$this->get_filter($mod_filter)->in($in);
+
+		//设置内容写入
+		$content_list = array(
+			'title', 'titlestyle', 'cateid', 'userid', 'author', 'from',
+			'key', 'intro', 'time', 'thumb', 'readnum', 'commentnum', 'istop', 'iscomment',
+			'state', 'viewrole', 'viewpass'
+		);
+
+		foreach($content_list as $content_field) {
+			if(!isset($in['content_'.$content_field])) continue;
+			$set_value['content_'.$content_field] = $in['content_'.$content_field];
+		}
 
 		if($id != 0) {
 			//检查要编辑的内容是否存在
@@ -341,11 +357,11 @@ class Content {
 				return FALSE;
 			}
 			//更新内容主体
-			$db->set($in);
+			$db->set($set_value);
 			$db->sql_add('WHERE `content_id` = ?', $id);
 			$db->update('content');
 		}else{
-			$db->set($in);
+			$db->set($set_value);
 			$db->insert('content');
 			$id = $db->insert_id();
 		}
@@ -359,6 +375,7 @@ class Content {
 			$db->sql_add('WHERE `tc_cid` = ?', $id);
 			$db->delete('tag_content');
 			foreach($tags as $row) {
+				if(empty($row)) continue;
 				$db->select('tag_id')->from('tags')->sql_add('WHERE `tag_name` = ?', $row);
 				$tagid = $db->result($db->query());
 				if($tagid == NULL) {

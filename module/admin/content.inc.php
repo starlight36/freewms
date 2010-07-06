@@ -58,7 +58,7 @@ if($_GET['do'] == 'save') {
 			}
 		}
 	}else{
-		$cid = $_GET['cid'];
+		$cid = $_GET['cid']?$_GET['cid']:$_REQUEST['content_cateid'];
 		$cinfo = $content->get_category($cid);
 		if(!$cinfo) {
 			show_message('error', '要添加新内容的分类没找到, 或者已经被删除.');
@@ -75,14 +75,14 @@ if($_GET['do'] == 'save') {
     $form->set_field('content_key', 'URL名称', NULL, 'trim');
     $form->set_field('content_thumb', '图片', NULL, 'trim');
     $form->set_field('content_intro', '简介', 'required', 'trim');
-    $form->set_field('content_tags', '作者', NULL, 'trim');
+    $form->set_field('content_author', '作者', NULL, 'trim');
     $form->set_field('content_from', '来源', NULL, 'trim');
-    $form->set_field('content_time', '发布时间', 'required', 'trim');
-    $form->set_field('content_readnum', '浏览人数',NULL, 'trim');
+    $form->set_field('content_time', '发布时间', 'required', 'trim|strtotime');
+    $form->set_field('content_readnum', '浏览人数', NULL, 'trim');
     $form->set_field('content_istop', '置顶级别', 'required|numeric|exact_length[1]|min_num[1]|max_num[6]', 'trim');
     $form->set_field('content_iscomment', '评论状态', 'required|natural|exact_length[1]|max_num[1]', 'trim');
-    $form->set_field('content_viewrole', '允许浏览的用户组', 'required', 'trim');
-    $form->set_field('content_viewpass', '访问密码', 'required|max_length[16]', 'trim');
+    $form->set_field('content_viewrole', '允许浏览的用户组', NULL, 'serialize');
+    $form->set_field('content_viewpass', '访问密码', 'max_length[16]', 'trim');
     $form->set_field('content_id', '', 'required|integer', 'trim');
 
 	//添加自定义字段的表单验证
@@ -93,35 +93,41 @@ if($_GET['do'] == 'save') {
 	}
 
 	//捕获推荐位和专题选择列表
-	$recmd_list = explode(',', $cinfo['recmd_list']);
-	$subj_list = explode(',', $cinfo['$subj_list']);
+	$post_recmd_list = $_POST['content_recmd_list'];
+	$post_subj_list = $_POST['content_subj_list'];
+
 
 	//验证并保存
 	if($form->run()) {
+		//设置用户ID
+		if($id == 0) {
+			$_POST['content_userid'] = Session::get('user/user_id');
+		}
+
 		//保存数据
-		if(!$content->set_content($in)) {
+		if(!$content->set_content($_POST)) {
 			show_message('error', $content->msg);
 		}
 
-		//添加到专题
-		$db->sql_add('WHERE `sc_contentid` = ?', $in['content_id']);
-		$db->delete('subject_content');
-		if(is_array($subj_list)) {
-			foreach($subj_list as $subj_id) {
-				$db->set('sc_subjectid', $subj_id);
-				$db->set('sc_contentid', $in['content_id']);
-				$db->insert('subject_content');
+		//添加到推荐位
+		$db->sql_add('WHERE `rc_contentid` = ?', $_POST['content_id']);
+		$db->delete('recommend_content');
+		if(!empty($post_recmd_list)) {
+			foreach($post_recmd_list as $recmd_id) {
+				$db->set('rc_recid', $recmd_id);
+				$db->set('rc_contentid', $_POST['content_id']);
+				$db->insert('recommend_content');
 			}
 		}
 
-		//添加到推荐位
-		$db->sql_add('WHERE `rc_contentid` = ?', $in['content_id']);
-		$db->delete('recommend_content');
-		if(is_array($recmd_list)) {
-			foreach($recmd_list as $recmd_id) {
-				$db->set('rc_recid', $recmd_id);
-				$db->set('rc_contentid', $in['content_id']);
-				$db->insert('recommend_content');
+		//添加到专题
+		$db->sql_add('WHERE `sc_contentid` = ?', $_POST['content_id']);
+		$db->delete('subject_content');
+		if(!empty($post_subj_list)) {
+			foreach($post_subj_list as $subj_id) {
+				$db->set('sc_subjectid', $subj_id);
+				$db->set('sc_contentid', $_POST['content_id']);
+				$db->insert('subject_content');
 			}
 		}
 
@@ -167,7 +173,8 @@ if($_GET['do'] == 'save') {
 //	批量设置属性/删除(改/删)
 //--------------------------------------------
 if($_REQUEST['do'] == 'taglist') {
-	$db->select('*')->from('tags')->sql_add('ORDER BY `tag_id` DESC LIMIT 30');
+	$db->select('`tag_name`, count(tc_tagid) AS `tag_usenum`')->from('tags')->from('tag_content');
+	$db->sql_add('WHERE `tag_id` = `tc_tagid` GROUP BY `tc_tagid` ORDER BY `tag_usenum` DESC LIMIT 30');
 	$taglist = $db->get();
 	include MOD_PATH.'templates/content.taglist.tpl.php';
 	exit();
@@ -282,8 +289,8 @@ if(!empty ($end_time)) {
 }
 
 //设置排序方式
-$args['order'][] = '`content_time` DESC';
 $args['order'][] = '`content_istop` ASC';
+$args['order'][] = '`content_time` DESC';
 
 //关键字搜索
 if(!empty($keywords)) {
