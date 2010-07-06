@@ -71,21 +71,26 @@ class Field{
 			return FALSE;
 		}
 		foreach($args as $key => $value) {
-			if(!is_array($field_list[$key])){
+			if(!isset($field_list[$key])){
 				continue;
 			}
-			$this->db->select('field_id');
-			$this->db->from('field')->from('field_value');
-			$this->db->sql_add('WHERE `fieldid` = `field_id` AND `contentid` = ?', $cid);
-			$this->db->sql_add('AND `field_key` = ?', $key);
+			$this->db->select('field_id')->from('field')->sql_add('WHERE `field_key` = ?', $key);
+			$query = $this->db->query();
+			if($this->db->num_rows($query) == 0) {
+				continue;
+			}
+			$field_id = $this->db->result($query);
+
+			$this->db->select('fieldid')->from('field_value');
+			$this->db->sql_add('WHERE fieldid = ? AND `contentid` = ?', $field_id, $cid);
 			$query = $this->db->query();
 			if($this->db->num_rows($query) > 0) {
-				$this->db->sql_add('WHERE `fieldid` = ?', $this->db->result($query));
+				$this->db->sql_add('WHERE `fieldid` = ?', $field_id);
 				$this->db->update('field_value', array('field_value' => $value));
 			}else{
 				$data = array(
 					'field_value' => $value,
-					'fieldid' => $this->db->result($query),
+					'fieldid' => $field_id,
 					'contentid' => $cid
 				);
 				$this->db->insert('field_value', $data);
