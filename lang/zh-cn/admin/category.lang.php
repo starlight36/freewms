@@ -11,7 +11,7 @@
  * 后台分类管理语言文件
  */
 $lang = array(
-	'admin_cate_tip' => '修改分类说明',
+	'admin_cate_tip' => '添加新分类',
 	'admin_cate_id_tip' => '分类ID',
 	'admin_cate_new_tip' => '新建分类',
 	'admin_cate_parentid_tip' => '所属分类',
