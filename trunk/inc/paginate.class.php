@@ -21,11 +21,11 @@ class Paginate {
 
 	/**
 	 * 创建分页
-	 * @param string $url_tpl
-	 * @param int $pagenum
-	 * @param int $pagecount
-	 * @param int $pagesize
-	 * @param int $style
+	 * @param string $url_tpl URL模板
+	 * @param int $pagenum 当前页面页码
+	 * @param int $pagecount 分页总数
+	 * @param int $pagesize 每页条数
+	 * @param int $style 分页样式
 	 */
 	public static function set_paginate($url_tpl, $pagenum, $pagecount, $pagesize, $style = 0) {
 		Lang::load('paginate');
@@ -47,8 +47,8 @@ class Paginate {
 		$str = NULL;
 		switch (self::$style) {
 			case '0': //样式0 显示全部分页列表
-				$str .= '<a class="pageinfo">Page'.self::$pagenum.'/'.self::$pagecount.'<a>';
-				for($i = 1; $i <= self::$pagecount; $i++) {
+				$str .= '<a class="pageinfo">Page'.self::$pagenum.'/'.ceil(self::$pagecount/self::$pagesize).'<a>';
+				for($i = 1; $i <= ceil(self::$pagecount/self::$pagesize); $i++) {
 					if(self::$pagenum == $i) {
 						$str .= '<a class="'.$curr_sytle.'">'.$i.'</a>';
 					}else{
@@ -58,30 +58,29 @@ class Paginate {
 				}
 				break;
 			case '1': //样式1 以"首页/上一页/下一页/末页"导航
-				$str .= '<a class="pageinfo">Page'.self::$pagenum.'/'.self::$pagecount.'<a>';
-				if(self::$pagenum > 1) {
-					$str .= '<a class="'.$link_style.'" href="'.str_replace('{page}', 1, $url).'" title="'.
-							Lang::_('page_first_page').'">'.Lang::_('page_first_page').'</a>';
-					$str .= '<a class="'.$link_style.'" href="'.str_replace('{page}', self::$pagenum - 1, $url).'" title="'.
-							Lang::_('page_pre_page').'">'.Lang::_('page_pre_page').'</a>';
-				}
-				if(self::$pagenum < self::$pagecount) {
-					$str .= '<a class="'.$link_style.'" href="'.str_replace('{page}', self::$pagenum + 1, $url).'" title="'.
-							Lang::_('page_next_page').'">'.Lang::_('page_next_page').'</a>';
-					$str .= '<a class="'.$link_style.'" href="'.str_replace('{page}', self::$pagecount, $url).'" title="'.
-							Lang::_('page_last_page').'">'.Lang::_('page_last_page').'</a>';
-				}
-				break;
-			case '2': //样式2 以"首页/上一页/中间页码/下一页/末页"导航
-				$str .= '<a class="pageinfo">Page'.self::$pagenum.'/'.self::$pagecount.'<a>';
+				$str .= '<a class="pageinfo">Page'.self::$pagenum.'/'.ceil(self::$pagecount/self::$pagesize).'<a>';
 				if(self::$pagenum > 1) {
 					$str .= '<a class="'.$link_style.'" href="'.str_replace('{page}', 1, self::$url_tpl).'" title="'.
 							Lang::_('page_first_page').'">'.Lang::_('page_first_page').'</a>';
 					$str .= '<a class="'.$link_style.'" href="'.str_replace('{page}', self::$pagenum - 1, self::$url_tpl).'" title="'.
 							Lang::_('page_pre_page').'">'.Lang::_('page_pre_page').'</a>';
 				}
-				$p = intval((self::$pagenum - 1) / $link_num);
-				for($i = $p * $link_num + 1; $i <= ($p + 1)*$link_num; $i++) {
+				if(self::$pagenum < ceil(self::$pagecount/self::$pagesize)) {
+					$str .= '<a class="'.$link_style.'" href="'.str_replace('{page}', self::$pagenum + 1, self::$url_tpl).'" title="'.
+							Lang::_('page_next_page').'">'.Lang::_('page_next_page').'</a>';
+					$str .= '<a class="'.$link_style.'" href="'.str_replace('{page}', ceil(self::$pagecount/self::$pagesize), self::$url_tpl).'" title="'.
+							Lang::_('page_last_page').'">'.Lang::_('page_last_page').'</a>';
+				}
+				break;
+			case '2': //样式2 以"首页/上一页/中间页码/下一页/末页"导航
+				$str .= '<a class="pageinfo">Page'.self::$pagenum.'/'.ceil(self::$pagecount/self::$pagesize).'<a>';
+				if(self::$pagenum > 1) {
+					$str .= '<a class="'.$link_style.'" href="'.str_replace('{page}', 1, self::$url_tpl).'" title="'.
+							Lang::_('page_first_page').'">'.Lang::_('page_first_page').'</a>';
+					$str .= '<a class="'.$link_style.'" href="'.str_replace('{page}', self::$pagenum - 1, self::$url_tpl).'" title="'.
+							Lang::_('page_pre_page').'">'.Lang::_('page_pre_page').'</a>';
+				}
+				for($i = 1; $i <= ceil(self::$pagecount/self::$pagesize); $i++) {
 					if(self::$pagenum == $i) {
 						$str .= '<a class="'.$curr_sytle.'">'.$i.'</a>';
 					}else{
@@ -89,10 +88,10 @@ class Paginate {
 						$str .= '<a class="'.$link_style.'" href="'.$url.'" title="Page '.$i.'">'.$i.'</a>';
 					}
 				}
-				if(self::$pagenum < self::$pagecount) {
+				if(self::$pagenum < ceil(self::$pagecount/self::$pagesize)) {
 					$str .= '<a class="'.$link_style.'" href="'.str_replace('{page}', self::$pagenum + 1, self::$url_tpl).'" title="'.
 							Lang::_('page_next_page').'">'.Lang::_('page_next_page').'</a>';
-					$str .= '<a class="'.$link_style.'" href="'.str_replace('{page}', self::$pagecount, self::$url_tpl).'" title="'.
+					$str .= '<a class="'.$link_style.'" href="'.str_replace('{page}', ceil(self::$pagecount/self::$pagesize), self::$url_tpl).'" title="'.
 							Lang::_('page_last_page').'">'.Lang::_('page_last_page').'</a>';
 				}
 				break;
