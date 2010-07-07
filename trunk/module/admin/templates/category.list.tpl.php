@@ -49,7 +49,7 @@
 			</tr>
 			<?php
 				$child_list = _get_child_category($row['cate_id']);
-				_show_cate_list($child_list, $prefix.'…');
+				_show_cate_list($child_list, $prefix.'|— ');
 			?>
 			<?php endforeach; ?>
 			<?php }?>
