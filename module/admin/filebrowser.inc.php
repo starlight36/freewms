@@ -39,6 +39,9 @@ if($_GET['do'] == 'savefile') {
 //--------------------------------------------
 //	文件列表
 //--------------------------------------------
+//
+include MOD_PATH.'templates/filebrowser.list.tpl.php';
+exit();
 //  每页条数
 $pagesize = 2;
 //  分页总数
