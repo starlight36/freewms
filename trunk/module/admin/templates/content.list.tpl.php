@@ -99,8 +99,8 @@ function DoFitter() {
 			<tr>
 				<td class="actiontd" colspan="7">
 					<span class="space6">
-						<a class="sa" title="<?php echo Lang::_('admin_content_selectall_title');?>" onclick="SelectAll('id');ChangeColor('All');" href="javascript:void(0)"><?php echo Lang::_('admin_content_selectall_tip');?></a> /
-						<a class="sa" title="<?php echo Lang::_('admin_content_clearall_title');?>" onclick="ClearAll('id');ChangeColor('All');" href="javascript:void(0)"><?php echo Lang::_('admin_content_clearall_tip');?></a>
+						<a class="sa" title="<?php echo Lang::_('admin_content_selectall_title');?>" onclick="SelectAll('id[]');ChangeColor('All');" href="javascript:void(0)"><?php echo Lang::_('admin_content_selectall_tip');?></a> /
+						<a class="sa" title="<?php echo Lang::_('admin_content_clearall_title');?>" onclick="ClearAll('id[]');ChangeColor('All');" href="javascript:void(0)"><?php echo Lang::_('admin_content_clearall_tip');?></a>
 					</span>
 					<span class="space3 blue bold"><?php echo Lang::_('admin_selected_tip');?>：</span>
 					<select name="do">
