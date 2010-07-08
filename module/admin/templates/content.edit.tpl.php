@@ -136,7 +136,7 @@
 					<?php endif; ?>
 				</p>
 				<p><span class="left"><?php echo Lang::_('admin_content_subj_list_tip');?>:</span>
-					<?php if($subject_select != NULL): ?>
+					<?php if($subject_select_list != NULL): ?>
 					<?php foreach($subject_select_list as $row): ?>
 					<label><input type="checkbox" name="content_subj_list[]" value="<?php echo $row['subject_id']; ?>"<?php if(in_array($row['subject_id'], $cinfo['subj_list'])){echo ' checked="checked"';} ?> />&nbsp;<?php echo $row['subject_title']; ?></label>
 					<?php endforeach; ?>
