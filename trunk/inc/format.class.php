@@ -74,7 +74,6 @@ class Format {
 			'pdf' => array('pdf'),
 			'archive' => array('zip', 'rar', 'gz', 'tar', '7z', 'iso', 'img'),
 			'document' => array('doc', 'docx', 'xls', 'xlsx', 'ppt', 'pps', 'pptx', 'txt', 'ini', 'html', 'htm'),
-			'unknown' => array('unknown')
 		);
 		$ext_name = strtolower($ext_name);
 		foreach($typelist as $k => $v) {
@@ -82,6 +81,7 @@ class Format {
 				return $k;
 			}
 		}
+		return 'unknown';
 	}
 }
 /* End of the file */
