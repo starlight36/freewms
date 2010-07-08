@@ -77,7 +77,7 @@ function DoFitter() {
 			<?php else: ?>
 			<?php foreach($clist as $row): ?>
 			<tr class="out blue" onmouseout="this.className='out blue'" onmouseover="this.className='over blue'">
-				<td class="listtd"><input type="checkbox" name="id" value="<?php echo $row['content_id'];?>" onchange="ChangeColor(this);" /></td>
+				<td class="listtd"><input type="checkbox" name="id[]" value="<?php echo $row['content_id'];?>" onchange="ChangeColor(this);" /></td>
 				<td class="listtd"><?php echo $row['mod_name']; ?></td>
 				<td class="listtd" style="text-align: left;">
 					<?php if($row['content_istop'] < 6 && $row['content_istop'] > 0): ?><span class="green">[<?php echo Lang::_('admin_content_1_tip');?><?php echo $row['content_istop']; ?>]</span><?php endif; ?>
