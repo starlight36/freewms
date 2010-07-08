@@ -46,7 +46,7 @@ if($_GET['do'] == 'upload') {
 //--------------------------------------------
 
 //每页显示数
-$pagesize = 20;
+$pagesize = 7;
 
 $pagenum = $_REQUEST['page'];
 $yearnum = $_REQUEST['year'];
@@ -95,11 +95,34 @@ if(strpos('page=', $url) === FALSE) {
 }else{
 	$url = preg_replace('/page=(\d+)/i', 'page={page}', $url);
 }
-Paginate::set_paginate($url, $pagenum, $pagecount, $pagesize, 0);
+Paginate::set_paginate($url, $pagenum, $pagecount, $pagesize, 2);
 
 //查询结果集
 $db->select('*')->from('upload')->sql_add("$sql ORDER BY `upload_name` ASC LIMIT $offset, $pagesize");
 $filelist = $db->get();
+
+//进行预处理
+$new_list = array();
+foreach($filelist as $row) {
+	$n_row['id'] = $row['upload_id'];
+	$n_row['filename'] = Format::str_sub($row['upload_name'], 14);
+	$n_row['filesize'] = Format::filesize($row['upload_size']);
+	$n_row['uploadtime'] = date('Y-m-d H:i:s', $row['upload_time']);
+	$n_row['filepath'] = Config::get('upload_url').$row['upload_path'];
+	$n_row['filetype'] = Format::filetype(file_ext_name($row['upload_path']));
+	if($n_row['filetype'] == 'image') {
+		$preview = preg_replace('/^(.+)\.('.file_ext_name($row['upload_path']).')$/i', '$1_preview.$2', $n_row['filepath']);
+		if(is_file(BASEPATH.Config::get('upload_save_path').$preview)) {
+			$n_row['preview'] = $preview;
+		}else{
+			$n_row['preview'] = $n_row['filepath'];
+		}
+	}else{
+		$n_row['preview'] = Url::base().'images/files/64/'.$n_row['filetype'].'.png';
+	}
+	$new_list[] = $n_row;
+}
+$filelist = $new_list;
 
 include MOD_PATH.'templates/filebrowser.list.tpl.php';
 //--------------------------------------------
