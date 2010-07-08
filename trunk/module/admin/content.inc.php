@@ -35,7 +35,7 @@ if($_GET['do'] == 'save') {
 	if($id > 0) {
 		$cinfo = $content->get_content($id);
 		if(!$cinfo) {
-			show_message('error', '没有找到要编辑的内容.');
+			show_message('error', Lang::_('admin_show_message_error_tip'));
 		}
 
 		//加载所属推荐位列表
@@ -61,28 +61,28 @@ if($_GET['do'] == 'save') {
 		$cid = $_GET['cid']?$_GET['cid']:$_REQUEST['content_cateid'];
 		$cinfo = $content->get_category($cid);
 		if(!$cinfo) {
-			show_message('error', '要添加新内容的分类没找到, 或者已经被删除.');
+			show_message('error',  Lang::_('admin_admin_show_message_error_2'));
 		}
 		$cate_select_tree = NULL;
 	}
 
 	//设置表单验证
 	$form = new Form($_POST);
-	$form->set_field('content_title', '标题', 'required|max_length[255]', 'trim');
-	$form->set_field('content_cateid', '分类', 'required|integer', 'trim');
+	$form->set_field('content_title', Lang::_('admin_content_title_tip'), 'required|max_length[255]', 'trim');
+	$form->set_field('content_cateid',Lang::_('admin_content_cateid_tip'), 'required|integer', 'trim');
     $form->set_field('content_titlestyle', '', ' required|max_length[200]', 'trim');
-    $form->set_field('content_tags', 'TAG', NULL, 'trim');
-    $form->set_field('content_key', 'URL名称', NULL, 'trim');
-    $form->set_field('content_thumb', '图片', NULL, 'trim');
-    $form->set_field('content_intro', '简介', 'required', 'trim');
-    $form->set_field('content_author', '作者', NULL, 'trim');
-    $form->set_field('content_from', '来源', NULL, 'trim');
-    $form->set_field('content_time', '发布时间', 'required', 'trim|strtotime');
-    $form->set_field('content_readnum', '浏览人数', NULL, 'trim');
-    $form->set_field('content_istop', '置顶级别', 'required|numeric|exact_length[1]|min_num[1]|max_num[6]', 'trim');
-    $form->set_field('content_iscomment', '评论状态', 'required|natural|exact_length[1]|max_num[1]', 'trim');
-    $form->set_field('content_viewrole', '允许浏览的用户组', NULL, 'serialize');
-    $form->set_field('content_viewpass', '访问密码', 'max_length[16]', 'trim');
+    $form->set_field('content_tags',Lang::_('admin_content_tags_tip'), NULL, 'trim');
+    $form->set_field('content_key', Lang::_('admin_content_key_tip'), NULL, 'trim');
+    $form->set_field('content_thumb', Lang::_('admin_content_thumb_pic_tip'), NULL, 'trim');
+    $form->set_field('content_intro', Lang::_('admin_introduction_tip'), 'required', 'trim');
+    $form->set_field('content_author',Lang::_('admin_mod_itemname_tip'), NULL, 'trim');
+    $form->set_field('content_from', Lang::_('admin_mod_source_tip'), NULL, 'trim');
+    $form->set_field('content_time', Lang::_('admin_content_time_tip'), 'required', 'trim|strtotime');
+    $form->set_field('content_readnum',Lang::_('admin_content_readnum_tip'), NULL, 'trim');
+    $form->set_field('content_istop', Lang::_('admin_content_istop_tip'), 'required|numeric|exact_length[1]|min_num[1]|max_num[6]', 'trim');
+    $form->set_field('content_iscomment', Lang::_('admin_content_iscomment_tip'), 'required|natural|exact_length[1]|max_num[1]', 'trim');
+    $form->set_field('content_viewrole', Lang::_('admin_content_viewrole_tip'), NULL, 'serialize');
+    $form->set_field('content_viewpass', Lang::_('admin_content_viewpass_tip'), 'max_length[16]', 'trim');
     $form->set_field('content_id', '', 'required|integer', 'trim');
 
 	//添加自定义字段的表单验证
@@ -132,8 +132,8 @@ if($_GET['do'] == 'save') {
 		}
 
 		//返回操作成功消息
-		show_message('success', '保存内容成功!<br /> 如果您开启了生成静态, 请前往生成静态文件.',
-				array('返回内容列表页' => 'index.php?m=admin&a=content&state=0'));
+		show_message('success',  Lang::_('admin_admin_show_message_success_1_tip'),
+				array(Lang::_('admin_admin_show_message_return_tip') => 'index.php?m=admin&a=content&state=0'));
 	}else{
 		//创建推荐位选择列表
 		$db->select('rec_id, rec_name')->from('recommend');
@@ -187,7 +187,7 @@ if($_REQUEST['do'] == 'taglist') {
 if(in_array($_REQUEST['do'], array('normal', 'lock', 'recycle', 'drafts', 'rm'))) {
 	$id = $_POST['id'];
 	if(empty($id)) {
-		show_message('error', '没有选中任何内容.');
+		show_message('error',Lang::_('admin_admin_show_message_error_3_tip'));
 	}
 	$clist = explode(",", $id);
 
@@ -230,7 +230,7 @@ if(in_array($_REQUEST['do'], array('normal', 'lock', 'recycle', 'drafts', 'rm'))
 	}
 	Cache::clear();
 	Cache::delete_page();
-	show_message('success', '操作成功! 共处理内容'.$i.'条.');
+	show_message('success', Lang::_('admin_admin_show_message_success_2_tip', $i));
 	exit();
 }
 //--------------------------------------------
