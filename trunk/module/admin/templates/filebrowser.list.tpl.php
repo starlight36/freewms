@@ -18,6 +18,10 @@
 <title>上传文件</title>
 <style type="text/css">
 <!--
+a {
+	color: #000;
+	text-decoration: none;
+}
 * {
 	padding: 0;
 	margin: 0;
@@ -110,124 +114,119 @@ select {
 	width:expression(width>300?"300px":width+"px");max-width: 300px;
 	overflow:hidden;
 }
+.filerow {
+	cursor: pointer;
+}
 -->
 </style>
-
+<script type="text/javascript" src="<?php echo Url::base();?>js/jquery/core.js"></script>
+<script type="text/javascript">
+//<!--
+$(document).ready(function(){
+	//鼠标滑过设置缩略图
+	$('.filerow').mouseover(function(){
+		$(this).css('background-color', '#f0f0ee');
+		var id = this.id.toString().replace('filerow', 'fileinfo');
+		var info = $('#'+id).val().split('|');
+		$('#pv_img').attr('src', info[0]);
+		$('#pv_name').html(info[1]);
+		$('#pv_size').html(info[2]);
+	});
+	//滑出恢复颜色
+	$('.filerow').mouseout(function(){
+		$(this).css('background-color', '#ffffff');
+	});
+	//单击插入文件
+	$('.filerow').click(function(){
+		var id = this.id.toString().replace('filerow', 'fileinfo');
+		var info = $('#'+id).val().split('|');
+		if(info[3] != '') {
+			callback(info[3]);
+		}
+	});
+});
+//-->
+</script>
 </head>
 <body>
-	<table border="0" cellpadding="0" cellspacing="0" class="outer_table">
-		<tr>
-			<td rowspan="5" class="table_border" width="5"></td>
-			<td colspan="3" height="30" class="table_title">
-            <div style="width:330px; float:left;">
-				<select>
+<table border="0" cellpadding="0" cellspacing="0" class="outer_table">
+	<tr>
+		<td rowspan="5" class="table_border" width="5"></td>
+		<td colspan="3" height="30" class="table_title">
+			<div style="width:330px; float:left;">
+				<select name="yearnum">
 					<option>1990</option>
 					<option>1991</option>
 				</select>&nbsp;年
-				<select>
+				<select name="monthnum">
 					<option>七</option>
 					<option>八</option>
 					<option>十一</option>
 				</select>&nbsp;月
-				<input type="text" class="table_input" value="文件名" onfocus="this.value=''" />
+				<input type="text" class="table_input" name="filename" value="文件名" onfocus="this.value=''" />
 				<input type="button" class="table_screen" value="筛选"/>
-                </div>
-				<div class="upload_file">
-					<input type="button" value="上传文件"/>
-				</div>
-			</td>
-			<td rowspan="5" class="table_border" width="5"></td>
-		</tr>
-		<tr>
-			<td colspan="3" class="table_border" height="5"></td>
-		</tr>
-		<tr>
-			<td width="309" height="114" class="inner_border" valign="top">
-			  <table border="0" cellpadding="0" cellspacing="0" class="inner_table">
-					<tr class="header">
-						<td width="140" class="innertable_border">文件名</td>
-						<td width="50" class="innertable_border">大小</td>
-					  <td class="innertable_title">上传时间</td>
-					</tr>
-					<!--
-					<?php if($filelist == NULL): ?>
-					<tr>
-						<td colspan="3">所选范围内没有找到任何文件.</td>
-					</tr>
-					<?php else: ?>
-					<?php foreach($filelist as $row): ?>
-					<tr>
-						<td><?php echo $row['upload_name']; ?></td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-					</tr>
-					<?php endforeach; ?>
-					<?php endif; ?>
-					-->
-					<tr>
-						<td><img alt="pdf" src="<?php echo Url::base();?>images/files/16/pdf.png" height="16" width="16" border="0" />test.jpg</td>
-						<td>1024KB</td>
-						<td>2010-07-07 19:46:46</td>
-					</tr>
-					<tr>
-						<td valign="baseline"><img alt="pdf" src="<?php echo Url::base();?>images/files/16/pdf.png" height="16" width="16" border="0" />test.jpg</td>
-						<td>1024KB</td>
-						<td>2010-07-07 19:46:46</td>
-					</tr>
-					<tr>
-						<td valign="baseline"><img alt="pdf" src="<?php echo Url::base();?>images/files/16/pdf.png" height="16" width="16" border="0" />test.jpg</td>
-						<td>1024KB</td>
-						<td>2010-07-07 19:46:46</td>
-					</tr>
-					<tr>
-						<td valign="baseline"><img alt="pdf" src="<?php echo Url::base();?>images/files/16/pdf.png" height="16" width="16" border="0" />test.jpg</td>
-						<td>1024KB</td>
-						<td>2010-07-07 19:46:46</td>
-					</tr>
-					<tr>
-						<td valign="baseline"><img alt="pdf" src="<?php echo Url::base();?>images/files/16/pdf.png" height="16" width="16" border="0" />test.jpg</td>
-						<td>1024KB</td>
-						<td>2010-07-07 19:46:46</td>
-					</tr>
-					<tr>
-						<td valign="baseline"><img alt="pdf" src="<?php echo Url::base();?>images/files/16/pdf.png" height="16" width="16" border="0" />test.jpg</td>
-						<td>1024KB</td>
-						<td>2010-07-07 19:46:46</td>
-					</tr>
-                    <tr>
-						<td valign="baseline"><img alt="pdf" src="<?php echo Url::base();?>images/files/16/pdf.png" height="16" width="16" border="0" />test.jpg</td>
-						<td>1024KB</td>
-						<td>2010-07-07 19:46:46</td>
-					</tr>
-                    <tr>
-						<td valign="baseline"><img alt="pdf" src="<?php echo Url::base();?>images/files/16/pdf.png" height="16" width="16" border="0" />test.jpg</td>
-						<td>1024KB</td>
-						<td>2010-07-07 19:46:46</td>
-					</tr>
-			</table></td>
-			<td width="5" rowspan="2" class="table_border"></td>
-			<td width="165" rowspan="2" class="inner_border">
-                <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                  <tr>
-                    <td height="160" colspan="2" align="center"><img src="" alt="" class="preview_img" /></td>
-                  </tr>
-                  <tr>
-                    <td width="50" height="24" align="center">名称：</td>
-                    <td>test.jpg</td>
-                  </tr>
-                  <tr>
-                    <td height="24" align="center">大小：</td>
-                    <td height="24">1024KB</td>
-                  </tr>
-                </table>
-            </td>
-		</tr>
-		<tr>
-		  <td height="20" align="right" valign="middle" class="inner_border">Page 1/8 首页 上一页 下一页 末页</td>
-	  </tr>
-		<tr>
-			<td colspan="3" height="5" class="table_border"></td>
-		</tr>
-	</table>
+			</div>
+			<div class="upload_file">
+				<input type="button" value="上传文件"/>
+			</div>
+		</td>
+		<td rowspan="5" class="table_border" width="5"></td>
+	</tr>
+	<tr>
+		<td colspan="3" class="table_border" height="5"></td>
+	</tr>
+	<tr>
+		<td width="309" height="114" class="inner_border" valign="top">
+			<table border="0" cellpadding="0" cellspacing="0" class="inner_table">
+				<tr class="header">
+					<td width="130" class="innertable_border">文件名</td>
+					<td width="60" class="innertable_border">大小</td>
+					<td class="innertable_title">上传时间</td>
+				</tr>
+				<?php if($filelist == NULL): ?>
+				<tr>
+					<td colspan="3">所选范围内没有找到任何文件.</td>
+				</tr>
+				<?php else: ?>
+				<?php foreach($filelist as $row): ?>
+				<tr id="filerow_<?php echo $row['id'] ?>" class="filerow">
+					<td>
+						<input type="hidden" id="fileinfo_<?php echo $row['id'] ?>" value="<?php echo $row['preview'];?>|<?php echo $row['filename'] ?>|<?php echo $row['filesize'] ?>|<?php echo $row['filepath'] ?>" />
+						<img alt="icon" src="<?php echo Url::base();?>images/files/16/<?php echo $row['filetype'];?>.png" height="16" width="16" border="0" />
+						<a href="javascript:void(0);" title="插入文件"><?php echo $row['filename'] ?></a>
+					</td>
+					<td><?php echo $row['filesize'] ?></td>
+					<td><?php echo $row['uploadtime'] ?></td>
+				</tr>
+				<?php endforeach; ?>
+				<?php endif; ?>
+			</table>
+		</td>
+		<td width="5" rowspan="2" class="table_border"></td>
+		<td width="165" rowspan="2" class="inner_border">
+			<table width="100%" border="0" cellpadding="0" cellspacing="0">
+				<tr>
+					<td height="160" colspan="2" align="center"><img src="<?php echo Url::base();?>images/files/64/unknown.png" alt="预览图" id="pv_img" class="preview_img" /></td>
+				</tr>
+				<tr>
+					<td width="50" height="24" align="center">名称：</td>
+					<td><span id="pv_name"></span></td>
+				</tr>
+				<tr>
+					<td height="24" align="center">大小：</td>
+					<td height="24"><span id="pv_size"></span></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td height="20" align="right" valign="middle" class="inner_border">
+			<?php echo Paginate::get_paginate(); ?>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3" height="5" class="table_border"></td>
+	</tr>
+</table>
 </body>
 </html>
