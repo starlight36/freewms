@@ -170,7 +170,7 @@ if($_GET['do'] == 'save') {
 //--------------------------------------------
 
 //--------------------------------------------
-//	批量设置属性/删除(改/删)
+//	TAG列表拉取
 //--------------------------------------------
 if($_REQUEST['do'] == 'taglist') {
 	$db->select('`tag_name`, count(tc_tagid) AS `tag_usenum`')->from('tags')->from('tag_content');
@@ -189,7 +189,7 @@ if(in_array($_REQUEST['do'], array('normal', 'lock', 'recycle', 'drafts', 'rm'))
 	if(empty($id)) {
 		show_message('error',Lang::_('admin_admin_show_message_error_3_tip'));
 	}
-	$clist = explode(",", $id);
+	$clist = $id;
 
 	$i = 0;
 	$content = new Content();
