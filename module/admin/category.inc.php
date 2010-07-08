@@ -54,6 +54,8 @@ if($_GET['do'] == 'edit') {
 	$form->set_field('cate_order', Lang::_('admin_cate_order_tip'));
 	$form->set_field('cate_role', Lang::_('admin_cate_role_tip'));
 	$form->set_field('cate_static', Lang::_('admin_cate_static_tip'));
+	//处理分类角色部分
+	$_POST['cate_role'] = implode(',', $_POST['cate_role']);
 	if($form->run()) {
 		$db->sql_add('WHERE `cate_id` = ?', $id);
 		$db->set($_POST);

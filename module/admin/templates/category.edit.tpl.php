@@ -69,7 +69,7 @@
 				</p>
 				<p><span class="left"><?php echo Lang::_('admin_cate_role_tip');?>: </span>
 					<?php foreach($role_select_list as $row): ?>
-					<label><input type="checkbox" name="cate_role" value="<?php echo $row['group_id']; ?>"<?php if(in_array($row['group_id'], $cate['cate_role'])){echo ' checked="checked"';} ?> />&nbsp;<?php echo $row['group_name']; ?></label>
+					<label><input type="checkbox" name="cate_role[]" value="<?php echo $row['group_id']; ?>"<?php if(in_array($row['group_id'], $cate['cate_role'])){echo ' checked="checked"';} ?> />&nbsp;<?php echo $row['group_name']; ?></label>
 					<?php endforeach; ?>
 				</p>
 				<p><span class="left"><?php echo Lang::_('admin_cate_static_tip');?>: </span>

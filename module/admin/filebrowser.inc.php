@@ -24,14 +24,19 @@ $db = DB::get_instance();
 //	显示上传文件表单
 //--------------------------------------------
 if($_GET['do'] == 'upload') {
-	exit();
-}
-//--------------------------------------------
-
-//--------------------------------------------
-//	上传文件保存
-//--------------------------------------------
-if($_GET['do'] == 'savefile') {
+	if(Form::is_post()) {
+		$upload = new Upload('file');
+		if($upload->savefile()) {
+			define('TPL_PART', 'SUCCESS');
+			$filelist = $upload->get_upload_files();
+		}else{
+			define('TPL_PART', 'ERROR');
+			$errorlist = $upload->get_errors('array');
+		}
+	}else{
+		define('TPL_PART', 'INPUT');
+	}
+	include MOD_PATH.'templates/filebrowser.list.tpl.php';
 	exit();
 }
 //--------------------------------------------
@@ -39,39 +44,63 @@ if($_GET['do'] == 'savefile') {
 //--------------------------------------------
 //	文件列表
 //--------------------------------------------
-//
-include MOD_PATH.'templates/filebrowser.list.tpl.php';
-exit();
-//  每页条数
-$pagesize = 2;
-//  分页总数
-$db->select('count( * )')->from('upload');
-$pagecount = $db->result($db->query());
-//  URl处理
+
+//每页显示数
+$pagesize = 20;
+
+$pagenum = $_REQUEST['page'];
+$yearnum = $_REQUEST['year'];
+$monthnum = $_REQUEST['month'];
+$filename = $_REQUEST['filename'];
+if(!is_numeric($pagenum) || $pagenum < 1) {
+	$pagenum = 1;
+}
+$sql = array();
+//限定时间范围
+if(preg_match('/^[0-9]+/i', $yearnum)) {
+	if(preg_match('/^[0-9]+/i', $monthnum)) {
+		$sql[] = '`upload_time` > '.mktime(0, 0, 0, $monthnum, 1, $yearnum);
+		$sql[] = '`upload_time` < '.mktime(0, 0, 0, $monthnum, 31, $yearnum);
+	}else{
+		$sql[] = '`upload_time` > '.mktime(0, 0, 0, 1, 1, $yearnum);
+		$sql[] = '`upload_time` < '.mktime(0, 0, 0, 12, 31, $yearnum);
+	}
+}
+//限定文件名
+if(!empty($filename)) {
+	$sql[] = '`upload_name` LIKE \'%'.addslashes($filename).'%\'';
+}
+//生成SQL语句
+if(empty($sql)) {
+	$sql = '';
+}else{
+	$sql = 'WHERE '.implode(' AND ', $sql);
+}
+
+//查询结果数
+$db->select('COUNT(*)')->from('upload')->sql_add($sql);
+$resultcount = $db->result($db->query());
+
+//计算分页数
+$pagecount = ceil($resultcount / $pagesize);
+if($pagenum > $pagecount) $pagenum = $pagecount;
+
+//计算偏移量
+$offset = $pagenum > 0 ? ($pagenum - 1) * $pagesize : 0;
+
+//生成翻页导航
 $url = 'index.php?'.$_SERVER["QUERY_STRING"];
 if(strpos('page=', $url) === FALSE) {
 	$url .= empty($url) ? 'page={page}':'&page={page}';
 }else{
 	$url = preg_replace('/page=(\d+)/i', 'page={page}', $url);
 }
-//  当前所在页
-if(!is_numeric($_GET['page'])) {
-	$pagenum = 1;
-}else{
- $pagenum = $_GET['page'];
-}
-$offset = ($pagenum - 1)*$pagesize;
+Paginate::set_paginate($url, $pagenum, $pagecount, $pagesize, 0);
 
-//生成一个翻页导航条
-Paginate::set_paginate($url, $pagenum, $pagecount, $pagesize, 2);
+//查询结果集
+$db->select('*')->from('upload')->sql_add("$sql ORDER BY `upload_name` ASC LIMIT $offset, $pagesize");
+$filelist = $db->get();
 
-//分类选择树生成
-$db->select('*')->from('upload')->sql_add('ORDER BY `upload_time` DESC LIMIT '.$offset.", ".$pagesize);
-$temp=$db->get();
-foreach($temp as $row) {
-	echo "<P>".$row['upload_name'];
-	echo $row['upload_time']."</p>";
-}
-echo Paginate::get_paginate();
+include MOD_PATH.'templates/filebrowser.list.tpl.php';
 //--------------------------------------------
 /* End of this file */
