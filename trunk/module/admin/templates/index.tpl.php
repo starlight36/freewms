@@ -55,7 +55,7 @@
 					<a href="index.php?m=admin&amp;a=content&amp;state=1" title=""><?php echo Lang::_('admin_review_content_tip');?></a>
 					<a href="index.php?m=admin&amp;a=category" title=""><?php echo Lang::_('admin_classify_content_tip');?></a>
 					<a href="index.php?m=admin&amp;a=subject" title=""><?php echo Lang::_('admin_sub_content_tip');?></a>
-					<a href="#" title=""><?php echo Lang::_('admin_recommend_content_tip');?></a>
+					<a href="index.php?m=admin&amp;a=recommend" title=""><?php echo Lang::_('admin_recommend_content_tip');?></a>
 					<a href="index.php?m=admin&amp;a=content&amp;state=3" title=""><?php echo Lang::_('admin_draft_box_tip');?></a>
 					<a href="index.php?m=admin&amp;a=content&amp;state=4" title=""><?php echo Lang::_('admin_recycle_tip');?></a>
 				</div>

@@ -220,7 +220,7 @@ $(document).ready(function(){
 		</td>
 	</tr>
 	<tr>
-		<td height="20" align="right" valign="middle" class="inner_border">
+		<td style="height: 20px;" align="right" valign="middle" class="inner_border">
 			<?php echo Paginate::get_paginate(); ?>
 		</td>
 	</tr>

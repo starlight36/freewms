@@ -8,20 +8,20 @@
  *-------------------------------------------------*/
 
 /*
- * 系统模型管理页
+ * 推荐位管理页
  */
 
 //载入公共文件
 require_once MOD_PATH.'common.php';
 
 //载入语言文件
-Lang::load('admin/subject');
+Lang::load('admin/recommend');
 
 //载入数据库对象
 $db = DB::get_instance();
 
 //--------------------------------------------
-//	保存专题修改(增/改)
+//	保存推荐位修改(增/改)
 //--------------------------------------------
 if($_REQUEST['do'] == 'edit') {
 	$id = $_GET['id'];
@@ -29,72 +29,53 @@ if($_REQUEST['do'] == 'edit') {
 		$id = 0;
 	}
 	$form = new Form($_POST);
-	$form->set_field('subject_title', '专题标题', 'required|max_length[50]', 'trim');
-	$form->set_field('subject_desc', '专题简介', 'required|max_length[255]', 'trim');
-	$form->set_field('subject_key', '专题URL名', 'max_length[50]', 'trim');
-	$form->set_field('subject_icon', '专题封面', 'max_length[255]', 'trim');
-	$form->set_field('subject_cateid', '专题分类');
-	$form->set_field('subject_template', '专题模板', 'max_length[255]', 'trim');
-	$form->set_field('subject_state', '专题状态');
-	$form->set_field('subject_roles', '专题管理权限组');
+	$form->set_field('rec_name', '推荐位名称', 'required|max_length[50]', 'trim');
+	$form->set_field('rec_desc', '推荐位简介', 'max_length[255]', 'trim');
+	$form->set_field('rec_key', '推荐位唯一标识符', 'max_length[50]', 'trim');
+	$form->set_field('rec_roles', '管理权用户组');
 	if($form->run()) {
-		$_POST['subject_roles'] = serialize($_POST['subject_roles']);
+		$_POST['rec_roles'] = serialize($_POST['rec_roles']);
 		$db->set($_POST);
 		if($id == 0) {
-			$db->insert('subject');
+			$db->insert('recommend');
 		}else{
-			$db->sql_add('WHERE `subject_id` = ?', $id);
-			$db->update('subject');
+			$db->sql_add('WHERE `rec_id` = ?', $id);
+			$db->update('recommend');
 		}
 		show_message('success', '保存专题成功! ', array('返回专题列表' =>
-											'index.php?m=admin&a=subject'));
+											'index.php?m=admin&a=recommend'));
 	}else{
 		//读取记录填充表单
 		if($id > 0) {
-			$db->select('*')->from('subject')->sql_add('WHERE `subject_id` = ?', $id);
-			$sinfo = $db->get();
-			if($sinfo == NULL) {
-				show_message('error', '要编辑的专题不存在.');
+			$db->select('*')->from('recommend')->sql_add('WHERE `rec_id` = ?', $id);
+			$rinfo = $db->get();
+			if($rinfo == NULL) {
+				show_message('error', '要编辑的推荐位不存在.');
 			}
-			$sinfo = $sinfo[0];
-			$sinfo['subject_roles'] = unserialize($sinfo['subject_roles']);
-		}else{
-			$sinfo['subject_state'] = 0;
+			$rinfo = $rinfo[0];
+			$rinfo['rec_roles'] = unserialize($rinfo['rec_roles']);
 		}
-		//读取分类选择树
-		$db->select('cate_id, cate_name, cate_parentid')->from('category');
-		$query = $db->query();
-		$catelist = NULL;
-		if($db->num_rows($query) > 0) {
-			while($row = $db->fetch($query)) {
-				$catelist[$row['cate_id']]['name'] = $row['cate_name'];
-				$catelist[$row['cate_id']]['parentid'] = $row['cate_parentid'];
-			}
-		}
-		$db->free($query);
-		$tree = new Tree($catelist);
-		$cate_select_tree = $tree->plant(0, "<option value=\"\$id\"\$selected>\$value</option>\n", $sinfo['subject_cateid']);
 		//创建管理角色用户组列表
 		$db->select('group_id, group_name')->from('group')->sql_add('WHERE `group_isadmin` = 1');
 		$role_select_list = $db->get();
-		include MOD_PATH.'templates/subject.edit.tpl.php';
+		include MOD_PATH.'templates/recommend.edit.tpl.php';
 	}
 	exit();
 }
 //--------------------------------------------
 
 //--------------------------------------------
-//	删除专题(删)
+//	保存推荐位删除(删)
 //--------------------------------------------
 if($_REQUEST['do'] == 'del') {
 	$id = $_GET['id'];
 	if(!preg_match('/^[0-9]+$/', $id)) {
 		$id = 0;
 	}
-	$db->sql_add('WHERE `sc_subjectid` = ?', $id);
-	$db->delete('subject_content');
-	$db->sql_add('WHERE `subject_id` = ?', $id);
-	$db->delete('subject');
+	$db->sql_add('WHERE `rc_recid` = ?', $id);
+	$db->delete('recommend_content');
+	$db->sql_add('WHERE `rec_id` = ?', $id);
+	$db->delete('recommend');
 	Cache::clear();
 	Cache::delete_page();
 	show_message();
@@ -103,7 +84,7 @@ if($_REQUEST['do'] == 'del') {
 //--------------------------------------------
 
 //--------------------------------------------
-//	列表显示专题
+//	显示推荐位列表
 //--------------------------------------------
 $pagesize = 20; //每页显示数目
 $pagenum = $_REQUEST['page'];  //取页码
@@ -111,7 +92,7 @@ if(!preg_match('/^[0-9]+$/i', $pagenum)) {
 	$pagenum = 1;
 }
 //读取结果集总数
-$db->select('COUNT(*)')->from('subject');
+$db->select('COUNT(*)')->from('recommend');
 $record_count = $db->result($db->query());
 //计算分页数
 $pagecount = ceil($record_count / $pagesize);
@@ -119,8 +100,8 @@ if($pagenum > $pagecount) $pagenum = $pagecount;
 //设置游标
 $offset = $pagenum > 0 ? ($pagenum - 1) * $pagesize : 0;
 //查询记录
-$db->select('*')->from('subject')->sql_add("LIMIT $offset, $pagesize");
-$slist = $db->get();
+$db->select('*')->from('recommend')->sql_add("LIMIT $offset, $pagesize");
+$rlist = $db->get();
 //生成翻页导航
 $url = 'index.php?'.$_SERVER["QUERY_STRING"];
 if(strpos('page=', $url) === FALSE) {
@@ -129,7 +110,6 @@ if(strpos('page=', $url) === FALSE) {
 	$url = preg_replace('/page=(\d+)/i', 'page={page}', $url);
 }
 Paginate::set_paginate($url, $pagenum, $pagecount, $pagesize);
-include MOD_PATH.'templates/subject.list.tpl.php';
+include MOD_PATH.'templates/recommend.list.tpl.php';
 //--------------------------------------------
-
 /* End of this file */
