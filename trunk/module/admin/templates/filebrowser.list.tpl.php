@@ -193,7 +193,7 @@ $(document).ready(function(){
 					<td>
 						<input type="hidden" id="fileinfo_<?php echo $row['id'] ?>" value="<?php echo $row['preview'];?>|<?php echo $row['filename'] ?>|<?php echo $row['filesize'] ?>|<?php echo $row['filepath'] ?>" />
 						<img alt="icon" src="<?php echo Url::base();?>images/files/16/<?php echo $row['filetype'];?>.png" height="16" width="16" border="0" />
-						<a href="javascript:void(0);" title="插入文件"><?php echo $row['filename'] ?></a>
+						<?php echo $row['filename'] ?>
 					</td>
 					<td><?php echo $row['filesize'] ?></td>
 					<td><?php echo $row['uploadtime'] ?></td>
