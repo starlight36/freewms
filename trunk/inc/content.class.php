@@ -249,6 +249,7 @@ class Content {
 			$pagenum = is_null($pagenum) ? 1 : $pagenum;
 			$pagenum = $pagenum > $pagecount ? $pagecount : $pagenum;
 			$offset = ($pagenum - 1) * $pagesize;
+			if($offset < 0) $offset = 0;
 			$sql_limit = " LIMIT {$offset}, {$pagesize}";
 		}
 
