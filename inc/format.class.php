@@ -46,5 +46,36 @@ class Format {
 			return $tmpstr;
 		}
 	}
+
+	/**
+	 * 将字节数转换为可读的文件大小
+	 * @param int $filesize
+	 * @return string
+	 */
+	public static function filesize($filesize) {
+		$size = sprintf("%u", $filesize);
+		if($size == 0) {
+			return "0 Bytes";
+		}
+		$sizename = array(" Bytes", " KB", " MB", " GB", " TB", " PB", " EB", " ZB", " YB");
+		return round($size/pow(1024, ($i = floor(log($size, 1024)))), 2) . $sizename[$i];
+	}
+
+	/**
+	 * 根据扩展名得到文件类型标识
+	 * @param string $ext_name
+	 */
+	public static function filetype($ext_name) {
+		$typelist = array(
+			'image' => array('jpg', 'png', 'gif', 'jpge', 'bmp'),
+			'flash' => array('swf'),
+			'sound' => array('mp3', 'wma', 'wav', 'mid', 'ape', 'ra'),
+			'video' => array('wmv', 'avi', 'rm', 'rmvb', 'flv', 'asf', 'mpg', 'mp4', '3gp'),
+			'pdf' => array('pdf'),
+			'archive' => array('zip', 'rar', 'gz', 'tar', '7z', 'iso', 'img'),
+			'document' => array('doc', 'docx', 'xls', 'xlsx', 'ppt', 'pps', 'pptx', 'txt', 'ini', 'html', 'htm'),
+			'unknown' => array('unknown')
+		);
+	}
 }
 /* End of the file */
