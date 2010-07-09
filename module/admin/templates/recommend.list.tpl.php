@@ -38,6 +38,7 @@
 			<td class="listtd"><?php echo $row['rec_desc'] ?></td>
 			<td class="listtd">
 				<a href="index.php?m=admin&amp;a=recommend&amp;do=edit&amp;id=<?php echo $row['rec_id'] ?>" title="编辑">编辑</a> |
+				<a href="index.php?m=admin&amp;a=content&amp;rid=<?php echo $row['rec_id'] ?>" title="编辑">列出内容</a> |
 				<a href="index.php?m=admin&amp;a=recommend&amp;do=del&amp;id=<?php echo $row['rec_id'] ?>" onclick="return confirm('确认删除此推荐位吗?\n一旦删除不可恢复.')" title="删除">删除</a>
 			</td>
 		</tr>
