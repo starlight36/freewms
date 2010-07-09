@@ -48,6 +48,7 @@ select {
 .outer_table {
 	width: 499px;
 	height: 268px;
+	overflow:hidden;
 }
 .inner_table {
 	width: 100%;
