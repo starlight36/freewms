@@ -91,7 +91,7 @@ function DoFitter() {
 				<td class="listtd">
 					<a href="index.php?m=admin&amp;a=content&amp;do=save&amp;id=<?php echo $row['content_id'];?>" title="<?php echo Lang::_('admin_content_id_edit_title');?>"><?php echo Lang::_('admin_content_id_edit_tip');?></a> |
 					<a href="" title=""><?php echo Lang::_('admin_content_id_comment_tip');?></a> |
-					<a href="" title=""><?php echo Lang::_('admin_content_id_delete_tip');?></a>
+					<a href="index.php?m=admin&amp;a=content&amp;do=rm&amp;id=<?php echo $row['content_id'];?>" title=""><?php echo Lang::_('admin_content_id_delete_tip');?></a>
 				</td>
 			</tr>
 			<?php endforeach; ?>

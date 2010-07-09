@@ -185,10 +185,11 @@ if($_REQUEST['do'] == 'taglist') {
 //	批量设置属性/删除(改/删)
 //--------------------------------------------
 if(in_array($_REQUEST['do'], array('normal', 'lock', 'recycle', 'drafts', 'rm'))) {
-	$id = $_POST['id'];
+	$id = $_REQUEST['id'];
 	if(empty($id)) {
 		show_message('error',Lang::_('admin_admin_show_message_error_3_tip'));
 	}
+	if(!is_array($id)) $id=array($id);
 	$clist = $id;
 
 	$i = 0;
