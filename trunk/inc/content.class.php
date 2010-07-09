@@ -245,7 +245,7 @@ class Content {
 		if($pagesize != NULL) {
 			$db->select('count(*)')->from('content')->sql_add($sql_where);
 			$record_count = $db->result($db->query()); //总记录数
-			$pagecount = ceil($record_count); //总分页数
+			$pagecount = ceil($record_count / $pagesize); //总分页数
 			$pagenum = is_null($pagenum) ? 1 : $pagenum;
 			$pagenum = $pagenum > $pagecount ? $pagecount : $pagenum;
 			$offset = ($pagenum - 1) * $pagesize;
