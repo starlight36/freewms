@@ -115,7 +115,7 @@
 					<label><input type="radio" name="content_iscomment" value="0"<?php if($cinfo['content_iscomment'] == '0') echo ' checked="checked"';?> /><?php echo Lang::_('admin_content_iscomment_no');?></label>
 					<?php echo Form::get_error('content_iscomment', '<span class="fielderrormsg">', '</span>');?>
 				</p>
-				<p><span class="left">C:</span>
+				<p><span class="left"><?php echo Lang::_('admin_content_viewrole_tip');?>:</span>
 					<?php foreach($role_select_list as $row): ?>
 					<label><input type="checkbox" name="content_viewrole[]" value="<?php echo $row['group_id']; ?>"<?php if(in_array($row['group_id'], $cinfo['content_viewrole'])){echo ' checked="checked"';} ?> />&nbsp;<?php echo $row['group_name']; ?></label>
 					<?php endforeach; ?>
