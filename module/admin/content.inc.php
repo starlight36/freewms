@@ -275,7 +275,7 @@ if(preg_match('/^[0-9]+$/', $sid)) {
 }
 
 //筛选推荐位
-if(preg_match('/^[0-9]+$/', $ridid)) {
+if(preg_match('/^[0-9]+$/', $rid)) {
 	$args['recommend'] = $rid;
 }
 
