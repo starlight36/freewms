@@ -117,7 +117,7 @@
 	</div>
 </div>
 <div id="mainframe">
-	<iframe frameborder="0" scrolling="auto" name="main" style="height:100%;width:100%;" src="<?php echo URL::base(); ?>index.php?m=admin&amp;a=main"></iframe>
+	<iframe frameborder="0" scrolling="auto" name="main" style="height:100%;width:100%;position:absolute;left:0;_left:185px;" src="<?php echo URL::base(); ?>index.php?m=admin&amp;a=main"></iframe>
 </div>
 </body>
 </html>
