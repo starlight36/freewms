@@ -66,6 +66,8 @@ function DoFitter() {
 						<option value="70"<?php if($pagesize==70) echo ' selected=selected';?>><?php echo "70条"; ?></option>
 						<option value="100"<?php if($pagesize==100) echo ' selected=selected';?>><?php echo "100条"; ?></option>
 					</select>
+				<?php if(isset($_REQUEST['rid'])):?><input type="hidden" name="rid" value="<?php echo $rid;?>"/><?php endif;?>
+				<?php if(isset($_REQUEST['sid'])):?><input type="hidden" name="sid" value="<?php echo $sid;?>"/><?php endif;?>
 				<input type="submit" value="<?php echo Lang::_('admin_content_screening_tip');?>" class="searchbtn pointer" />
 			</p>
 		</form>
@@ -76,10 +78,10 @@ function DoFitter() {
 				<td class="titletd" width="40"><?php echo Lang::_('admin_content_option_tip');?></td>
 				<td class="titletd" width="80"><?php echo Lang::_('admin_content_model_tip');?></td>
 				<td class="titletd"><?php echo Lang::_('admin_title_tip');?></td>
-				<td class="titletd" width="100"><?php echo Lang::_('admin_cid_tip');?></td>
+				<td class="titletd" width="90"><?php echo Lang::_('admin_cid_tip');?></td>
 				<td class="titletd" width="90"><?php echo Lang::_('admin_release_users_tip');?></td>
 				<td class="titletd" width="130"><?php echo Lang::_('admin_release_time_tip');?></td>
-				<td class="titletd" width="120"><?php echo Lang::_('admin_operation_tip');?></td>
+				<td class="titletd" width="150"><?php echo Lang::_('admin_operation_tip');?></td>
 			</tr>
 			<?php if($clist == NULL): ?>
 			<tr class="out blue">
@@ -102,7 +104,9 @@ function DoFitter() {
 				<td class="listtd">
 					<a href="index.php?m=admin&amp;a=content&amp;do=save&amp;id=<?php echo $row['content_id'];?>" title="<?php echo Lang::_('admin_content_id_edit_title');?>"><?php echo Lang::_('admin_content_id_edit_tip');?></a> |
 					<a href="" title=""><?php echo Lang::_('admin_content_id_comment_tip');?></a> |
-					<a href="index.php?m=admin&amp;a=content&amp;do=rm&amp;id=<?php echo $row['content_id'];?>" title=""><?php echo Lang::_('admin_content_id_delete_tip');?></a>
+					<a href="index.php?m=admin&amp;a=content&amp;do=rm&amp;id=<?php echo $row['content_id'];?>" title=""><?php echo Lang::_('admin_content_id_delete_tip');?></a>		    
+					<?php if(isset($_REQUEST['rid'])):?> | <a href="index.php?m=admin&amp;a=content&amp;do=cl&amp;rid=<?php echo $_REQUEST['rid']; ?>&amp;id=<?php echo $row['content_id']?>" title="取消将此内容放入推荐">取消</a><?php endif;?>
+					<?php if(isset($_REQUEST['sid'])):?> | <a href="index.php?m=admin&amp;a=content&amp;do=cls&amp;sid=<?php echo $_REQUEST['sid']; ?>&amp;id=<?php echo $row['content_id']?>" title="取消将此内容放入专题">取消</a><?php endif;?>
 				</td>
 			</tr>
 			<?php endforeach; ?>
