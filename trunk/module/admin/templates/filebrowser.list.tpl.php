@@ -168,7 +168,7 @@ $(document).ready(function(){
 				<input type="button" class="table_screen" value="筛选"/>
 			</div>
 			<div class="upload_file">
-				<input type="button" value="上传文件"/>
+				<input type="button" value="上传文件" onclick="window.location.href='index.php?m=admin&a=filebrowser&do=upload'"/>
 			</div>
 		</td>
 		<td rowspan="5" class="table_border" width="5"></td>
@@ -181,7 +181,7 @@ $(document).ready(function(){
 			<table border="0" cellpadding="0" cellspacing="0" class="inner_table">
 				<tr class="header">
 					<td width="130" class="innertable_border">文件名</td>
-					<td width="60" class="innertable_border">大小</td>
+					<td width="70" class="innertable_border">大小</td>
 					<td class="innertable_title">上传时间</td>
 				</tr>
 				<?php if($filelist == NULL): ?>
