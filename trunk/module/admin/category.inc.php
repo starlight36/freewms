@@ -46,7 +46,11 @@ if($_GET['do'] == 'edit') {
 	$form->set_field('cate_parentid', Lang::_('admin_cate_parentid_tip'), 'required|integer');
 	$form->set_field('cate_modid', Lang::_('admin_cate_modid_tip'), 'required|integer');
 	$form->set_field('cate_name', Lang::_('admin_cate_name_tip'), 'required|max_length[200]', 'trim');
-	$form->set_field('cate_key',Lang::_('admin_cate_key_tip'), 'required|max_length[50]|dir_name', 'trim');
+	if($id == 0){
+		$form->set_field('cate_key',Lang::_('admin_cate_key_tip'), 'required|max_length[50]|dir_name|_check_category_key['.$id.']', 'trim');
+		}else {
+			$form->set_field('cate_key',Lang::_('admin_cate_key_tip'), 'required|max_length[50]|dir_name|_check_category_key['.$id.']', 'trim');
+	}
 	$form->set_field('cate_keywords', Lang::_('admin_cate_keywords_tip'), 'max_length[255]', 'trim');
 	$form->set_field('cate_description',Lang::_('admin_cate_description_tip'), 'max_length[255]', 'trim');
 	$form->set_field('cate_template', Lang::_('admin_cate_template_tip'), 'max_length[200]', 'trim');
@@ -92,6 +96,25 @@ if($_GET['do'] == 'edit') {
 		include MOD_PATH.'templates/category.edit.tpl.php';
 	}
 	exit();
+}
+/**
+ * 用于检查分类目录关键是否存在的函数
+ * @global object $db 数据库对象
+ * @param string $name 检查值
+ * @return mixed
+ */
+function _check_category_key($name, $id) {
+	global $db;
+	if($id == 0){
+	    $db->select('COUNT(*)')->from('category')->sql_add('WHERE `cate_key`= ?', $name);
+	}else {
+		$db->select('COUNT(*)')->from('category')->sql_add('WHERE `cate_key`= ? AND `cate_id` != ?', $name,$id);
+	}
+	if($db->result($db->query()) == 0) {
+		return;
+	}else{
+		return '这个惟一标识符已被使用.';
+	}
 }
 //--------------------------------------------
 
