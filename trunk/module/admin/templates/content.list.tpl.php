@@ -55,6 +55,17 @@ function DoFitter() {
 				<?php echo Lang::_('admin_start_time_tip');?>:
 				<input type="text" class="text" name="start_time" size="10" value="<?php echo $start_time; ?>" /> -
 				<input type="text" class="text" name="end_time" size="10" value="<?php echo $end_time; ?>" />
+			    每页显示
+				<select name="pagesize">
+						<option value="5" <?php if($pagesize==5) echo ' selected=selected';?>><?php echo "5条"; ?></option>
+						<option value="10"<?php if($pagesize==10) echo ' selected=selected';?>><?php echo "10条"; ?></option>
+						<option value="15"<?php if($pagesize==15) echo ' selected=selected';?>><?php echo "15条"; ?></option>
+						<option value="20"<?php if($pagesize==20) echo ' selected=selected';?>><?php echo "20条"; ?></option>
+						<option value="30"<?php if($pagesize==30) echo ' selected=selected';?>><?php echo "30条"; ?></option>
+						<option value="50"<?php if($pagesize==50) echo ' selected=selected';?>><?php echo "50条"; ?></option>
+						<option value="70"<?php if($pagesize==70) echo ' selected=selected';?>><?php echo "70条"; ?></option>
+						<option value="100"<?php if($pagesize==100) echo ' selected=selected';?>><?php echo "100条"; ?></option>
+					</select>
 				<input type="submit" value="<?php echo Lang::_('admin_content_screening_tip');?>" class="searchbtn pointer" />
 			</p>
 		</form>
