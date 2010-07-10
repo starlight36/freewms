@@ -36,7 +36,7 @@ if($_GET['do'] == 'upload') {
 	}else{
 		define('TPL_PART', 'INPUT');
 	}
-	include MOD_PATH.'templates/filebrowser.list.tpl.php';
+	include MOD_PATH.'templates/filebrowser.upload.tpl.php';
 	exit();
 }
 //--------------------------------------------
@@ -95,7 +95,7 @@ if(strpos('page=', $url) === FALSE) {
 }else{
 	$url = preg_replace('/page=(\d+)/i', 'page={page}', $url);
 }
-Paginate::set_paginate($url, $pagenum, $pagecount, $pagesize, 2);
+Paginate::set_paginate($url, $pagenum, $pagecount, $pagesize, 1);
 
 //查询结果集
 $db->select('*')->from('upload')->sql_add("$sql ORDER BY `upload_name` ASC LIMIT $offset, $pagesize");
@@ -107,7 +107,7 @@ foreach($filelist as $row) {
 	$n_row['id'] = $row['upload_id'];
 	$n_row['filename'] = Format::str_sub($row['upload_name'], 14);
 	$n_row['filesize'] = Format::filesize($row['upload_size']);
-	$n_row['uploadtime'] = date('Y-m-d H:i:s', $row['upload_time']);
+	$n_row['uploadtime'] = date('Y-m-d H:i', $row['upload_time']);
 	$n_row['filepath'] = Config::get('upload_url').$row['upload_path'];
 	$n_row['filetype'] = Format::filetype(file_ext_name($row['upload_path']));
 	if($n_row['filetype'] == 'image') {
