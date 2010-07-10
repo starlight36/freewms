@@ -29,18 +29,14 @@ if($_REQUEST['do'] == 'edit') {
 		$id = 0;
 	}
 	$form = new Form($_POST);
-	$form->set_field('subject_title', '专题标题', 'required|max_length[50]', 'trim');
-	$form->set_field('subject_desc', '专题简介', 'required|max_length[255]', 'trim');
-	if($id == 0){
-	    $form->set_field('subject_key', '专题URL名', 'max_length[50]|_check_subject_key['.$id.']', 'trim');
-    }else {
-		$form->set_field('subject_key', '专题URL名', 'max_length[50]|_check_subject_key['.$id.']', 'trim');
-	}
-	$form->set_field('subject_icon', '专题封面', 'max_length[255]', 'trim');
-	$form->set_field('subject_cateid', '专题分类');
-	$form->set_field('subject_template', '专题模板', 'max_length[255]', 'trim');
-	$form->set_field('subject_state', '专题状态');
-	$form->set_field('subject_roles', '专题管理权限组');
+	$form->set_field('subject_title',Lang::_('admin_subject_title_tip'), 'required|max_length[50]', 'trim');
+	$form->set_field('subject_desc',Lang::_('admin_subject_desc_tip'), 'required|max_length[255]', 'trim');
+	$form->set_field('subject_key', Lang::_('admin_subject_key_tip'), 'max_length[50]|_check_subject_key['.$id.']', 'trim');
+	$form->set_field('subject_icon', Lang::_('admin_subject_icon_tip'), 'max_length[255]', 'trim');
+	$form->set_field('subject_cateid',Lang::_('admin_subject_cateid_tip'));
+	$form->set_field('subject_template', Lang::_('admin_subject_template_tip'), 'max_length[255]', 'trim');
+	$form->set_field('subject_state', Lang::_('admin_subject_state_tip'));
+	$form->set_field('subject_roles',Lang::_('admin_subject_roles_tip'));
 	if($form->run()) {
 		$_POST['subject_roles'] = serialize($_POST['subject_roles']);
 		$db->set($_POST);
@@ -50,7 +46,7 @@ if($_REQUEST['do'] == 'edit') {
 			$db->sql_add('WHERE `subject_id` = ?', $id);
 			$db->update('subject');
 		}
-		show_message('success', '保存专题成功! ', array('返回专题列表' =>
+		show_message('success', Lang::_('admin_subject_success_tip'), array(Lang::_('admin_subject_return_tip') =>
 											'index.php?m=admin&a=subject'));
 	}else{
 		//读取记录填充表单
@@ -58,7 +54,7 @@ if($_REQUEST['do'] == 'edit') {
 			$db->select('*')->from('subject')->sql_add('WHERE `subject_id` = ?', $id);
 			$sinfo = $db->get();
 			if($sinfo == NULL) {
-				show_message('error', '要编辑的专题不存在.');
+				show_message('error', Lang::_('admin_admin_subject_error_tip'));
 			}
 			$sinfo = $sinfo[0];
 			$sinfo['subject_roles'] = unserialize($sinfo['subject_roles']);

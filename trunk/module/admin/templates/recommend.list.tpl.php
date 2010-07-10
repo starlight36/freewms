@@ -14,20 +14,20 @@
 <?php include MOD_PATH.'templates/header.tpl.php'; ?>
 <div id="showmain">
 	<div class="titlebar">
-		<a href="index.php?m=admin&amp;a=recommend&amp;do=edit" title="添加新推荐位">添加新推荐位</a><br />
-		推荐位列表说明
+		<a href="index.php?m=admin&amp;a=recommend&amp;do=edit" title="<?php echo Lang::_('admin_rec_new_title');?>"><?php echo Lang::_('admin_rec_new_tip');?></a><br />
+		<?php echo Lang::_('admin_rec_desc_title');?>
 	</div>
 	<table cellspacing="1" cellpadding="3" border="0" align="center" width="100%" class="listtable">
 		<tr>
-			<td class="titletd" width="12%">推荐位ID</td>
-			<td class="titletd" width="15%">推荐位标识</td>
-			<td class="titletd" width="20%">推荐位名称</td>
-			<td class="titletd">推荐位简介</td>
-			<td class="titletd" width="20%">操作</td>
+			<td class="titletd" width="12%"><?php echo Lang::_('admin_rec_id_tip');?></td>
+			<td class="titletd" width="15%"><?php echo Lang::_('admin_rec_key_tip');?></td>
+			<td class="titletd" width="20%"><?php echo Lang::_('admin_rec_name_tip');?></td>
+			<td class="titletd"><?php echo Lang::_('admin_rec_desc_tip');?></td>
+			<td class="titletd" width="20%"><?php echo Lang::_('admin_rec_operate_tip');?></td>
 		</tr>
 		<?php if($rlist == NULL): ?>
 		<tr>
-			<td class="titletd" colspan="5">没有找到任何推荐位</td>
+			<td class="titletd" colspan="5"><?php echo Lang::_('admin_rec_no_tip');?></td>
 		</tr>
 		<?php else: ?>
 		<?php foreach ($rlist as $row): ?>
@@ -37,9 +37,9 @@
 			<td class="listtd"><?php echo $row['rec_name'] ?></td>
 			<td class="listtd"><?php echo $row['rec_desc'] ?></td>
 			<td class="listtd">
-				<a href="index.php?m=admin&amp;a=recommend&amp;do=edit&amp;id=<?php echo $row['rec_id'] ?>" title="编辑">编辑</a> |
-				<a href="index.php?m=admin&amp;a=content&amp;rid=<?php echo $row['rec_id'] ?>" title="编辑">列出内容</a> |
-				<a href="index.php?m=admin&amp;a=recommend&amp;do=del&amp;id=<?php echo $row['rec_id'] ?>" onclick="return confirm('确认删除此推荐位吗?\n一旦删除不可恢复.')" title="删除">删除</a>
+				<a href="index.php?m=admin&amp;a=recommend&amp;do=edit&amp;id=<?php echo $row['rec_id'] ?>" title="<?php echo Lang::_('admin_rec_edit_title');?>"><?php echo Lang::_('admin_rec_edit_tip');?></a> |
+				<a href="index.php?m=admin&amp;a=content&amp;rid=<?php echo $row['rec_id'] ?>" title="<?php echo Lang::_('admin_rec_edit_title');?>"><?php echo Lang::_('admin_rec_list_tip');?></a> |
+				<a href="index.php?m=admin&amp;a=recommend&amp;do=del&amp;id=<?php echo $row['rec_id'] ?>" onclick="return confirm('<?php echo Lang::_('admin_rec_delete_worn_tip');?>')" title="<?php echo Lang::_('admin_rec_delete_title');?>"><?php echo Lang::_('admin_rec_delete_tip');?></a>
 			</td>
 		</tr>
 		<?php endforeach; ?>
