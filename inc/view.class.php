@@ -80,11 +80,14 @@ class View {
 	 * @return mixed
 	 */
 	public static function load($file, $data = NULL, $return = FALSE, $content_type = 'text/html') {
+		//初始化传入变量
 		if(is_array($data) && !empty($data)) {
 			foreach($data as $k => $v){
 				$$k = $v;
 			}
 		}
+		//初始化部件对象
+		$widget = Widget::get_instance();
 		if($return) {
 			@ob_start();
 			@ob_clean();
@@ -165,31 +168,155 @@ class View {
 		 * 正则表达式替换标签
 		 */
 		//解析包含文件
-		$content = preg_replace('/\<!--#include\{([A-Za-z0-9._\/-]+?)\}-->/i', '<?php @include self::template(\'$1\'); ?>', $content);
+		$content = preg_replace('/<t:include page="(.+)".*>/i', '<?php @include self::template(\'$1\'); ?>', $content);
 		//解析head头区域
-		$content = str_ireplace('<!--#heads-->', '<?php echo self::get_html_head(); ?>', $content);
+		$content = preg_replace('/<t:head(.*)>/i', '<?php echo self::get_html_head(); ?>', $content);
+		//解析部件标签
+		$content = preg_replace('/<t:widget (.+?)>(.*)<\/t:widget>/ise', 'self::tag_widget(\'$1\', \'$2\')', $content);
 		//解析if条件
-		$content = preg_replace('/<!--#if\{(.+?)\}-->/i', '<?php if($1): ?>', $content);
+		$content = preg_replace('/<t:if test="(.+)">/i', '<?php if($1): ?>', $content);
 		//解析elseif条件
-		$content = preg_replace('/<!--#elseif\{(.+?)\}-->/i', '<?php elseif($1): ?>', $content);
+		$content = preg_replace('/<t:elseif test="(.+?)".*>/i', '<?php elseif($1): ?>', $content);
 		//解析else和endif
-		$content = str_ireplace('<!--#else-->', '<?php else: ?>', $content);
-		$content = str_ireplace('<!--#endif-->', '<?php endif; ?>', $content);
-		//解析循环标签
-		$content = preg_replace('/<!--#loop\{(.+?)\}-->/i', '<?php foreach($1 as $item): ?>', $content);
-		$content = preg_replace('/\${item:(.+?)\}/i', '<?php echo $item[\'$1\']; ?>', $content);
-		$content = str_ireplace('<!--#endloop-->', '<?php endforeach; ?>', $content);
-		//解析设置项标签
-		$content = preg_replace('/\${config:([A-Za-z0-9_\/]+?)\}/i', '<?php echo Config::get(\'$1\'); ?>', $content);
+		$content = preg_replace('/<t:else.*>/i', '<?php else: ?>', $content);
+		$content = str_ireplace('</t:if>', '<?php endif; ?>', $content);
+		//解析循环标签For
+		$content = preg_replace('/<t:for (.+?)>/ie', 'self::tag_for(\'$1\')', $content);
+		$content = str_ireplace('</t:for>', "<?php endfor; ?>", $content);
+		//解析循环标签While
+		$content = preg_replace('/<t:while (.+?)>/ie', 'self::tag_while(\'$1\')', $content);
+		$content = str_ireplace('</t:while>', "<?php endwhile; ?>", $content);
+		//解析循环标签Loop
+		$content = preg_replace('/<t:loop (.+?)>/ie', 'self::tag_loop(\'$1\')', $content);
+		$content = str_ireplace('</t:loop>', "<?php \$_i++; ?>\n<?php endforeach; ?>\n<?php endif; ?>", $content);
 		//解析语言标签
-		$content = preg_replace('/\${lang:([A-Za-z0-9_\/]+?)\}/i', '<?php echo Lang::_(\'$1\'); ?>', $content);
-		//Widget标签解析
-		$content = preg_replace('/\${widget:([A-Za-z0-9_\/]+?)\}/i', '<?php @include self::template(\'widget/$1\'); ?>', $content);
-		//解析表达式输出
-		$content = preg_replace('/\${(.+?)\}/i', '<?php echo $1; ?>', $content);
-		//执行一行语句, 什么也不输出
-		$content = preg_replace('/\@{(.+?)\}/i', '<?php $1; ?>', $content);
+		$content = preg_replace('/<t:lang key="(.+)".*>/i', '<?php echo Lang::get(\'$1\'); ?>', $content);
+		//输出标签
+		$content = preg_replace('/<t:out (.+?)\/>/ie', 'self::tag_out(\'$1\')', $content);
+		//解析PHP语句块
+		$content = preg_replace('/<script .*="php".*>(.*)<\/script>/is', '<?php$1?>', $content);
+		//变量表达式 - 读取设置
+		$content = preg_replace('/\$\{config=(.+?)\}/i', 'Config::get(\'$1\')', $content);
+		//变量表达式 - 读取语言
+		$content = preg_replace('/\$\{lang=(.+?)\}/i', 'Lang::get(\'$1\')', $content);
+		//变量表达式 - 读取缓存
+		$content = preg_replace('/\$\{cache=(.+?)\}/i', 'Cache::get(\'$1\')', $content);
+		//变量表达式 - 读取Session
+		$content = preg_replace('/\$\{session=(.+?)\}/i', 'Session::get(\'$1\')', $content);
+		//变量表达式 - 读取请求变量
+		$content = preg_replace('/\$\{request=(.+?)\}/i', 'path_array($_REQUEST, \'$1\')', $content);
+		//变量表达式 - 读取COOKIE
+		$content = preg_replace('/\$\{cookie=(.+?)\}/i', 'path_array($_COOKIE, \'$1\')', $content);
+		//变量表达式 - 本次循环键名
+		$content = str_ireplace('${key}', '$key', $content);
+		//变量表达式 - 本次循环编号
+		$content = str_ireplace('${i}', '$_i', $content);
+		//变量表达式 - 本次循环结果
+		$content = preg_replace('/\$\{get=(.+?)\}/i', '$row[\'$1\']', $content);
 		file_put_contents($temp_file, $content);
+	}
+
+	/**
+	 * 解析标签属性
+	 * @param string $str 参数字串
+	 * @return array;
+	 */
+	private static function parse_param($str) {
+		$str = trim(str_replace('\"', '"', $str));
+		preg_match_all('/(\w+)="(.*?)"/i', $str, $matches);
+		$result = array();
+		for($i = 0; $i < count($matches[0]); $i++) {
+			$result[$matches[1][$i]] = trim($matches[2][$i]);
+		}
+		return $result;
+	}
+
+	/**
+	 * 构造模板For标签
+	 * @param string $str
+	 * @return string
+	 */
+	private static function tag_for($str) {
+		$param = self::parse_param($str);
+		return "<?php for({$param['start']}; {$param['test']}; {$param['next']}): ?>";
+	}
+
+	/**
+	 * 构造模板While标签
+	 * @param string $str
+	 * @return string
+	 */
+	private static function tag_while($str) {
+		$param = self::parse_param($str);
+		return "<?php while({$param['test']}): ?>";
+	}
+
+	/**
+	 * 构造模板Loop标签
+	 * @param string $str
+	 * @return string
+	 */
+	private static function tag_loop($str) {
+		$param = self::parse_param($str);
+		$result = "<?php if(empty({$param['exp']})): ?>\n";
+		$result .= $param['default'];
+		$result .= "<?php else: ?>\n";
+		$result .= "<?php \$_i = 1; foreach({$param['exp']} as \$key => \$row): ?>\n";
+		return $result;
+	}
+
+	/**
+	 * 构造模板Widget标签
+	 * @param string $str
+	 * @return string
+	 */
+	private static function tag_widget($param, $content) {
+		$param = self::parse_param($param);
+		if(!$param['bind'] || !$param['call']) {
+			return ;
+		}
+		$str = '<?php $_temp = $widget->'.$param['bind'].'->'.$param['call'].'(\''.$param['param'].'\'); ?>';
+		if($param['foreach'] == 'false') {
+			$str .= '<?php echo $_temp; ?>';
+		}else{
+			$str .= "\n".'<t:loop exp="$_temp" default="'.$param['default'].'">'.$content;
+			$str .= '</t:loop>';
+		}
+		return $str;
+	}
+
+	/**
+	 * 构造模板Out标签
+	 * @param string $str
+	 * @return string
+	 */
+	private static function tag_out($str) {
+		$param = self::parse_param($str);
+		$str = $param['exp'];
+		if(!empty($param['filter'])) {
+			$filters = explode('|', $param['filter']);
+			foreach($filters as $item) {
+				if(preg_match("/(.*?)\\[(.*)\\]/", $item, $match)) {
+					$filter = $match[1];
+					$f_param = $match[2];
+				}else{
+					$filter	= $item;
+				}
+				if(method_exists('Format', $filter)) {
+					$str = 'Format::'.$filter.'('.$str;
+				}elseif(function_exists($filter)) {
+					$str = $filter.'('.$str;
+				}else{
+					continue;
+				}
+				if($f_param) {
+					$str .= ', '.$f_param.')';
+				}else{
+					$str .= ')';
+				}
+			}
+		}
+		return "<?php echo {$str}; ?>";
 	}
 
 	/**
