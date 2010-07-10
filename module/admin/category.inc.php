@@ -46,11 +46,7 @@ if($_GET['do'] == 'edit') {
 	$form->set_field('cate_parentid', Lang::_('admin_cate_parentid_tip'), 'required|integer');
 	$form->set_field('cate_modid', Lang::_('admin_cate_modid_tip'), 'required|integer');
 	$form->set_field('cate_name', Lang::_('admin_cate_name_tip'), 'required|max_length[200]', 'trim');
-	if($id == 0){
-		$form->set_field('cate_key',Lang::_('admin_cate_key_tip'), 'required|max_length[50]|dir_name|_check_category_key['.$id.']', 'trim');
-		}else {
-			$form->set_field('cate_key',Lang::_('admin_cate_key_tip'), 'required|max_length[50]|dir_name|_check_category_key['.$id.']', 'trim');
-	}
+	$form->set_field('cate_key',Lang::_('admin_cate_key_tip'), 'required|max_length[50]|dir_name|_check_category_key['.$id.']', 'trim');
 	$form->set_field('cate_keywords', Lang::_('admin_cate_keywords_tip'), 'max_length[255]', 'trim');
 	$form->set_field('cate_description',Lang::_('admin_cate_description_tip'), 'max_length[255]', 'trim');
 	$form->set_field('cate_template', Lang::_('admin_cate_template_tip'), 'max_length[200]', 'trim');
