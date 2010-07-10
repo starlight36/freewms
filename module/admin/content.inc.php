@@ -72,7 +72,11 @@ if($_GET['do'] == 'save') {
 	$form->set_field('content_cateid',Lang::_('admin_content_cateid_tip'), 'required|integer', 'trim');
     $form->set_field('content_titlestyle', '', ' required|max_length[200]', 'trim');
     $form->set_field('content_tags',Lang::_('admin_content_tags_tip'), NULL, 'trim');
-    $form->set_field('content_key', Lang::_('admin_content_key_tip'), NULL, 'trim');
+	if($id == 0){
+		    $form->set_field('content_key', Lang::_('admin_content_key_tip'), '_check_content_key['.$id.']', 'trim');
+		}else {
+			$form->set_field('content_key', Lang::_('admin_content_key_tip'), '_check_content_key['.$id.']', 'trim');
+		}
     $form->set_field('content_thumb', Lang::_('admin_content_thumb_pic_tip'), NULL, 'trim');
     $form->set_field('content_intro', Lang::_('admin_introduction_tip'), 'required', 'trim');
     $form->set_field('content_author',Lang::_('admin_mod_itemname_tip'), NULL, 'trim');
@@ -167,6 +171,25 @@ if($_GET['do'] == 'save') {
 	}
 	exit();
 }
+/**
+ * 用于检查内容URL关键是否存在的函数
+ * @global object $db 数据库对象
+ * @param string $name 检查值
+ * @return mixed
+ */
+function _check_content_key($name, $id) {
+	global $db;
+	if($id == 0){
+	    $db->select('COUNT(*)')->from('content')->sql_add('WHERE `content_key`= ?', $name);
+	}else {
+		$db->select('COUNT(*)')->from('content')->sql_add('WHERE `content_key`= ? AND `content_id` != ?', $name,$id);
+	}
+	if($db->result($db->query()) == 0) {
+		return;
+	}else{
+		return '这个惟一标识符已被使用.';
+	}
+}
 //--------------------------------------------
 
 //--------------------------------------------
@@ -248,7 +271,7 @@ $start_time = $_REQUEST['start_time']; //开始时间
 $end_time = $_REQUEST['end_time']; //结束时间
 $sid = $_REQUEST['sid']; //专题ID
 $rid = $_REQUEST['rid']; //推荐位ID
-$pagesize = $_REQUEST['pagesize'] ? $_REQUEST['pagesize'] : 30; //每页显示数
+$pagesize = $_REQUEST['pagesize'] ? $_REQUEST['pagesize'] : 3; //每页显示数
 $pagenum = $_REQUEST['page'] ? $_REQUEST['page'] : 1; //页码
 $record_count = 0; //总记录数
 $pagecount = 0; //总分页数
@@ -280,13 +303,15 @@ if(preg_match('/^[0-9]+$/', $rid)) {
 }
 
 //筛选起始时间
+$start_time = strtotime($start_time);
 if(!empty($start_time)) {
-	$args['where'][] = 'content_time >= '.strtotime($start_time);
+	$args['where'][] = 'content_time >= '.$start_time;
 }
 
 //筛选结束时间
+$end_time = strtotime($end_time);
 if(!empty ($end_time)) {
-	$args['where'][] = 'content_time <= '.strtotime($end_time);
+	$args['where'][] = 'content_time <= '.$end_time;
 }
 
 //设置排序方式

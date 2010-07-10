@@ -31,7 +31,11 @@ if($_REQUEST['do'] == 'edit') {
 	$form = new Form($_POST);
 	$form->set_field('subject_title', '专题标题', 'required|max_length[50]', 'trim');
 	$form->set_field('subject_desc', '专题简介', 'required|max_length[255]', 'trim');
-	$form->set_field('subject_key', '专题URL名', 'max_length[50]', 'trim');
+	if($id == 0){
+	    $form->set_field('subject_key', '专题URL名', 'max_length[50]|_check_subject_key['.$id.']', 'trim');
+    }else {
+		$form->set_field('subject_key', '专题URL名', 'max_length[50]|_check_subject_key['.$id.']', 'trim');
+	}
 	$form->set_field('subject_icon', '专题封面', 'max_length[255]', 'trim');
 	$form->set_field('subject_cateid', '专题分类');
 	$form->set_field('subject_template', '专题模板', 'max_length[255]', 'trim');
@@ -80,6 +84,25 @@ if($_REQUEST['do'] == 'edit') {
 		include MOD_PATH.'templates/subject.edit.tpl.php';
 	}
 	exit();
+}
+/**
+ * 用于检查专题URL关键是否存在的函数
+ * @global object $db 数据库对象
+ * @param string $name 检查值
+ * @return mixed
+ */
+function _check_subject_key($name,$id) {
+	global $db;
+	if($id == 0){
+	    $db->select('COUNT(*)')->from('subject')->sql_add('WHERE `subject_key`= ?', $name);
+	}else {
+		$db->select('COUNT(*)')->from('subject')->sql_add('WHERE `subject_key`= ? AND `subject_id` != ?', $name,$id);
+	}
+	if($db->result($db->query()) == 0) {
+		return;
+	}else{
+		return '这个惟一标识符已被使用.';
+	}
 }
 //--------------------------------------------
 
