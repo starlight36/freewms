@@ -29,10 +29,10 @@ if($_REQUEST['do'] == 'edit') {
 		$id = 0;
 	}
 	$form = new Form($_POST);
-	$form->set_field('rec_name', '推荐位名称', 'required|max_length[50]', 'trim');
-	$form->set_field('rec_desc', '推荐位简介', 'max_length[255]', 'trim');
-	$form->set_field('rec_key', '推荐位唯一标识符', 'max_length[50]', 'trim');
-	$form->set_field('rec_roles', '管理权用户组');
+	$form->set_field('rec_name', Lang::_('admin_rec_name_tip'), 'required|max_length[50]', 'trim');
+	$form->set_field('rec_desc', Lang::_('admin_rec_desc_tip'), 'max_length[255]', 'trim');
+	$form->set_field('rec_key', Lang::_('admin_recommend_key_only_tip'), 'max_length[50]', 'trim');
+	$form->set_field('rec_roles', Lang::_('admin_rec_rec_roles_tip'));
 	if($form->run()) {
 		$_POST['rec_roles'] = serialize($_POST['rec_roles']);
 		$db->set($_POST);
@@ -42,7 +42,7 @@ if($_REQUEST['do'] == 'edit') {
 			$db->sql_add('WHERE `rec_id` = ?', $id);
 			$db->update('recommend');
 		}
-		show_message('success', '保存专题成功! ', array('返回专题列表' =>
+		show_message('success',  Lang::_('admin_subject_success_tip'), array( Lang::_('admin_subject_return_tip') =>
 											'index.php?m=admin&a=recommend'));
 	}else{
 		//读取记录填充表单
@@ -50,7 +50,7 @@ if($_REQUEST['do'] == 'edit') {
 			$db->select('*')->from('recommend')->sql_add('WHERE `rec_id` = ?', $id);
 			$rinfo = $db->get();
 			if($rinfo == NULL) {
-				show_message('error', '要编辑的推荐位不存在.');
+				show_message('error',  Lang::_('admin_admin_subject_error_tip'));
 			}
 			$rinfo = $rinfo[0];
 			$rinfo['rec_roles'] = unserialize($rinfo['rec_roles']);

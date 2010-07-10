@@ -14,19 +14,19 @@
 <?php include MOD_PATH.'templates/header.tpl.php'; ?>
 <div id="showmain">
 	<div class="titlebar">
-		<a href="index.php?m=admin&amp;a=subject&amp;do=edit" title="添加新专题">添加新专题</a><br />
-		专题列表说明
+		<a href="index.php?m=admin&amp;a=subject&amp;do=edit" title="<?php echo Lang::_('admin_subject_new_title');?>"><?php echo Lang::_('admin_subject_new_tip');?></a><br />
+		<?php echo Lang::_('admin_subject_desc_title');?>
 	</div>
 	<table cellspacing="1" cellpadding="3" border="0" align="center" width="100%" class="listtable">
 		<tr>
-			<td class="titletd" width="12%">专题ID</td>
-			<td class="titletd" width="25%">专题标题</td>
-			<td class="titletd">专题简介</td>
-			<td class="titletd" width="20%">操作</td>
+			<td class="titletd" width="12%"><?php echo Lang::_('admin_subject_id_tip');?></td>
+			<td class="titletd" width="25%"><?php echo Lang::_('admin_subject_title_tip');?></td>
+			<td class="titletd"><?php echo Lang::_('admin_subject_desc_tip');?></td>
+			<td class="titletd" width="20%"><?php echo Lang::_('admin_subject_operate_tip');?></td>
 		</tr>
 		<?php if($slist == NULL): ?>
 		<tr>
-			<td class="titletd" colspan="5">没有找到任何专题</td>
+			<td class="titletd" colspan="5"><?php echo Lang::_('admin_subject_no_found_tip');?></td>
 		</tr>
 		<?php else: ?>
 		<?php foreach ($slist as $row): ?>
@@ -35,9 +35,9 @@
 			<td class="listtd"><?php echo $row['subject_title'] ?></td>
 			<td class="listtd"><?php echo $row['subject_desc'] ?></td>
 			<td class="listtd">
-				<a href="index.php?m=admin&amp;a=subject&amp;do=edit&amp;id=<?php echo $row['subject_id'] ?>" title="编辑">编辑</a> |
-				<a href="index.php?m=admin&amp;a=content&amp;sid=<?php echo $row['subject_id'] ?>" title="编辑">列出内容</a> |
-				<a href="index.php?m=admin&amp;a=subject&amp;do=del&amp;id=<?php echo $row['subject_id'] ?>" onclick="return confirm('确认删除此专题吗?\n一旦删除不可恢复.')" title="删除">删除</a>
+				<a href="index.php?m=admin&amp;a=subject&amp;do=edit&amp;id=<?php echo $row['subject_id'] ?>" title="<?php echo Lang::_('admin_subject_edit_title');?>"><?php echo Lang::_('admin_subject_edit_tip');?></a> |
+				<a href="index.php?m=admin&amp;a=content&amp;sid=<?php echo $row['subject_id'] ?>" title="<?php echo Lang::_('admin_subject_edit_title');?>"><?php echo Lang::_('admin_subject_list_tip');?></a> |
+				<a href="index.php?m=admin&amp;a=subject&amp;do=del&amp;id=<?php echo $row['subject_id'] ?>" onclick="return confirm('<?php echo Lang::_('admin_subject_delete_warn_tip');?>')" title="<?php echo Lang::_('admin_subject_delete_title');?>"><?php echo Lang::_('admin_subject_delete_tip');?></a>
 			</td>
 		</tr>
 		<?php endforeach; ?>
