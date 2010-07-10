@@ -256,6 +256,34 @@ if(in_array($_REQUEST['do'], array('normal', 'lock', 'recycle', 'drafts', 'rm'))
 //--------------------------------------------
 
 //--------------------------------------------
+//	去出当前专题文章
+//--------------------------------------------
+if($_GET['do'] == 'cls'){
+	$sid=$_GET['sid'];
+	$id = $_GET['id'];
+	$db->sql_add("WHERE `sc_contentid` = ? AND `sc_subjectid` = ?", $id,$sid);
+	$db->delete('subject_content');
+	show_message('success',  '取出该文章成功',
+				array(Lang::_('admin_admin_show_message_return_tip') => $_SERVER['HTTP_REFERER']));
+	exit();
+}
+//--------------------------------------------
+
+//--------------------------------------------
+//	取消当前推荐
+//--------------------------------------------
+if($_GET['do'] == 'cl'){
+	$rid=$_GET['rid'];
+	$id = $_GET['id'];
+	$db->sql_add("WHERE `rc_contentid` = ? AND `rc_recid` = ?", $id,$rid);
+	$db->delete('recommend_content');
+	show_message('success',  '取消推荐成功t',
+				array(Lang::_('admin_admin_show_message_return_tip') => $_SERVER['HTTP_REFERER']));
+	exit();
+}
+//--------------------------------------------
+
+//--------------------------------------------
 //	显示内容列表(查)
 //--------------------------------------------
 $cate_id = $_REQUEST['cid']; //分类ID
