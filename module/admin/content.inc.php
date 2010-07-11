@@ -130,7 +130,9 @@ if($_GET['do'] == 'save') {
 				$db->insert('subject_content');
 			}
 		}
-
+		//清空缓存
+		Cache::clear();
+		Cache::delete_page();
 		//返回操作成功消息
 		show_message('success',  Lang::_('admin_admin_show_message_success_1_tip'),
 				array(Lang::_('admin_admin_show_message_return_tip') => 'index.php?m=admin&a=content&state=0'));

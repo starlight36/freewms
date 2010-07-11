@@ -67,7 +67,7 @@ class Cache_Adapter {
 	 * @return bool
 	 */
 	public static function clear() {
-		$path = BASEPATH.CACHE_PATH.'data/';
+		$path = BASEPATH.CACHE_PATH.'data';
 		rm_file($path);
 		if(!is_dir($path)) {
 			create_dir($path);
