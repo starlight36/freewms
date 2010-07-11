@@ -11,4 +11,29 @@
  * 自定义页显示模块
  */
 
+//读取自定义页面名称
+$key = URL::get_args('page', 'k');
+
+//检查缓存情况
+Cache::get_page('page/'.$key);
+
+//读取自定义页面信息
+$pinfo = Page::get($key);
+
+//不存在返回404错误
+if(!$pinfo) {
+	show_404();
+}
+
+//设置页面标题/关键字等
+View::set_title($pinfo['page_name']);
+View::set_keywords($pinfo['page_keyword']);
+View::set_description($pinfo['page_desc']);
+
+//加载模板显示
+View::load($pinfo['page_template']);
+
+//保存至缓存
+Cache::set_page('page/'.$key);
+
 /* End of this file */
