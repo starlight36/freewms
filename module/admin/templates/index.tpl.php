@@ -83,7 +83,7 @@
 				<div class="collapsed">
 					<span class="theme"><?php echo Lang::_('admin_interface_tip');?></span>
 					<a href="#" title=""><?php echo Lang::_('admin_theme_templates_tip');?></a>
-					<a href="#" title=""><?php echo Lang::_('admin_site_nav_tip');?></a>
+					<a href="index.php?m=admin&amp;a=topbar" title=""><?php echo Lang::_('admin_site_nav_tip');?></a>
 					<a href="#" title=""><?php echo Lang::_('admin_costom_page_tip');?></a>
 					<a href="#" title=""><?php echo Lang::_('admin_widget_tip');?></a>
 				</div>
