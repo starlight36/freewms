@@ -170,11 +170,11 @@ class View {
 		//解析包含文件
 		$content = preg_replace('/<t:include page="(.+)".*>/i', '<?php @include self::template(\'$1\'); ?>', $content);
 		//解析head头区域
-		$content = preg_replace('/<t:head(.*)>/i', '<?php echo self::get_html_head(); ?>', $content);
+		$content = preg_replace('/<t:head.*>/i', '<?php echo self::get_html_head(); ?>', $content);
 		//解析部件标签
 		$content = preg_replace('/<t:widget (.+?)>(.*)<\/t:widget>/ise', 'self::tag_widget(\'$1\', \'$2\')', $content);
 		//解析if条件
-		$content = preg_replace('/<t:if test="(.+)">/i', '<?php if($1): ?>', $content);
+		$content = preg_replace('/<t:if test="(.+)".*>/i', '<?php if($1): ?>', $content);
 		//解析elseif条件
 		$content = preg_replace('/<t:elseif test="(.+?)".*>/i', '<?php elseif($1): ?>', $content);
 		//解析else和endif
@@ -192,7 +192,7 @@ class View {
 		//解析语言标签
 		$content = preg_replace('/<t:lang key="(.+)".*>/i', '<?php echo Lang::get(\'$1\'); ?>', $content);
 		//输出标签
-		$content = preg_replace('/<t:out (.+?)\/>/ie', 'self::tag_out(\'$1\')', $content);
+		$content = preg_replace('/<t:out (.+?)>/ie', 'self::tag_out(\'$1\')', $content);
 		//解析PHP语句块
 		$content = preg_replace('/<script .*="php".*>(.*)<\/script>/is', '<?php$1?>', $content);
 		//变量表达式 - 读取设置
@@ -272,12 +272,16 @@ class View {
 	 */
 	private static function tag_widget($param, $content) {
 		$param = self::parse_param($param);
+		$content = str_replace('\"', '"', $content);
 		if(!$param['bind'] || !$param['call']) {
 			return ;
 		}
 		$str = '<?php $_temp = $widget->'.$param['bind'].'->'.$param['call'].'(\''.$param['param'].'\'); ?>';
 		if($param['foreach'] == 'false') {
-			$str .= '<?php echo $_temp; ?>';
+			$str .= '<?php if(!empty($_temp)): ?>';
+			$str .= '<?php echo $_temp; ?><?php else: ?>';
+			$str .= $param['default'];
+			$str .= '<?php endif; ?>';
 		}else{
 			$str .= "\n".'<t:loop exp="$_temp" default="'.$param['default'].'">'.$content;
 			$str .= '</t:loop>';
@@ -310,7 +314,7 @@ class View {
 					continue;
 				}
 				if($f_param) {
-					$str .= ', '.$f_param.')';
+					$str .= ', "'.$f_param.'")';
 				}else{
 					$str .= ')';
 				}

@@ -83,5 +83,15 @@ class Format {
 		}
 		return 'unknown';
 	}
+
+	/**
+	 * 按照指定的格式模板格式化时间
+	 * @param int $time
+	 * @param string $format
+	 * @return string
+	 */
+	public function time($time, $format) {
+		return date($format, $time);
+	}
 }
 /* End of the file */
