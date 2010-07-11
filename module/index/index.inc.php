@@ -10,17 +10,25 @@
 /*
  * 首页模块
  */
+//如果开启了生成静态,转跳至静态页
+$indexfile = 'index.'.Config::get('site_staticize_extname');
+if(Config::get('site_index_staticize') && is_file('./'.$indexfile)) {
+	redirect($indexfile);
+	exit();
+}
 
+//开启首页缓存
+Cache::get_page('index');
 
-
-//Cache::get_page('index', 7200);
-
+//加载首页语言支持文件
 Lang::load('index');
+
+//设置首页标题
 View::set_title(Lang::_('mod_index_title'));
+
+//从模板加载首页
 View::load('index/index');
-//Cache::set_page('index');
 
-
-/*$content = new Content();
-var_dump($content->get_content_list("args: {category: 1}"));*/
+//保存至缓存
+Cache::set_page('index');
 /* End of this file */

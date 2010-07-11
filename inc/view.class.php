@@ -193,6 +193,8 @@ class View {
 		$content = preg_replace('/<t:lang key="(.+)".*>/i', '<?php echo Lang::get(\'$1\'); ?>', $content);
 		//输出标签
 		$content = preg_replace('/<t:out (.+?)>/ie', 'self::tag_out(\'$1\')', $content);
+		//预处理非系统标签中的变量表达式
+		$content = preg_replace('/(<[a-z] .+?>)/ie', 'self::tag_var_out(\'$1\')', $content);
 		//解析PHP语句块
 		$content = preg_replace('/<script .*="php".*>(.*)<\/script>/is', '<?php$1?>', $content);
 		//变量表达式 - 读取设置
@@ -321,6 +323,16 @@ class View {
 			}
 		}
 		return "<?php echo {$str}; ?>";
+	}
+
+	/**
+	 * 预处理非系统标签内调用的变量表达式
+	 * @param string $str
+	 * @return string
+	 */
+	public static function tag_var_out($str) {
+		$str = str_replace('\"', '"', $str);
+		return preg_replace('/(\$\{.+?\})/i', '<?php echo $1;?>', $str);
 	}
 
 	/**

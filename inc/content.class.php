@@ -224,6 +224,10 @@ class Content {
 		if(preg_match('/^[0-9]+$/', $args['state'])) {
 			$sql_where[] = "`content_state` = '{$args['state']}'";
 		}
+		//指定显示带缩略图的项目
+		if($args['thumb']) {
+			$sql_where[] = "`content_thumb` <> ''";
+		}
 		//附加查询条件
 		if(!empty($args['where'])) {
 			if(is_array($args['where'])) {
