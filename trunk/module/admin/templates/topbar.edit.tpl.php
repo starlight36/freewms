@@ -15,10 +15,12 @@
 <script type="text/javascript">
 //<!--
 $(document).ready(function(){
+	$('#cate_id').val($('#topbar_bindid').val());
+	$('#page_id').val($('#topbar_bindid').val());
 	var obj = $('input[name=topbar_type]');
 	for(var i = 0; i < obj.length; i++) {
-		if(obj[0].checked) {
-			$(obj[0]).click();
+		if(obj[i].checked) {
+			$(obj[i]).click();
 			return;
 		}
 	}
@@ -26,6 +28,7 @@ $(document).ready(function(){
 function check_type(id) {
 	$('#guide_byurl').slideUp(200);
 	$('#guide_bycate').slideUp(200);
+	$('#guide_bypage').slideUp(200);
 	$('#'+id).slideDown(100);
 }
 //-->
@@ -61,7 +64,7 @@ function check_type(id) {
 				<p><span class="left">链接类型: </span>
 					<label><input type="radio" name="topbar_type" onclick="check_type('guide_byurl');" value="0"<?php if(Form::set_value('topbar_type', $tinfo['topbar_type']) == '0'){echo ' checked="checked"';} ?> />&nbsp;外部链接</label>
 					<label><input type="radio" name="topbar_type" onclick="check_type('guide_bycate');" value="1"<?php if(Form::set_value('topbar_type', $tinfo['topbar_type']) == '1'){echo ' checked="checked"';} ?> />&nbsp;分类链接</label>
-					<label><input type="radio" name="topbar_type" value="2"<?php if(Form::set_value('topbar_type', $tinfo['topbar_type']) == '2'){echo ' checked="checked"';} ?> />&nbsp;单页链接</label>
+					<label><input type="radio" name="topbar_type" onclick="check_type('guide_bypage');" value="2"<?php if(Form::set_value('topbar_type', $tinfo['topbar_type']) == '2'){echo ' checked="checked"';} ?> />&nbsp;单页链接</label>
 					<?php echo Form::get_error('topbar_type', '<span class="fielderrormsg">', '</span>');?>
 				</p>
 				<p id="guide_byurl" style="display: none;"><span class="left">URL链接: </span>
@@ -69,8 +72,17 @@ function check_type(id) {
 					<?php echo Form::get_error('topbar_url', '<span class="fielderrormsg">', '</span>');?>
 				</p>
 				<p id="guide_bycate" style="display: none;"><span class="left">转向分类: </span>
-					<select name="topbar_bindid" style="width:140px">
+					<select id="cate_id" style="width: 158px;" onchange="$('#topbar_bindid').val($(this).val());">
+						<option>选择一个分类</option>
 						<?php echo $cate_select_tree; ?>
+					</select>
+				</p>
+				<p id="guide_bypage" style="display: none;"><span class="left">转向页面: </span>
+					<select id="page_id" style="width: 158px;" onchange="$('#topbar_bindid').val($(this).val());">
+						<option>选择一个页面</option>
+						<?php foreach($page_select_tree as $row): ?>
+						<option value="<?php echo $row['page_id']; ?>"><?php echo $row['page_name']; ?></option>
+						<?php endforeach;?>
 					</select>
 				</p>
 				<p><span class="left">排序: </span>
@@ -85,7 +97,8 @@ function check_type(id) {
 			</div>
 		</div>
 		<div>
-			<input type="submit" class="actionbtn pointer" value="提交">&nbsp;
+			<input type="hidden" id="topbar_bindid" name="topbar_bindid" value="<?php echo Form::set_value('topbar_bindid', $tinfo['topbar_bindid']);?>" />
+			<input type="submit" class="actionbtn pointer" value="保存修改">&nbsp;
 			<input type="reset" class="actionbtn pointer" value="重置">
 		</div>
 	</form>

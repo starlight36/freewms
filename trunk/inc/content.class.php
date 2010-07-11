@@ -60,6 +60,13 @@ class Content {
 			$cate['cate_path'] = $cate['cate_key'].'/';
 		}
 
+		//处理分类页URL
+		if($cate['cate_static'] == '1') {
+			$cate['cate_url'] = URL::base().$cate['cate_path'];
+		}else{
+			$cate['cate_url'] = URL::get_url('category', 'k='.$cate['cate_key']);
+		}
+
 		//取得其下属所有分类的ID
 		$sql = "SELECT `c2`.`cate_id` AS `child_id`"
 			."FROM `".DB_PREFIX."category` AS `c1`, `".DB_PREFIX."category` AS `c2`"
@@ -141,7 +148,7 @@ class Content {
 				empty($content['content_viewpass'])) {
 			$url = $cateinfo['cate_path'].$content_key.'.'.Config::get('site_staticize_extname');
 		}else{
-			$url = URL::get_url('content_view', 'm=view&k='.$content_key);
+			$url = URL::get_url('content_view', 'k='.$content_key);
 			$cateinfo['cate_static'] = 0;
 		}
 		$content['content_url'] = $url;
@@ -290,7 +297,7 @@ class Content {
 					empty($row['content_viewpass'])) {
 				$url = $cate_info['cate_path'].$content_key.'.'.Config::get('site_staticize_extname');
 			}else{
-				$url = URL::get_url('content_view', 'm=view&k='.$content_key);
+				$url = URL::get_url('content_view', 'k='.$content_key);
 				$cate_info['cate_static'] = 0;
 			}
 			$row['content_url'] = $url;

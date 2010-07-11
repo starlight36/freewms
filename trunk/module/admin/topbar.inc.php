@@ -51,21 +51,24 @@ if($_REQUEST['do'] == 'edit') {
 			}
 			$tinfo = $tinfo[0];
 		}
-	}
-	//读取分类选择树
-	$db->select('cate_id, cate_name, cate_parentid')->from('category');
-	$query = $db->query();
-	$catelist = NULL;
-	if($db->num_rows($query) > 0) {
-		while($row = $db->fetch($query)) {
-			$catelist[$row['cate_id']]['name'] = $row['cate_name'];
-			$catelist[$row['cate_id']]['parentid'] = $row['cate_parentid'];
+		//读取分类选择树
+		$db->select('cate_id, cate_name, cate_parentid')->from('category');
+		$query = $db->query();
+		$catelist = NULL;
+		if($db->num_rows($query) > 0) {
+			while($row = $db->fetch($query)) {
+				$catelist[$row['cate_id']]['name'] = $row['cate_name'];
+				$catelist[$row['cate_id']]['parentid'] = $row['cate_parentid'];
+			}
 		}
+		$db->free($query);
+		$tree = new Tree($catelist);
+		$cate_select_tree = $tree->plant(0, "<option value=\"\$id\"\$selected>\$value</option>\n", $tinfo['topbar_bindid']);
+		//读取自定页列表树
+		$db->select('page_id, page_name')->from('page');
+		$page_select_tree = $db->get();
+		include MOD_PATH.'templates/topbar.edit.tpl.php';
 	}
-	$db->free($query);
-	$tree = new Tree($catelist);
-	$cate_select_tree = $tree->plant(0, "<option value=\"\$id\"\$selected>\$value</option>\n", $tinfo['topbar_bindid']);
-	include MOD_PATH.'templates/topbar.edit.tpl.php';
 	exit();
 }
 //--------------------------------------------

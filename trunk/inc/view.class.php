@@ -215,6 +215,8 @@ class View {
 		$content = str_ireplace('${i}', '$_i', $content);
 		//变量表达式 - 本次循环结果
 		$content = preg_replace('/\$\{get=(.+?)\}/i', '$row[\'$1\']', $content);
+		//变量表达式 - 本次循环记录
+		$content = str_ireplace('${row}', '$row', $content);
 		file_put_contents($temp_file, $content);
 	}
 

@@ -2,16 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<!--#heads-->
-<title>${self::$page_title}</title>
+<t:head />
+<title><t:out exp="self::$page_title" /></title>
 </head>
 <body>
-<h3>${$msgtype}</h3>
-<p>${$msgstr}</p>
+<h3><t:out exp="$msgtype" /></h3>
+<p><t:out exp="$msgstr" /></p>
 <ul>
-<?php foreach($golist as $gomsg => $url): ?>
-	<li><a href="${$url}" title="${$gomsg}">${$gomsg}</a></li>
-<?php endforeach;?>
+<t:loop exp="$golist">
+	<li><a href="${row}" title="${key}"><t:out exp="${key}" /></a></li>
+</t:loop>
 </ul>
-  </body>
+</body>
 </html>

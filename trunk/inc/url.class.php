@@ -42,7 +42,7 @@ class URL {
 	public static function get_url($key, $str) {
 		self::load();
 		parse_str($str, $in);
-		$url = self::$url_config[self::$url_plan.'_'.$key];
+		$url = self::base().self::$url_config[self::$url_plan.'_'.$key];
 		foreach($in as $key => $value) {
 			$url = str_replace('{'.$key.'}', $value, $url);
 		}
