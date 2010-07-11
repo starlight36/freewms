@@ -22,13 +22,13 @@ if($_REQUEST['do'] == 'edit') {
 	}
 	echo $_GET['subject_desc'];
 	$form = new Form($_POST);
-	$form->set_field('topbar_name','导航名', 'required|max_length[50]', 'trim');
+	$form->set_field('topbar_name','导航名称', 'required|max_length[50]', 'trim');
 	$form->set_field('topbar_desc','导航描述', 'required|max_length[255]', 'trim');
-	$form->set_field('topbar_target','打开方式','required', 'trim');
-	$form->set_field('topbar_type','链接类型','required', 'trim');
-	$form->set_field('topbar_bindid','绑定ID',NULL, 'trim');
+	$form->set_field('topbar_target','打开方式', 'required', 'trim');
+	$form->set_field('topbar_type','链接类型', 'required', 'trim');
+	$form->set_field('topbar_bindid','绑定ID', NULL, 'trim');
     $form->set_field('topbar_url','URL', NULL, 'trim');
-	$form->set_field('topbar_attribute','自定义属性', 'required|max_length[255]', 'trim');
+	$form->set_field('topbar_attribute','自定义属性', 'max_length[255]', 'trim');
     $form->set_field('topbar_order','排序', 'required|numeric', 'trim');
 	$form->set_field('topbar_hide','显示/隐藏', 'required', 'trim');
 	if($form->run()){
@@ -66,7 +66,6 @@ if($_REQUEST['do'] == 'edit') {
 	$tree = new Tree($catelist);
 	$cate_select_tree = $tree->plant(0, "<option value=\"\$id\"\$selected>\$value</option>\n", $tinfo['topbar_bindid']);
 	include MOD_PATH.'templates/topbar.edit.tpl.php';
-
 	exit();
 }
 //--------------------------------------------
