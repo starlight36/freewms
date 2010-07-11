@@ -74,6 +74,7 @@ class Cache extends Cache_Adapter {
 	 * @param string $cache_path
 	 */
 	public static function set_page($cache_path) {
+		if(CACHE_PAGE_EXPIRES == 0) return;
 		$page_content = ob_get_contents();
 		$cache_path = BASEPATH.CACHE_PATH.'page/'.$cache_path.'.cache';
 		if(!is_dir(dirname($cache_path))) {
@@ -92,6 +93,7 @@ class Cache extends Cache_Adapter {
 	 * @return mixed
 	 */
 	public static function get_page($cache_path, $expires = NULL) {
+		if(CACHE_PAGE_EXPIRES == 0) return;
 		$cache_path = BASEPATH.CACHE_PATH.'page/'.$cache_path.'.cache';
 		if(!is_file($cache_path)) {
 			return FALSE;
