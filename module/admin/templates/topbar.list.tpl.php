@@ -43,7 +43,7 @@
 			?></td>
 			<td class="listtd">
 				<a href="index.php?m=admin&amp;a=topbar&amp;do=edit&amp;id=<?php echo $row['topbar_id'] ?>" title="修改">修改</a> |
-				<a href="index.php?m=admin&amp;a=topbar&amp;do=del&amp;id=<?php echo $row['topbar_id'] ?>" title="删除">删除</a> 
+				<a href="index.php?m=admin&amp;a=topbar&amp;do=del&amp;id=<?php echo $row['topbar_id'] ?>" onclick="return confirm('确定要删除吗?');" title="删除">删除</a>
 			</td>
 		</tr>
 		<?php endforeach; ?>

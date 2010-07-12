@@ -13,14 +13,13 @@ require_once MOD_PATH.'common.php';
 $db = DB::get_instance();
 
 //--------------------------------------------
-//	保存专题修改(增/改)
+//	保存导航修改(增/改)
 //--------------------------------------------
 if($_REQUEST['do'] == 'edit') {
 	$id = $_GET['id'];
 	if(!preg_match('/^[0-9]+$/', $id)) {
 		$id = 0;
 	}
-	echo $_GET['subject_desc'];
 	$form = new Form($_POST);
 	$form->set_field('topbar_name','导航名称', 'required|max_length[50]', 'trim');
 	$form->set_field('topbar_desc','导航描述', 'required|max_length[255]', 'trim');
@@ -91,7 +90,7 @@ if($_REQUEST['do'] == 'del') {
 //--------------------------------------------
 
 //--------------------------------------------
-//	保存分类排序修改
+//	保存导航排序修改
 //--------------------------------------------
 if($_GET['do'] == 'order') {
 	$orderlist = $_POST['order'];
