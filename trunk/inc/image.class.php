@@ -30,10 +30,10 @@ class Image {
 	 * @return mixed
 	 */
 	public function get_info($img) {
-		$imageinfo = getimagesize(BASEPATH.$img);
+		$imageinfo = getimagesize($img);
 		if($imageinfo === false) return false;
 		$imagetype = strtolower(substr(image_type_to_extension($imageinfo[2]),1));
-		$imagesize = filesize(BASEPATH.$img);
+		$imagesize = filesize($img);
 		$info = array(
 				'width'=>$imageinfo[0],
 				'height'=>$imageinfo[1],
@@ -59,8 +59,8 @@ class Image {
 
 		if(($width && $pic_width > $width) || ($height && $pic_height > $height)) {
 
-			$s_img = BASEPATH.$s_img;
-			$t_img = BASEPATH.$t_img;
+			$s_img = $s_img;
+			$t_img = $t_img;
 
 			if($width && $pic_width > $width) {
 				$widthratio = $width/$pic_width;

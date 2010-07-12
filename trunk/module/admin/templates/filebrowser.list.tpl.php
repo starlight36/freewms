@@ -111,8 +111,10 @@ select {
 }
 
 .preview_img {
-	max-width:300px;
-	width:expression(width>300?"300px":width+"px");max-width: 300px;
+	max-width:160px;
+	max-height: 180px;
+	width:expression(width>160?"160px":width+"px");max-width: 160px;
+	height:expression(height>180?"180px":height+"px");max-height: 180px;
 	overflow:hidden;
 }
 .filerow {

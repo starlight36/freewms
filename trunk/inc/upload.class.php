@@ -21,11 +21,12 @@ class Upload {
 			$this->file[] = $_FILES[$field];
 		}else{
 			foreach($_FILES[$field]['name'] as $i => $value) {
+				if(empty($value)) continue;
 				$this->file[] = array(
 					'name' => $value,
 					'type' => $_FILES[$field]['type'][$i],
 					'size' => $_FILES[$field]['size'][$i],
-					'temp_name' => $_FILES[$field]['temp_name'][$i],
+					'temp_name' => $_FILES[$field]['tmp_name'][$i],
 					'error' => $_FILES[$field]['error'][$i]
 				);
 			}
@@ -43,11 +44,13 @@ class Upload {
 		}
 
 		//生成保存路径
+
+		$filedir = date('Ym').'/';
 		$basepath = Config::get('upload_save_path');
 		if(substr($basepath, 0, 1) != '/') {
 			$basepath = BASEPATH.$basepath;
 		}
-		$basepath .= date('Ym').'/';
+		$basepath .= $filedir;
 		create_dir($basepath);
 
 		//准备图片处理组件
@@ -59,7 +62,7 @@ class Upload {
 		$db = DB::get_instance();
 
 		foreach($this->file as $file) {
-			if(!$file['error']) {
+			if($file['error'] > 0) {
 				$this->error[$file['name']] = '系统错误: Code '.$file['error'].'.更多信息请参考PHP手册.';
 				continue;
 			}
@@ -79,7 +82,7 @@ class Upload {
 			$filepath = date('YmdHis').rand(100, 999);
 			$ext_name = '.'.file_ext_name($file['name']);
 			$save_path = $basepath.$filepath.$ext_name;
-			if(!move_uploaded_file($file['name'], $basepath.$filepath)) {
+			if(!move_uploaded_file($file['temp_name'], $save_path)) {
 				$this->error[$file['name']] = '移动上传文件出错, 请检查上传文件夹是否有写入权限.';
 				continue;
 			}
@@ -97,17 +100,17 @@ class Upload {
 			}
 			//录入数据库
 			$data = array(
-				'upload_name' => basename($file),
+				'upload_name' => $file['name'],
 				'upload_time' => time(),
 				'upload_size' => $file['size'],
-				'upload_path' => $filepath.$ext_name
+				'upload_path' => $filedir.$filepath.$ext_name
 			);
 			$db->set($data);
 			$db->insert('upload');
 			$this->filelist[] = array(
-				'name' => basename($file),
+				'name' => $file['name'],
 				'size' => $file['size'],
-				'url' => Config::get('upload_url').$filepath.$ext_name
+				'url' => Config::get('upload_url').$filedir.$filepath.$ext_name
 			);
 			$this->count++;
 		}

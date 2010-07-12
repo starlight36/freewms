@@ -18,18 +18,21 @@
 <title>上传列表</title>
 <style type="text/css">
 <!--
-body {
+html, body, div {
 	padding: 0;
 	margin: 0;
+}
+body {
 	width: 499px;
 	height: 268px;
 	overflow: hidden;
+	background-color: #f0f0ee;
+	font-size: 12px;
 }
 /*---------------main-style----------*/
 #main {
 	width: 100%;
 	height: 100%;
-	background-color: #f0f0ee;
 }
 .file {
 	border-style: solid;
@@ -46,6 +49,16 @@ body {
 .file_upload {
 	width: 180px;
 	text-align: center;
+}
+.msg {
+	border-style: solid;
+	border-color: #bbb;
+	border-width: 1px;
+	height: 240px;
+	width: 468px;
+	margin: 5px 0 5px 5px;
+	background-color: #fff;
+	padding: 10px;
 }
 
 /*--------------file-list---------------------*/
@@ -72,24 +85,47 @@ body {
 </head>
 
 <body>
-
 <div id="main">
-	<div class="file">
-    	<div class="file_list">
-        	<input type="file" />
-            <input type="file" />
-            <input type="file" />
-            <input type="file" />
-            <input type="file" />
-            <p>提示：您一次可以选择1-5个文件进行上传</p>
-    	</div>
+	<?php if(TPL_PART == 'INPUT'): ?>
+	<form action="index.php?m=admin&amp;a=filebrowser&do=upload" method="post" enctype="multipart/form-data">
+		<div class="file">
+			<div class="file_list">
+				<input name="file[]" type="file" />
+				<input name="file[]" type="file" />
+				<input name="file[]" type="file" />
+				<input name="file[]" type="file" />
+				<input name="file[]" type="file" />
+				<p>提示：您一次可以选择1-5个文件进行上传</p>
+			</div>
+		</div>
+		<div class="file">
+			<div class="file_upload">
+				<input type="submit" value="开始上传" />
+			</div>
+		</div>
+	</form>
+	<?php endif; ?>
+	<?php if(TPL_PART == 'ERROR'): ?>
+	<div class="msg">
+		<h4>上传文件时发生了错误：</h4>
+		<p>
+			<?php echo implode('</p><p>', $errorlist); ?><br />
+		</p>
+		<p><a href="javascript:void(0);" onclick="window.location.href='index.php?m=admin&a=filebrowser&do=upload'" title="重新上传">返回上一页重新上传</a></p>
 	</div>
-	<div class="file">
-    	<div class="file_upload">
-        	<input type="button" value="开始上传" />
-        </div>
+	<?php endif; ?>
+	<?php if(TPL_PART == 'SUCCESS'): ?>
+	<div class="msg">
+		<h4>上传文件成功!</h4>
+		<?php foreach($filelist as $row): ?>
+		<p>文件: <?php echo $row['name']; ?>(<?php echo Format::filesize($row['size']); ?>)<input type="button" value="插入文件" onclick="callback('<?php echo $row['url']; ?>');" /></p>
+		<?php endforeach; ?>
+		<p>
+			<a href="javascript:void(0);" onclick="window.location.href='index.php?m=admin&a=filebrowser&do=upload'" title="继续上传">返回上一页继续上传</a>
+			<a href="index.php?m=admin&amp;a=filebrowser" title="返回列表">返回列表</a>
+		</p>
 	</div>
+	<?php endif; ?>
 </div>
-
 </body>
 </html>
