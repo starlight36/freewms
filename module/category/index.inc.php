@@ -10,9 +10,5 @@
 /*
  * 分类页显示模块
  */
-class mod_category {
-	public function action_index() {
-		echo 'ddhhhd';
-	}
-}
+echo 'hello';
 /* End of this file */

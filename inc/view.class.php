@@ -49,7 +49,7 @@ class View {
 	 * @param string $v
 	 */
 	public static function set_keywords($v = NULL) {
-		self::$page_keywords[] = htmlspecialchars($v);
+		self::$page_keywords = htmlspecialchars($v);
 	}
 
 	/**
@@ -194,7 +194,7 @@ class View {
 		//输出标签
 		$content = preg_replace('/<t:out (.+?)>/ie', 'self::tag_out(\'$1\')', $content);
 		//预处理非系统标签中的变量表达式
-		$content = preg_replace('/(<[a-z] .+?>)/ie', 'self::tag_var_out(\'$1\')', $content);
+		$content = preg_replace('/(<[a-z]+ .+?>)/ie', 'self::tag_var_out(\'$1\')', $content);
 		//解析PHP语句块
 		$content = preg_replace('/<script .*="php".*>(.*)<\/script>/is', '<?php$1?>', $content);
 		//变量表达式 - 读取设置
@@ -217,6 +217,8 @@ class View {
 		$content = preg_replace('/\$\{get=(.+?)\}/i', '$row[\'$1\']', $content);
 		//变量表达式 - 本次循环记录
 		$content = str_ireplace('${row}', '$row', $content);
+		//任意变量表达式
+		$content = preg_replace('/\$\{(.+?)\}/i', '$1', $content);
 		file_put_contents($temp_file, $content);
 	}
 

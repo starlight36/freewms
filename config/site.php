@@ -39,7 +39,7 @@ $config['upload_size'] = '1024000'; //允许上传的最大文件
 $config['upload_extname'] = 'jpg|gif|png|jpge|bmp|zip|rar|gz|txt|doc|docx|wps|ppt|pdf'; //允许上传的文件扩展名
 
 $config['pic_thumb'] = '1'; //是否生成缩略图
-$config['pic_thumb_size'] = '300|300'; //生成缩略图的尺寸
+$config['pic_thumb_size'] = '180|180'; //生成缩略图的尺寸
 $config['pic_resize'] = '1'; //是否将图片缩放
 $config['pic_resize_size'] = '1024|1024'; //图片缩放尺寸
 $config['pic_watermark'] = '1'; //是否为图片加上水印
