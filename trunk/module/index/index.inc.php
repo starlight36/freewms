@@ -23,8 +23,11 @@ Cache::get_page('index');
 //加载首页语言支持文件
 Lang::load('index');
 
-//设置首页标题
+//设置首页标题/关键字等
 View::set_title(Lang::_('mod_index_title'));
+View::set_keywords(Config::get('site_keywords'));
+View::set_description(Config::get('site_desc'));
+
 
 //从模板加载首页
 View::load('index/index');

@@ -27,9 +27,9 @@ define('MEMCACHE_TIMEOUT', 1); //memcache服务器连接超时
 
 //缓存配置
 define('CACHE_TYPE', 'file'); //缓存方式, 可选file文件缓存或mencache
-define('CACHE_EXPIRES', 7200); //数据缓存寿命, 单位秒, 0为不缓存
+define('CACHE_EXPIRES', 0); //数据缓存寿命, 单位秒, 0为不缓存
 define('CACHE_PATH', 'cache/'); //文件缓存位置
-define('CACHE_PAGE_EXPIRES', 7200); //页面缓存寿命, 单位秒, 0为不缓存
+define('CACHE_PAGE_EXPIRES', 0); //页面缓存寿命, 单位秒, 0为不缓存
 
 //SESSION配置
 define('SESSION_TYPE', 'file'); //session存储方式, 包括file文件, db数据库, mencache缓存服务器
