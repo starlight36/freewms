@@ -12,6 +12,10 @@
  */
 ?>
 <?php include MOD_PATH.'templates/header.tpl.php'; ?>
+<link href="<?php echo Url::base();?>js/calendar/syscalendar.css" title="blue" rel="stylesheet" type="text/css" media="all" />
+<script type="text/javascript" src="<?php echo Url::base();?>js/calendar/syscalendar.js"></script>
+<script type="text/javascript" src="<?php echo Url::base();?>js/calendar/syscalendar-zh.js"></script>
+<script type="text/javascript" src="<?php echo Url::base();?>js/calendar/syscalendar-setup.js"></script>
 <script type="text/javascript">
 //<!--
 function DoFitter() {
@@ -51,10 +55,12 @@ function DoFitter() {
 					<option value="title"<?php if($search_type=='title') echo ' selected=selected'; ?>><?php echo Lang::_('admin_search_title_tip');?></option>
 					<option value="desc"<?php if($search_type=='desc') echo ' selected=selected'; ?>><?php echo Lang::_('admin_search_desc_tip');?></option>
 				</select>
-				<input type="text" class="text shorttext" name="keywords" value="<?php echo $keywords; ?>" />
+				<input type="text" class="text" size="14" name="keywords" value="<?php echo $keywords; ?>" />
 				<?php echo Lang::_('admin_start_time_tip');?>:
-				<input type="text" class="text" name="start_time" size="10" value="<?php echo $start_time; ?>" /> -
-				<input type="text" class="text" name="end_time" size="10" value="<?php echo $end_time; ?>" />
+				<input type="text" class="text" id="start_time" name="start_time" size="12" value="<?php echo $start_time; ?>" /> -
+				<a style="position: absolute; margin: 4px 0 0 -36px ! important;" title="选择开始时间"><img alt="选择开始时间" align="absmiddle" class="pointer" id="start_time_icon" src="<?php echo Url::base();?>module/admin/images/datebar.gif"></a>
+				<input type="text" class="text" id="end_time" name="end_time" size="12" value="<?php echo $end_time; ?>" />
+				<a style="position: absolute; margin: 4px 0 0 -28px ! important;" title="选择截止时间"><img alt="选择截止时间" align="absmiddle" class="pointer" id="end_time_icon" src="<?php echo Url::base();?>module/admin/images/datebar.gif"></a>
 			    每页显示
 				<select name="pagesize">
 						<option value="5" <?php if($pagesize==5) echo ' selected=selected';?>><?php echo "5条"; ?></option>
@@ -136,4 +142,27 @@ function DoFitter() {
 		</table>
 	</form>
 </div>
+<script type="text/javascript">
+//<!--
+//日历选择控件
+Calendar.setup({
+	inputField	: "start_time",
+	ifFormat	: "%Y-%m-%d",
+	showsTime	: false,
+	timeFormat	: "24",
+	button		: "start_time_icon",
+	align		: "Bl",
+	singleClick	: true
+});
+Calendar.setup({
+	inputField	: "end_time",
+	ifFormat	: "%Y-%m-%d",
+	showsTime	: false,
+	timeFormat	: "24",
+	button		: "end_time_icon",
+	align		: "Bl",
+	singleClick	: true
+});
+//-->
+</script>
 <?php include MOD_PATH.'templates/footer.tpl.php'; ?>
