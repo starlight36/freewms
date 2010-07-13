@@ -30,7 +30,7 @@ class Page {
 		if($pinfo['page_static'] == '1') {
 			$pinfo['page_url'] = URL::base().'page/'.$pinfo['page_key'].'.'.Config::get('site_staticize_extname');
 		}else{
-			$pinfo['page_url'] = URL::get_url('page', 'k='.$pinfo['page_key']);
+			$pinfo['page_url'] = URL::get_url('page', 'm=page&key='.$pinfo['page_key']);
 		}
 		Cache::set('page/'.$key, $pinfo);
 		return $pinfo;

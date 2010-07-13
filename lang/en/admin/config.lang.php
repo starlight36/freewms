@@ -1,0 +1,115 @@
+<?php if(!defined('BASEPATH')) die('Access Denied');
+/*-------------------------------------------------
+ * FreeWMS - A Free Website Management System
+ * Ver:0.1.0	Update: 2010-05-16
+ * Home: http://code.google.com/p/freewms
+ * Copyright 2010, FreeWMS Team, SOVO, Neusoft
+ * Released under the New BSD Licenses
+ *-------------------------------------------------*/
+
+/*
+ * Setup editable language file
+ */
+$lang = array(
+	'admin_sys_set_tip' => 'System settings',
+	'admin_site_set_title' => 'Site basic settings',
+	'admin_site_set_tip' => 'Site basic settings',
+	'admin_user_option_set_title' => 'User option settings',
+	'admin_user_option_set_tip' => 'User option settings',
+	'admin_upload_set_title' => 'UploadFile settings',
+	'admin_upload_set_tip' => 'UploadFile settings',
+	'admin_email_set_title' => 'E-mail Sender settings',
+	'admin_email_set_tip' => 'E-mail Sender settings',
+	'admin_sys_security_set_title' => 'System security settings',
+	'admin_sys_security_set_tip' => 'System aecurity settings',
+	'admin_site_name_tip' => 'Site name',
+	'admin_site_profile_tip' => 'Site profile',
+	'admin_site_profile_title' => 'Site profile',
+	'admin_site_keywords_tip' => 'Site keywords',
+	'admin_site_keywords_title' => 'Site keywords',
+	'admin_site_URL_tip' => 'Site URL',
+	'admin_site_URL_title' => 'Site URL',
+	'admin_sys_default_theme_tip' => 'System default theme',
+	'admin_site_state_tip' => 'Site open state',
+	'admin_site_state_yes' => 'Open',
+	'admin_site_state_no' => 'Close',
+	'admin_site_page_cache_tip' => 'Page Caching state',
+	'admin_site_page_cache_yse' => 'Open',
+	'admin_site_page_cache_no' => 'Close',
+	'admin_site_page_cache_title' => 'Open this can accelerate the speed of page demonstration,to get much load number,but may also cause some overtime during the page update.',
+	'admin_site_staticize_extname_tip' => 'Static files extension name',
+	'admin_site_index_staticize_tip' => 'Form  static  home page',
+	'admin_site_index_staticize_yse' => 'Open',
+	'admin_site_index_staticize_no' => 'Close',
+	'admin_site_url_plan_tip' => 'System URL plan',
+	'admin_site_url_plan_normal' => 'Select string',
+	'admin_site_url_plan_php_path' => 'PHP path',
+	'admin_site_url_plan_url_rewrite' => 'URL discuz',
+	'admin_user_guest_gid_tip' => 'Guests default usergroup',
+	'admin_user_reg_tip' => 'User register switch',
+	'admin_user_reg_yes' => 'Open',
+	'admin_user_reg_no' => 'Close',
+	'admin_user_regvalidcode_tip' => 'User register identifying code',
+	'admin_user_regvalidcode_yes' =>'Open',
+	'admin_user_regvalidcode_no' => 'Close',
+	'admin_user_emailvalid_tip' => 'Users register email verification',
+	'admin_user_emailvalid_yes' => 'Close',
+	'admin_user_adminvalid_tip' => 'Users register administrator verification',
+	'admin_user_adminvalid_yes' => 'Open',
+	'admin_user_adminvalid_no' => 'Close',
+	'admin_user_default_gid_tip' => 'New users default usergroup',
+	'admin_user_unvalid_gid_tip' => 'To be verified/Inspect and verify usergroup',
+	'admin_user_name_length_tip' => 'Username length limitation',
+	'admin_user_name_denylist_tip' => 'Username limitation list',
+	'admin_upload_save_path_tip' => 'Upload files save path',
+	'admin_upload_url_tip' => 'UploadFile visit root',
+	'admin_upload_size_tip' => 'UploadFile limitation(byte)',
+	'admin_upload_extname_tip' => 'UploadFile extention name',
+	'admin_pic_thumb_tip' => 'Whether to generate picture thumbsnail',
+	'admin_pic_thumb_yes' => 'Open',
+	'admin_pic_thumb_no' => 'Close',
+	'admin_pic_thumb_size_tip' => 'Picture thumbsmail size',
+	'admin_pic_resize_tip' => 'Whether to zoom big image',
+	'admin_pic_resize_yes' => 'Open',
+	'admin_pic_resize_no' => 'Close',
+	'admin_pic_resize_size_tip' => 'Image zooming size',
+	'admin_pic_watermark_tip' => 'Whether to add watermark to zooming image',
+	'admin_pic_watermark_yes' => 'Open',
+	'admin_pic_watermark_no' => 'Close',
+	'admin_pic_watermark_size_tip' => 'Watermark minimum size',
+	'admin_pic_watermark_path_tip' => 'Watermark path',
+	'admin_pic_watermark_pct_tip' => 'Watermark image transparency ',
+	'admin_pic_watermark_postion_tip' => 'Watermark position',
+	'admin_pic_watermark_postion_0' => 'Right down',
+	'admin_pic_watermark_postion_1' => 'Left up',
+	'admin_pic_watermark_postion_2' => 'Left down',
+	'admin_pic_watermark_postion_3' => 'Right up',
+	'admin_pic_watermark_postion_4' => 'Center',
+	'admin_pic_watermark_postion_r' => 'Random',
+	'admin_mail_lib_tip' => 'Mail liberity component',
+	'admin_mail_lib_none' => 'Close mail liberity',
+	'admin_mail_lib_socket' => 'Socket SMTP',
+	'admin_mail_lib_mail' => 'mail function',
+	'admin_mail_account_tip' => 'SMTP mail account',
+	'admin_mail_smtp_host_tip' => 'SMTP service',
+	'admin_mail_smtp_port_tip' => 'SMTP port',
+	'admin_mail_smtp_user_tip' => 'SMTP login username',
+	'admin_mail_smtp_pass_tip' => 'SMTP login password',
+	'admin_safe_wordfilt_plan_tip' => 'Sensitive words solution plans',
+	'admin_safe_wordfilt_plan_0' => 'Not dealing with',
+	'admin_safe_wordfilt_plan_1' => 'Replace as asterisk',
+	'admin_safe_wordfilt_plan_2' => 'Set to be verified',
+	'admin_safe_wordfilt_plan_3' => 'Deny submition',
+	'admin_safe_denyword_tip' => 'Illegal word filter list ',
+	'admin_safe_denyip_tip' => 'User login/Register shielding IP',
+	'admin_submit_title' => 'Save edit',
+	'admin_reset_title' => 'Reedit',
+
+
+
+
+
+
+	
+);
+/* End of this file */

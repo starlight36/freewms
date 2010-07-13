@@ -64,7 +64,7 @@ class Content {
 		if($cate['cate_static'] == '1') {
 			$cate['cate_url'] = URL::base().$cate['cate_path'];
 		}else{
-			$cate['cate_url'] = URL::get_url('category', 'k='.$cate['cate_key']);
+			$cate['cate_url'] = URL::get_url('category', 'key='.$cate['cate_key']);
 		}
 
 		//取得其下属所有分类的ID
@@ -148,7 +148,7 @@ class Content {
 				empty($content['content_viewpass'])) {
 			$url = $cateinfo['cate_path'].$content_key.'.'.Config::get('site_staticize_extname');
 		}else{
-			$url = URL::get_url('content_view', 'k='.$content_key);
+			$url = URL::get_url('view', 'key='.$content_key);
 			$cateinfo['cate_static'] = 0;
 		}
 		$content['content_url'] = $url;
@@ -297,7 +297,7 @@ class Content {
 					empty($row['content_viewpass'])) {
 				$url = $cate_info['cate_path'].$content_key.'.'.Config::get('site_staticize_extname');
 			}else{
-				$url = URL::get_url('content_view', 'k='.$content_key);
+				$url = URL::get_url('view', 'm=view&key='.$content_key);
 				$cate_info['cate_static'] = 0;
 			}
 			$row['content_url'] = $url;

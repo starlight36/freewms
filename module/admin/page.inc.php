@@ -25,41 +25,41 @@ if($_REQUEST['do'] == 'edit') {
 	$form->set_field('page_name','页面名', 'required|max_length[50]', 'trim');
 	$form->set_field('page_keyword','页面关键字', 'required|max_length[50]', 'trim');
 	$form->set_field('page_desc','页面描述','required|max_length[255]', 'trim');
-	$form->set_field('page_key','页面关键','required|max_length[50]|dir_name|_check_page_key['.$id.']', 'trim');
+	$form->set_field('page_key','页面URL名称','required|max_length[50]|dir_name|_check_page_key['.$id.']', 'trim');
 	$form->set_field('page_template','页面模板','required|max_length[255]', 'trim');
 	$form->set_field('page_static', '是否生成静态');
 	if($form->run()){
 		$db->set($_POST);
 		if($id == 0) {
 			$db->insert('page');
-		}else {
+		}else{
 			$db->sql_add('WHERE `page_id` = ?', $id);
 			$db->update('page');
 		}
 		show_message('success', '添加导航成功', array('返回导航列表' =>
 											'index.php?m=admin&a=page'));
-	}else {
-		  if($id > 0) {
-		    $db->select('*')->from('page')->sql_add('WHERE `page_id` = ?', $id);
+	}else{
+		if($id > 0) {
+			$db->select('*')->from('page')->sql_add('WHERE `page_id` = ?', $id);
 			$pinfo = $db->get();
 			if($pinfo == NULL) {
 				show_message('error', '要编辑的页面不存在');
 			}
 			$pinfo = $pinfo[0];
-		  }
-		  include MOD_PATH.'templates/page.edit.tpl.php';
+		}
+		include MOD_PATH.'templates/page.edit.tpl.php';
 	}
-		exit();
+	exit();
 }
 function _check_page_key($name, $id) {
 	global $db;
 	if($id == 0){
 	    $db->select('COUNT(*)')->from('page')->sql_add('WHERE `page_key`= ?', $name);
 	}else {
-		$db->select('COUNT(*)')->from('page')->sql_add('WHERE `page_key`= ? AND `page_id` != ?', $name,$id);
+		$db->select('COUNT(*)')->from('page')->sql_add('WHERE `page_key`= ? AND `page_id` != ?', $name, $id);
 	}
 	if($db->result($db->query()) == 0) {
-		return;
+		return FALSE;
 	}else{
 		return '这个惟一标识符已被使用.';
 	}

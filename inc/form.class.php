@@ -277,6 +277,7 @@ class Form {
 	 */
 	private function valid_email($str) {
 		$msg = Lang::_('form_valid_email');
+		if($str == '') return FALSE;
 		return (!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $str)) ? $msg : FALSE;
 	}
 
@@ -288,6 +289,7 @@ class Form {
 	 */
 	private function valid_emails($str) {
 		$msg = Lang::_('form_valid_emails');
+		if($str == '') return FALSE;
 		if(strpos($str, ',') === FALSE) {
 			return $this->valid_email(trim($str));
 		}
@@ -306,6 +308,7 @@ class Form {
 	 */
 	private function valid_ip($ip) {
 		$msg = Lang::_('form_valid_ip');
+		if($str == '') return FALSE;
 		$ip_segments = explode('.', $ip);
 		if (count($ip_segments) != 4) {
 			return $msg;
@@ -328,6 +331,7 @@ class Form {
 	 */
 	private function dir_name($str) {
 		$msg = Lang::_('form_dir_name');
+		if(empty($str)) return FALSE;
 		return (!preg_match("/^([a-z0-9_])+$/i", $str)) ? $msg : FALSE;
 	}
 
@@ -338,6 +342,7 @@ class Form {
 	 */
 	private function user_name($str) {
 		$msg = Lang::_('form_user_name');
+		if(empty($str)) return FALSE;
 		return (!preg_match('/^[\x{4e00}-\x{9fa5}a-z_A-Z0-9]+$/u', $str)) ? $msg : FALSE;
 	}
 
@@ -349,6 +354,7 @@ class Form {
 	 */
 	private function numeric($str) {
 		$msg = Lang::_('form_numeric');
+		if($str == '') return FALSE;
 		return preg_match('/^[\-+]?[0-9]*\.?[0-9]+$/', $str) ? FALSE : $msg;
 	}
 
@@ -359,6 +365,7 @@ class Form {
 	 */
 	private function integer($str) {
 		$msg = Lang::_('form_integer');
+		if($str == '') return FALSE;
 		return preg_match( '/^[\-+]?[0-9]+$/', $str) ? FALSE : $msg;
 	}
 
@@ -369,6 +376,7 @@ class Form {
 	 */
 	private function natural($str) {
 		$msg = Lang::_('form_is_natural');
+		if($str == '') return FALSE;
    		return (bool)preg_match('/^[0-9]+$/', $str) ? FALSE : $msg;
     }
 

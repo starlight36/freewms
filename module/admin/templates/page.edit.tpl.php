@@ -27,18 +27,18 @@
 				  <input type="text" class="text shorttext" name="page_name" value="<?php echo Form::set_value('page_name', $pinfo['page_name']);?>" />
 				  <?php echo Form::get_error('page_name', '<span class="fielderrormsg">', '</span>');?>
 				</p>
-				<p><span class="left">页面简介: </span>
-					<input type="text" class="text normaltext" name="page_desc" value="<?php echo Form::set_value('page_desc', $pinfo['page_desc']);?>" />
-					<?php echo Form::get_error('page_desc', '<span class="fielderrormsg">', '</span>');?>
-				</p>
-				<p><span class="left">页面关键: </span>
+				<p><span class="left">页面URL名称: </span>
 					<input type="text" class="text shorttext" name="page_key" value="<?php echo Form::set_value('page_key', $pinfo['page_key']);?>" />
 					<?php echo Form::get_error('page_key', '<span class="fielderrormsg">', '</span>');?>
                 </p>
 				<p><span class="left">页面关键字: </span>
-					<input type="text" class="text shorttext" name="page_keyword" value="<?php echo Form::set_value('page_keyword', $pinfo['page_keyword']);?>" />
+					<input type="text" class="text normaltext" name="page_keyword" value="<?php echo Form::set_value('page_keyword', $pinfo['page_keyword']);?>" />
 					<?php echo Form::get_error('page_keyword', '<span class="fielderrormsg">', '</span>');?>
                 </p>
+				<p><span class="left">页面简介: </span>
+					<input type="text" class="text normaltext" name="page_desc" value="<?php echo Form::set_value('page_desc', $pinfo['page_desc']);?>" />
+					<?php echo Form::get_error('page_desc', '<span class="fielderrormsg">', '</span>');?>
+				</p>
                 <p><span class="left">页面模板: </span>
 					<input type="text" class="text shorttext" name="page_template" value="<?php echo Form::set_value('page_template', $pinfo['page_template']);?>" />
 					<?php echo Form::get_error('page_template', '<span class="fielderrormsg">', '</span>');?>

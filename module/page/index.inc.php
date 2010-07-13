@@ -12,7 +12,7 @@
  */
 
 //读取自定义页面名称
-$key = URL::get_args('page', 'k');
+$key = $_GET['key'];
 
 //检查缓存情况
 Cache::get_page('page/'.$key);
@@ -23,6 +23,11 @@ $pinfo = Page::get($key);
 //不存在返回404错误
 if(!$pinfo) {
 	show_404();
+}
+
+//设置生成静态, 转向静态页
+if($pinfo['page_static'] == '1') {
+	redirect($pinfo['page_url']);
 }
 
 //设置页面标题/关键字等

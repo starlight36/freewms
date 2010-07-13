@@ -11,6 +11,7 @@ class URL {
 
 	private static $url_plan = NULL;
 	private static $url_config = NULL;
+	private static $url_route = NULL;
 
 	public static function base() {
 		return Config::get('site_url');
@@ -31,6 +32,28 @@ class URL {
 			include BASEPATH.'config/url.php';
 			self::$url_config = $url;
 		}
+		if(self::$url_route == NULL) {
+			if(!is_file(BASEPATH.'config/route.php')) {
+				return FALSE;
+			}
+			include BASEPATH.'config/route.php';
+			self::$url_route = $route;
+		}
+	}
+
+	/**
+	 * 预处理URL
+	 */
+	public static function init() {
+		self::load();
+		if(self::$url_plan == 'path') {
+			$get_query = $_SERVER['PATH_INFO'];
+			foreach(self::$url_route as $pattern => $replacement) {
+				$get_query = preg_replace("#^\\/{$pattern}$#i", $replacement, $get_query);
+			}
+			parse_str($get_query, $out);
+			$_GET = array_merge($_GET, $out);
+		}
 	}
 
 	/**
@@ -41,31 +64,36 @@ class URL {
 	 */
 	public static function get_url($key, $str) {
 		self::load();
-		parse_str($str, $in);
-		$url = self::base().self::$url_config[self::$url_plan.'_'.$key];
-		foreach($in as $key => $value) {
-			$url = str_replace('{'.$key.'}', $value, $url);
-		}
-		return $url;
-	}
-
-	/**
-	 * 取得一个URL参数
-	 * @param string $key URL模版关键字
-	 * @param string $path URL参数名
-	 * @return string
-	 */
-	public static function get_args($key, $path = NULL) {
-		self::load();
-		if(self::$url_plan == 'path') {
-			$url = explode('/', self::$url_config['path_'.$key]);
-			$path = explode('/', $_SERVER['PATH_INFO']);
-			for($i = 1; $i < count($path); $i++) {
-				$url[$i] = str_replace(array('{','}'), array(NULL, NULL), $url[$i]);
-				$_GET[$url[$i]] = $path[$i];
+		if(self::$url_plan == 'normal') {
+			return self::base().'index.php?'.$str;
+		}else{
+			parse_str($str, $in);
+			$url_tpl_list = explode('|', self::$url_config[$key]);
+			$url = NULL;
+			foreach($url_tpl_list as $url_tpl) {
+				$count = 0;
+				foreach($in as $k => $v) {
+					if(strpos($url_tpl, "{{$k}}") !== FALSE || in_array($k, array('m', 'a'))) {
+						$count++;
+					}
+				}
+				if($count == count($in)) {
+					$url = $url_tpl;
+					foreach($in as $k => $v) {
+						$url = str_ireplace("{{$k}}", $v, $url);
+					}
+					break;
+				}
+			}
+			if($url == NULL) {
+				return self::base().'index.php?'.$str;
+			}
+			if(self::$url_plan == 'path') {
+				return self::base().'index.php/'.$url;
+			}else{
+				return self::base().$url;
 			}
 		}
-		return path_array($_GET, $path);
 	}
 }
 
