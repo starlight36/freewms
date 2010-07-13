@@ -15,7 +15,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>上传列表</title>
+<title><?php echo Lang::_('admin_upload_list_tip');?></title>
 <style type="text/css">
 <!--
 html, body, div {
@@ -95,34 +95,34 @@ body {
 				<input name="file[]" type="file" />
 				<input name="file[]" type="file" />
 				<input name="file[]" type="file" />
-				<p>提示：您一次可以选择1-5个文件进行上传</p>
+				<p><?php echo Lang::_('admin_upload_clew_tip');?></p>
 			</div>
 		</div>
 		<div class="file">
 			<div class="file_upload">
-				<input type="submit" value="开始上传" />
+				<input type="submit" value="<?php echo Lang::_('admin_upload_start_tip');?>" />
 			</div>
 		</div>
 	</form>
 	<?php endif; ?>
 	<?php if(TPL_PART == 'ERROR'): ?>
 	<div class="msg">
-		<h4>上传文件时发生了错误：</h4>
+		<h4><?php echo Lang::_('admin_upload_error_tip');?>：</h4>
 		<p>
 			<?php echo implode('</p><p>', $errorlist); ?><br />
 		</p>
-		<p><a href="javascript:void(0);" onclick="window.location.href='index.php?m=admin&a=filebrowser&do=upload'" title="重新上传">返回上一页重新上传</a></p>
+		<p><a href="javascript:void(0);" onclick="window.location.href='index.php?m=admin&a=filebrowser&do=upload'" title="<?php echo Lang::_('admin_upload_again_title');?>"><?php echo Lang::_('admin_upload_again_return_tip');?></a></p>
 	</div>
 	<?php endif; ?>
 	<?php if(TPL_PART == 'SUCCESS'): ?>
 	<div class="msg">
-		<h4>上传文件成功!</h4>
+		<h4><?php echo Lang::_('admin_upload_success_tip');?></h4>
 		<?php foreach($filelist as $row): ?>
-		<p>文件: <?php echo $row['name']; ?>(<?php echo Format::filesize($row['size']); ?>)<input type="button" value="插入文件" onclick="callback('<?php echo $row['url']; ?>');" /></p>
+		<p><?php echo Lang::_('admin_upload_file_tip');?>: <?php echo $row['name']; ?>(<?php echo Format::filesize($row['size']); ?>)<input type="button" value="<?php echo Lang::_('admin_insert_file_tip');?>" onclick="callback('<?php echo $row['url']; ?>');" /></p>
 		<?php endforeach; ?>
 		<p>
-			<a href="javascript:void(0);" onclick="window.location.href='index.php?m=admin&a=filebrowser&do=upload'" title="继续上传">返回上一页继续上传</a>
-			<a href="index.php?m=admin&amp;a=filebrowser" title="返回列表">返回列表</a>
+			<a href="javascript:void(0);" onclick="window.location.href='index.php?m=admin&a=filebrowser&do=upload'" title="<?php echo Lang::_('admin_upload_continue_title');?>"><?php echo Lang::_('admin_upload_continue_return_tip');?></a>
+			<a href="index.php?m=admin&amp;a=filebrowser" title="<?php echo Lang::_('admin_upload_return_title');?>"><?php echo Lang::_('admin_upload_teturn_tip');?></a>
 		</p>
 	</div>
 	<?php endif; ?>

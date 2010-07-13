@@ -15,7 +15,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>上传文件</title>
+<title><?php echo Lang::_('admin_file_upload_tip');?></title>
 <style type="text/css">
 <!--
 a {
@@ -160,14 +160,14 @@ $(document).ready(function(){
 				<select name="yearnum">
 					<option>1990</option>
 					<option>1991</option>
-				</select>&nbsp;年
+				</select>&nbsp;<?php echo Lang::_('admin_file_year_tip');?>
 				<select name="monthnum">
 					<option>七</option>
 					<option>八</option>
 					<option>十一</option>
-				</select>&nbsp;月
-				<input type="text" class="table_input" name="filename" value="文件名" onfocus="this.value=''" />
-				<input type="button" class="table_screen" value="筛选"/>
+				</select>&nbsp;<?php echo Lang::_('admin_file_month_tip');?>
+				<input type="text" class="table_input" name="filename" value="<?php echo Lang::_('admin_file_filename_tip');?>" onfocus="this.value=''" />
+				<input type="button" class="table_screen" value="<?php echo Lang::_('admin_table_screen_tip');?>"/>
 			</div>
 			<div class="upload_file">
 				<input type="button" value="上传文件" onclick="window.location.href='index.php?m=admin&a=filebrowser&do=upload'"/>
@@ -182,13 +182,13 @@ $(document).ready(function(){
 		<td width="309" height="114" class="inner_border" valign="top">
 			<table border="0" cellpadding="0" cellspacing="0" class="inner_table">
 				<tr class="header">
-					<td width="130" class="innertable_border">文件名</td>
-					<td width="70" class="innertable_border">大小</td>
-					<td class="innertable_title">上传时间</td>
+					<td width="130" class="innertable_border"><?php echo Lang::_('admin_filename_tip');?></td>
+					<td width="70" class="innertable_border"><?php echo Lang::_('admin_file_size_tip');?></td>
+					<td class="innertable_title"><?php echo Lang::_('admin_file_uploadtime_tip');?></td>
 				</tr>
 				<?php if($filelist == NULL): ?>
 				<tr>
-					<td colspan="3">所选范围内没有找到任何文件.</td>
+					<td colspan="3"><?php echo Lang::_('admin_file_nofound_tip');?></td>
 				</tr>
 				<?php else: ?>
 				<?php foreach($filelist as $row): ?>
@@ -212,11 +212,11 @@ $(document).ready(function(){
 					<td height="160" colspan="2" align="center"><img src="<?php echo Url::base();?>images/files/64/unknown.png" alt="预览图" id="pv_img" class="preview_img" /></td>
 				</tr>
 				<tr>
-					<td width="50" height="24" align="center">名称：</td>
+					<td width="50" height="24" align="center"><?php echo Lang::_('admin_pv_name_tip');?>：</td>
 					<td><span id="pv_name"></span></td>
 				</tr>
 				<tr>
-					<td height="24" align="center">大小：</td>
+					<td height="24" align="center"><?php echo Lang::_('admin_pv_size_tip');?>：</td>
 					<td height="24"><span id="pv_size"></span></td>
 				</tr>
 			</table>

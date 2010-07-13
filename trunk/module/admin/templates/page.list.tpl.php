@@ -14,19 +14,19 @@
 <?php include MOD_PATH.'templates/header.tpl.php'; ?>
 <div id="showmain">
 	<div class="titlebar">
-		<a href="index.php?m=admin&amp;a=page&amp;do=edit" title="添加新自定义">添加新自定义页</a><br />
-		说明</div>
+		<a href="index.php?m=admin&amp;a=page&amp;do=edit" title="<?php echo Lang::_('admin_page_add_title');?>"><?php echo Lang::_('admin_page_add_tip');?></a><br />
+		<?php echo Lang::_('admin_page_desc_title');?></div>
 	<table cellspacing="1" cellpadding="3" border="0" align="center" width="100%" class="listtable">
 		<tr>
-			<td class="titletd" width="10%">自定义页ID</td>
-			<td class="titletd" width="15%">自定义页名</td>
-			<td class="titletd" width="30%">自定义页描述</td>
-            <td class="titletd">自定义页URL名称</td>
-			<td class="titletd" width="20%">操作</td>
+			<td class="titletd" width="10%"><?php echo Lang::_('admin_cpage_id_tip');?></td>
+			<td class="titletd" width="15%"><?php echo Lang::_('admin_cpage_name_tip');?></td>
+			<td class="titletd" width="30%"><?php echo Lang::_('admin_cpage_desc_tip');?></td>
+            <td class="titletd"><?php echo Lang::_('admin_cpage_key_tip');?></td>
+			<td class="titletd" width="20%"><?php echo Lang::_('admin_cpage_operate_tip');?></td>
 		</tr>
 		<?php if($plist == NULL): ?>
 		<tr>
-			<td class="titletd" colspan="5">没有任何自定义页</td>
+			<td class="titletd" colspan="5"><?php echo Lang::_('admin_cpage_nofound_tip');?></td>
 		</tr>
 		<?php else: ?>
 		<?php foreach ($plist as $row): ?>
@@ -36,8 +36,8 @@
 			<td class="listtd"><?php echo $row['page_desc'] ?></td>
             <td class="listtd"><?php echo $row['page_key'] ?></td>
 			<td class="listtd">
-				<a href="index.php?m=admin&amp;a=page&amp;do=edit&id=<?php echo $row['page_id'] ?>" title="修改">修改</a> |
-				<a href="index.php?m=admin&amp;a=page&amp;do=del&id=<?php echo $row['page_id'] ?>" onclick="return confirm('确定要删除吗?');" title="删除">删除</a>
+				<a href="index.php?m=admin&amp;a=page&amp;do=edit&id=<?php echo $row['page_id'] ?>" title="<?php echo Lang::_('admin_page_edit_title');?>"><?php echo Lang::_('admin_page_edit_tip');?></a> |
+				<a href="index.php?m=admin&amp;a=page&amp;do=del&id=<?php echo $row['page_id'] ?>" onclick="return confirm('<?php echo Lang::_('admin_page_delete_warn_tip');?>');" title="<?php echo Lang::_('admin_page_delete_title');?>"><?php echo Lang::_('admin_page_delete_tip');?></a>
 			</td>
 		</tr>
 		<?php endforeach;
