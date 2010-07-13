@@ -9,6 +9,8 @@
 
 //载入公共文件
 require_once MOD_PATH.'common.php';
+//载入语言文件
+Lang::load('admin/page');
 //载入数据库对象
 $db = DB::get_instance();
 
@@ -22,12 +24,12 @@ if($_REQUEST['do'] == 'edit') {
 	}
     //进行输入验证
 	$form = new Form($_POST);
-	$form->set_field('page_name','页面名', 'required|max_length[50]', 'trim');
-	$form->set_field('page_keyword','页面关键字', 'required|max_length[50]', 'trim');
-	$form->set_field('page_desc','页面描述','required|max_length[255]', 'trim');
-	$form->set_field('page_key','页面URL名称','required|max_length[50]|dir_name|_check_page_key['.$id.']', 'trim');
-	$form->set_field('page_template','页面模板','required|max_length[255]', 'trim');
-	$form->set_field('page_static', '是否生成静态');
+	$form->set_field('page_name',Lang::_('admin_page_name_tip'), 'required|max_length[50]', 'trim');
+	$form->set_field('page_keyword',Lang::_('admin_page_keyword_tip'), 'required|max_length[50]', 'trim');
+	$form->set_field('page_desc',Lang::_('admin_page_desc_tip'),'required|max_length[255]', 'trim');
+	$form->set_field('page_key',Lang::_('admin_page_key_tip'),'required|max_length[50]|dir_name|_check_page_key['.$id.']', 'trim');
+	$form->set_field('page_template',Lang::_('admin_page_template_tip'),'required|max_length[255]', 'trim');
+	$form->set_field('page_static', Lang::_('admin_page_static_tip'));
 	if($form->run()){
 		$db->set($_POST);
 		if($id == 0) {
@@ -36,14 +38,14 @@ if($_REQUEST['do'] == 'edit') {
 			$db->sql_add('WHERE `page_id` = ?', $id);
 			$db->update('page');
 		}
-		show_message('success', '添加导航成功', array('返回导航列表' =>
+		show_message('success', Lang::_('admin_page_success_tip'), array(Lang::_('admin_page_return_tip') =>
 											'index.php?m=admin&a=page'));
 	}else{
 		if($id > 0) {
 			$db->select('*')->from('page')->sql_add('WHERE `page_id` = ?', $id);
 			$pinfo = $db->get();
 			if($pinfo == NULL) {
-				show_message('error', '要编辑的页面不存在');
+				show_message('error', Lang::_('admin_page_error_tip'));
 			}
 			$pinfo = $pinfo[0];
 		}
@@ -61,7 +63,7 @@ function _check_page_key($name, $id) {
 	if($db->result($db->query()) == 0) {
 		return FALSE;
 	}else{
-		return '这个惟一标识符已被使用.';
+		return  Lang::_('admin_page_warn_tip');
 	}
 }
 //--------------------------------------------

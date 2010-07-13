@@ -14,21 +14,21 @@
 <?php include MOD_PATH.'templates/header.tpl.php'; ?>
 <div id="showmain">
 	<div class="titlebar">
-		<a href="index.php?m=admin&amp;a=topbar&amp;do=edit" title="添加新网站导航">添加新网站导航</a><br />
-		说明：
+		<a href="index.php?m=admin&amp;a=topbar&amp;do=edit" title="<?php echo Lang::_('admin_topbar_new_title');?>"><?php echo Lang::_('admin_topbar_new_tip');?></a><br />
+		<?php echo Lang::_('admin_topbar_desc_title');?>：
 	</div>
 <form method="post" action="index.php?m=admin&amp;a=topbar&amp;do=order">
   <table cellspacing="1" cellpadding="3" border="0" align="center" width="100%" class="listtable">
 		<tr>
-            <td class="titletd" width="6%">排序</td>
-			<td class="titletd" width="15%">网站导航名</td>
-			<td class="titletd">导航简介</td>
-			<td class="titletd" width="20%">打开方式</td>
-			<td class="titletd" width="15%">操作</td>
+            <td class="titletd" width="6%"><?php echo Lang::_('admin_topbar_order_tip');?></td>
+			<td class="titletd" width="15%"><?php echo Lang::_('admin_topbar_name_tip');?></td>
+			<td class="titletd"><?php echo Lang::_('admin_topbar_desc_tip');?></td>
+			<td class="titletd" width="20%"><?php echo Lang::_('admin_topbar_target_tip');?></td>
+			<td class="titletd" width="15%"><?php echo Lang::_('admin_topbar_operate_tip');?></td>
 		</tr>
 		<?php if($tlist == NULL): ?>
 		<tr>
-			<td class="titletd" colspan="5">没有任何导航</td>
+			<td class="titletd" colspan="5"><?php echo Lang::_('admin_topbar_no_tip');?></td>
 		</tr>
 		<?php else: ?>
 		<?php foreach ($tlist as $row): ?>
@@ -37,13 +37,13 @@
 			<td class="listtd"><?php echo $row['topbar_name'] ?></td>
 			<td class="listtd"><?php echo $row['topbar_desc'] ?></td>
             <td class="listtd"><?php
-			if($row['topbar_target']=='_self'){	echo "本地窗口";}
-			if($row['topbar_target']=='_blank'){	echo "新建窗口";}
-			if($row['topbar_target']=='_parent'){	echo "父窗口";}
+			if($row['topbar_target']=='_self'){	echo Lang::_('admin_topbar_local_tip');}
+			if($row['topbar_target']=='_blank'){	echo Lang::_('admin_topbar_add_tip');}
+			if($row['topbar_target']=='_parent'){	echo Lang::_('admin_topbar_parent_tip');}
 			?></td>
 			<td class="listtd">
-				<a href="index.php?m=admin&amp;a=topbar&amp;do=edit&amp;id=<?php echo $row['topbar_id'] ?>" title="修改">修改</a> |
-				<a href="index.php?m=admin&amp;a=topbar&amp;do=del&amp;id=<?php echo $row['topbar_id'] ?>" onclick="return confirm('确定要删除吗?');" title="删除">删除</a>
+				<a href="index.php?m=admin&amp;a=topbar&amp;do=edit&amp;id=<?php echo $row['topbar_id'] ?>" title="<?php echo Lang::_('admin_topbar_edit_title');?>"><?php echo Lang::_('admin_topbar_edit_tip');?></a> |
+				<a href="index.php?m=admin&amp;a=topbar&amp;do=del&amp;id=<?php echo $row['topbar_id'] ?>" onclick="return confirm('<?php echo Lang::_('admin_topbar_delete_warn_tip');?>?');" title="<?php echo Lang::_('admin_topbar_delete_title');?>"><?php echo Lang::_('admin_topbar_delete_tip');?></a>
 			</td>
 		</tr>
 		<?php endforeach; ?>
@@ -55,7 +55,7 @@
 		<?php endif;?>
   </table>
   <div>
-     <input type="submit" class="actionbtn pointer" value="保存排序" />
+     <input type="submit" class="actionbtn pointer" value="<?php echo Lang::_('admin_topbar_order_save_tip');?>" />
   </div>
 </form>
 </div>

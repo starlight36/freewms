@@ -9,6 +9,8 @@
 
 //载入公共文件
 require_once MOD_PATH.'common.php';
+//载入语言文件
+Lang::load('admin/topbar');
 //载入数据库对象
 $db = DB::get_instance();
 
@@ -21,15 +23,15 @@ if($_REQUEST['do'] == 'edit') {
 		$id = 0;
 	}
 	$form = new Form($_POST);
-	$form->set_field('topbar_name','导航名称', 'required|max_length[50]', 'trim');
-	$form->set_field('topbar_desc','导航描述', 'required|max_length[255]', 'trim');
-	$form->set_field('topbar_target','打开方式', 'required', 'trim');
-	$form->set_field('topbar_type','链接类型', 'required', 'trim');
-	$form->set_field('topbar_bindid','绑定ID', NULL, 'trim');
-    $form->set_field('topbar_url','URL', NULL, 'trim');
-	$form->set_field('topbar_attribute','自定义属性', 'max_length[255]', 'trim');
-    $form->set_field('topbar_order','排序', 'required|numeric', 'trim');
-	$form->set_field('topbar_hide','显示/隐藏', 'required', 'trim');
+	$form->set_field('topbar_name',Lang::_('admin_topbar_name_title'), 'required|max_length[50]', 'trim');
+	$form->set_field('topbar_desc',Lang::_('admin_topbar_desc_tip'), 'required|max_length[255]', 'trim');
+	$form->set_field('topbar_target',Lang::_('admin_topbar_target_tip'), 'required', 'trim');
+	$form->set_field('topbar_type',Lang::_('admin_topbar_type_tip'), 'required', 'trim');
+	$form->set_field('topbar_bindid',Lang::_('admin_topbar_bindid_tip'), NULL, 'trim');
+    $form->set_field('topbar_url',Lang::_('admin_topbar_url_tip'), NULL, 'trim');
+	$form->set_field('topbar_attribute',Lang::_('admin_topbar_attribute_tip'), 'max_length[255]', 'trim');
+    $form->set_field('topbar_order',Lang::_('admin_topbar_order_tip'), 'required|numeric', 'trim');
+	$form->set_field('topbar_hide',Lang::_('admin_topbar_hide_tip'), 'required', 'trim');
 	if($form->run()){
        	if($id == 0) {
 			$db->set($_POST);
@@ -39,14 +41,14 @@ if($_REQUEST['do'] == 'edit') {
 			$db->sql_add('WHERE `topbar_id` = ?', $id);
 			$db->update('topbar');
 		}
-		show_message('success', '添加导航成功', array('返回导航列表' =>
+		show_message('success', Lang::_('admin_topbar_success_tip'), array(Lang::_('admin_topbar_return_tip') =>
 											'index.php?m=admin&a=topbar'));
 	}else {
        if($id > 0) {
 			$db->select('*')->from('topbar')->sql_add('WHERE `topbar_id` = ?', $id);
 			$tinfo = $db->get();
 			if($tinfo == NULL) {
-				show_message('error', '要编辑的导航不存在');
+				show_message('error', Lang::_('admin_topbar_error_tip'));
 			}
 			$tinfo = $tinfo[0];
 		}
