@@ -37,4 +37,4 @@ class Topbar {
 		return $topbar;
 	}
 }
-?>
+/* End of this file */

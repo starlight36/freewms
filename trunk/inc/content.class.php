@@ -64,7 +64,7 @@ class Content {
 		if($cate['cate_static'] == '1') {
 			$cate['cate_url'] = URL::base().$cate['cate_path'];
 		}else{
-			$cate['cate_url'] = URL::get_url('category', 'key='.$cate['cate_key']);
+			$cate['cate_url'] = URL::get_url('category', 'm=category&key='.$cate['cate_key']);
 		}
 
 		//取得其下属所有分类的ID

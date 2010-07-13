@@ -1,0 +1,22 @@
+<rss version="2.0">
+	<channel>
+		<title><![CDATA[<t:out exp="self::$page_title" filter="htmlspecialchars" />]]></title>
+		<link><t:out exp="${URL::base()}" filter="htmlspecialchars" /></link>
+		<description><![CDATA[<t:out exp="${config=site_desc}" filter="htmlspecialchars" />]]></description>
+		<language><t:out exp="${SITE_LANG}" /></language>
+		<copyright><![CDATA[<t:out exp="${config=site_name}" filter="htmlspecialchars" />]]></copyright>
+		<t:loop exp="$list">
+		<item>
+			<link><t:out exp="${get=content_url}" filter="htmlspecialchars" /></link>
+			<title><![CDATA[<t:out exp="${get=content_title}" filter="htmlspecialchars" />]]></title>
+			<author><t:out exp="${get=content_author}" filter="htmlspecialchars" /></author>
+			<category><![CDATA[<t:out exp="${get=cate_name}" filter="htmlspecialchars" />]]></category>
+			<pubDate><t:out exp="${get=content_time}" filter="time[r]" /></pubDate>
+			<guid><t:out exp="${get=content_url}" filter="htmlspecialchars" /></guid>
+			<description>
+				<![CDATA[<t:out exp="${get=content_intro}" filter="htmlspecialchars" />]]>
+			</description>
+		</item>
+		</t:loop>
+	</channel>
+</rss>
