@@ -25,9 +25,11 @@ class Topbar {
 		$content = new Content();
 		foreach($tinfo as $row) {
 			if($row['topbar_type'] == '1') {
-				$row['topbar_url'] = $content->get_category($row['topbar_bindid']);
+				$cinfo = $content->get_category($row['topbar_bindid']);
+				$row['topbar_url'] = $cinfo['cate_url'];
 			}elseif($row['topbar_type'] == '2') {
-				$row['topbar_url'] = Page::get($row['topbar_bindid']);
+				$pinfo = Page::get($row['topbar_bindid']);
+				$row['topbar_url'] = $pinfo['page_url'];
 			}
 			$topbar[] = $row;
 		}

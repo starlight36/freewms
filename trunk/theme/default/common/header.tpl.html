@@ -7,3 +7,10 @@
 <base href="${Url::base()}"></base>
 </head>
 <body>
+	<div id="navbar">
+		<ul>
+			<t:widget bind="topbar" call="get" default="没有导航项目">
+				<li><a href="${get=topbar_url}"><t:out exp="${get=topbar_name}" /></a></li>
+			</t:widget>
+		</ul>
+	</div>

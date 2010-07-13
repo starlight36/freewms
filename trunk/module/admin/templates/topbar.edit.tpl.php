@@ -97,7 +97,7 @@ function check_type(id) {
 			</div>
 		</div>
 		<div>
-			<input type="hidden" id="topbar_bindid" name="topbar_bindid" value="<?php echo Form::set_value('topbar_bindid', $tinfo['topbar_bindid']);?>" />
+			<input type="hidden" id="topbar_bindid" name="topbar_bindid" value="<?php echo Form::set_value('topbar_bindid', $tinfo['topbar_bindid']? $tinfo['topbar_bindid']:'0');?>" />
 			<input type="submit" class="actionbtn pointer" value="保存修改">&nbsp;
 			<input type="reset" class="actionbtn pointer" value="重置">
 		</div>

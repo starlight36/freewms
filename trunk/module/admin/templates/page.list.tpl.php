@@ -20,8 +20,8 @@
 		<tr>
 			<td class="titletd" width="10%">自定义页ID</td>
 			<td class="titletd" width="15%">自定义页名</td>
-			<td class="titletd">自定义页描述</td>
-            <td class="titletd">自定义页关键</td>
+			<td class="titletd" width="30%">自定义页描述</td>
+            <td class="titletd">自定义页URL名称</td>
 			<td class="titletd" width="20%">操作</td>
 		</tr>
 		<?php if($plist == NULL): ?>
