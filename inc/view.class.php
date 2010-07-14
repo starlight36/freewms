@@ -167,11 +167,14 @@ class View {
 		/*
 		 * 正则表达式替换标签
 		 */
+		//解析预定义头标记
+		$content = preg_replace('/<t:import (.+?)>/ie', 'self::tag_import(\'$1\')', $content);
 		//解析包含文件
 		$content = preg_replace('/<t:include page="(.+)".*>/i', '<?php @include self::template(\'$1\'); ?>', $content);
 		//解析head头区域
 		$content = preg_replace('/<t:head.*>/i', '<?php echo self::get_html_head(); ?>', $content);
 		//解析部件标签
+		$content = preg_replace('/<t:widget name="(.+)".*>/i', '<?php @include self::template(\'widget/$1\'); ?>', $content);
 		$content = preg_replace('/<t:widget (.+?)>(.*)<\/t:widget>/ise', 'self::tag_widget(\'$1\', \'$2\')', $content);
 		//解析if条件
 		$content = preg_replace('/<t:if test="(.+)".*>/i', '<?php if($1): ?>', $content);
@@ -235,6 +238,37 @@ class View {
 			$result[$matches[1][$i]] = trim($matches[2][$i]);
 		}
 		return $result;
+	}
+
+	/**
+	 * 解析导入标签
+	 * @param string $str
+	 * @return string
+	 */
+	private static function tag_import($str) {
+		$param = self::parse_param($str);
+		$addstr = NULL;
+		if($param['css']) {
+			$css = $param['css'];
+			$css_tpl = '<link rel="stylesheet" rev="stylesheet" href="{url}" type="text/css" media="all" />';
+			if(substr($css, 0, 7) != 'http://' && substr($css, 0, 1) != '/') {
+				$css_tpl = str_replace('{url}', '\'.URL::base().\'theme/default/skin/'.$css, $css_tpl);
+			}else{
+				$css_tpl = str_replace('{url}', $css, $css_tpl);
+			}
+			$addstr .= '<?php self::html_header(\''.$css_tpl.'\'); ?>';
+		}
+		if($param['js']) {
+			$js = $param['js'];
+			$js_tpl = '<script type="text/javascript" src="{url}"></script>';
+			if(substr($js, 0, 7) != 'http://' && substr($js, 0, 1) != '/') {
+				$js_tpl = str_replace('{url}', '\'.URL::base().\''.$js, $js_tpl);
+			}else{
+				$js_tpl = str_replace('{url}', $js, $js_tpl);
+			}
+			$addstr .= '<?php self::html_header(\''.$js_tpl.'\'); ?>';
+		}
+		return $addstr;
 	}
 
 	/**

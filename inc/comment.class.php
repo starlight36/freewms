@@ -25,13 +25,15 @@ class Comment {
 		//检查KEY是否为数字
 		if(preg_match('/^[0-9]+$/', $key)){
 			$sql_where = 'WHERE `comment_id` = ?';
-		}else return NULL;
+		}else{
+			return NULL;
+		}
 		//读取评论
 	    $db->select('*')->from('comment');
 		$db->sql_add($sql_where, $key);
 		$comment = $db->get();
 		if($comment == NULL) {
-			$this->msg = '分类不存在或者已被删除.';
+			$this->msg = '评论不存在或者已被删除.';
 			return FALSE;
 		}
 		$comment = $comment[0];
@@ -162,9 +164,12 @@ class Comment {
 		$cont = new Content();
 		$content = $cont->get_content($in['comment_contentid']);
 		if(!$content) {
-			$this->msg = '不存在该内容';
+			$this->msg = '要评论的内容不存在.';
 			return FALSE;
-
+		}
+		if($content['content_iscomment'] != '1') {
+			$this->msg = '该内容不允许发表评论.';
+			return FALSE;
 		}
 
 		//检查用户是否存在 是否匿名

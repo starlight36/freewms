@@ -54,7 +54,7 @@ if(in_array($_REQUEST['do'], array('normal', 'lock', 'recycle', 'rm'))) {
 	}
 	Cache::clear();
 	Cache::delete_page();
-	show_message('success', '成功');
+	show_message('success', '操作成功!');
 	exit();
 }
 //--------------------------------------------
@@ -78,10 +78,12 @@ if(preg_match('/^\d+?$/', $cid)) {
 	$args['contentid'] = $cid;
 }
 
+$args['order'] = array('comment_time DESC');
+
 //处理翻页URL
 $url = 'index.php?'.$_SERVER["QUERY_STRING"];
 if(strpos('page=', $url) === FALSE) {
-	$url .= empty($url) ? 'page={page}':'&page={page}';
+	$url .= '&page={page}';
 }else{
 	$url = preg_replace('/page=(\d+)/i', 'page={page}', $url);
 }
