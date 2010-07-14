@@ -48,7 +48,7 @@
 					if($row['comment_state'] == 2)  echo "锁定";
 				?></td>
 				<td class="listtd">
-					<?php if($row['comment_state'] == 1):?><a href="index.php?m=admin&amp;a=comment&amp;do=normal&amp;id=<?php echo $row['comment_id']; ?>" title="通过">正常</a> | <?php endif?>
+					<?php if($row['comment_state'] == 1):?><a href="index.php?m=admin&amp;a=comment&amp;do=normal&amp;id=<?php echo $row['comment_id']; ?>" title="通过">设为正常</a> | <?php endif?>
                     <?php if($row['comment_state'] == 0):?><a href="index.php?m=admin&amp;a=comment&amp;do=lock&amp;id=<?php echo $row['comment_id']; ?>" title="锁定">锁定</a> | <?php endif?>
 					<?php if($row['comment_state'] == 2):?><a href="index.php?m=admin&amp;a=comment&amp;do=normal&amp;id=<?php echo $row['comment_id']; ?>" title="解锁">解锁</a> | <?php endif?>
            			<a href="index.php?m=admin&amp;a=comment&amp;do=rm&amp;id=<?php echo $row['comment_id']; ?>" onclick="return confirm('确定删除？')" title="删除" >删除</a>

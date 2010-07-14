@@ -41,8 +41,8 @@ class Comment {
 	}
 
 	/**
-	 *取得一个分页列表
-	 * @param string $args 风格的查询参数
+	 * 取得一个分页列表 读取评论
+	 * @param string $args 查询参数
 	 * @param int $pagesize 每页内容条数
 	 * @param int $pagenum 要显示的内容列表页码
 	 * @param int $record_count 总共记录数
@@ -73,7 +73,7 @@ class Comment {
 
 		//指定日期
 	    if(isset($args['time'])) {
-			$sql_where[] = "`comment_state` = '{$args['time']}'";
+			$sql_where[] = "`comment_gb` = '{$args['time']}'";
 		}
 
 		//结果返回数
@@ -142,7 +142,7 @@ class Comment {
 	}
 
 	/**
-	 * 保存内容
+	 * 保存评论
 	 * @param array $in 内容基本字段
 	 * @return mixed
 	 */
@@ -185,39 +185,24 @@ class Comment {
 			$comment_username = $db->result($db->query());
 		}
 		$in['comment_username'] = $comment_username;
-		
-		//执行内容过滤器
-
-
-		//设置内容写入
-		$comment_list = array(
-			'contentid', 'userid','username', 'time', 'ip', 'content','state'
-		);
-
-		foreach($comment_list as $comment_field) {
-			if(!isset($in['comment_'.$comment_field])) continue;
-			$set_value['comment_'.$comment_field] = $in['comment_'.$comment_field];
-		}
 
 		if($id != 0) {
 			$old_comment = $this->get_comment($id);
 			if(!$old_comment){
 				return FALSE;
 			}
-			$set_value['comment_ip'] = get_ip();
 		    //更新内容主体
-		    $db->set($set_value);
+		    $db->set($in);
 			$db->sql_add('WHERE `comment_id` = ?', $id);
 			$db->update('comment');
 		}else {
-			$db->set($set_value);
+			$in['comment_ip'] = get_ip();
+			$db->set($in);
 			$db->insert('comment');
 			$id = $db->insert_id();
+			//内容评论数增加
+            $db->query('UPDATE `'.DB_PREFIX.'content` SET `content_commentnum` = `content_commentnum` + 1 WHERE `content_id` = '.$set_value['comment_contentid']);
 		}
-
-		//内容评论数增加
-		echo "代码".$set_value['comment_contentid']."代码";
-        $db->query('UPDATE `'.DB_PREFIX.'content` SET `content_commentnum` = `content_commentnum` + 1 WHERE `content_id` = '.$set_value['comment_contentid']);
 		//更新自定义字段
 		$field = new Field();
 		$field->set_value($in, $id);
@@ -229,7 +214,7 @@ class Comment {
 		return $id;
 	}
 	/**
-	 * 删除内容
+	 * 删除评论
 	 * @param string $key 评论关键字ID
 	 * @return mixed
 	 */

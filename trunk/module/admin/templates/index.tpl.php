@@ -63,8 +63,8 @@
 					<span class="comment"><?php echo Lang::_('admin_comment_tip');?></span>
 					<a href="index.php?m=admin&amp;a=comment" title=""><?php echo Lang::_('admin_content_comment_tip');?></a>
 					<a href="index.php?m=admin&amp;a=comment&amp;state=1" title=""><?php echo Lang::_('admin_comment_moderation_tip');?></a>
-					<a href="#" title=""><?php echo Lang::_('admin_user_message_tip');?></a>
-					<a href="#" title=""><?php echo Lang::_('admin_message_audit_tip');?></a>
+					<a href="index.php?m=admin&amp;a=guestbook" title=""><?php echo Lang::_('admin_user_message_tip');?></a>
+					<a href="index.php?m=admin&amp;a=guestbook&amp;state=1" title=""><?php echo Lang::_('admin_message_audit_tip');?></a>
 				</div>
 				<div class="collapsed">
 					<span class="create"><?php echo Lang::_('admin_static_formation_tip');?></span>
