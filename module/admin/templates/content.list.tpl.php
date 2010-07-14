@@ -109,7 +109,7 @@ function DoFitter() {
 				<td class="listtd"><?php echo date(SITE_DATETIME_FORMAT, $row['content_time']); ?></td>
 				<td class="listtd">
 					<a href="index.php?m=admin&amp;a=content&amp;do=save&amp;id=<?php echo $row['content_id'];?>" title="<?php echo Lang::_('admin_content_id_edit_title');?>"><?php echo Lang::_('admin_content_id_edit_tip');?></a> |
-					<a href="" title=""><?php echo Lang::_('admin_content_id_comment_tip');?></a> |
+					<a href="index.php?m=admin&amp;a=comment&amp;cid=<?php echo $row['content_id'];?>" title="<?php echo Lang::_('admin_content_id_comment_tip');?>"><?php echo Lang::_('admin_content_id_comment_tip');?></a> |
 					<a href="index.php?m=admin&amp;a=content&amp;do=rm&amp;id=<?php echo $row['content_id'];?>" title=""><?php echo Lang::_('admin_content_id_delete_tip');?></a>		    
 					<?php if(isset($_REQUEST['rid'])):?> | <a href="index.php?m=admin&amp;a=content&amp;do=cl&amp;rid=<?php echo $_REQUEST['rid']; ?>&amp;id=<?php echo $row['content_id']?>" title="取消将此内容放入推荐">取消</a><?php endif;?>
 					<?php if(isset($_REQUEST['sid'])):?> | <a href="index.php?m=admin&amp;a=content&amp;do=cls&amp;sid=<?php echo $_REQUEST['sid']; ?>&amp;id=<?php echo $row['content_id']?>" title="取消将此内容放入专题">取消</a><?php endif;?>
