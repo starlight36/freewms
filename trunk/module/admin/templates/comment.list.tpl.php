@@ -22,16 +22,16 @@
 		<table cellspacing="1" cellpadding="3" border="0" align="center" width="100%" class="listtable">
 			<tr>
 				<td class="titletd" width="40">操作</td>
-				<td class="titletd" width="15%">作者</td>
-				<td class="titletd">作者ip</td>
-                <td class="titletd" width="25%">评论内容</td>
-				<td class="titletd" width="15%">时间</td>
+				<td class="titletd" width="110px">作者</td>
+				<td class="titletd" width="90px">作者IP</td>
+                <td class="titletd">评论内容</td>
+				<td class="titletd" width="120px">时间</td>
                 <td class="titletd" width="10%">状态</td>
 				<td class="titletd" width="10%">操作
   </tr>
 			<?php if($comlist == NULL): ?>
 			<tr>
-				<td class="titletd" colspan="7">没有评论</td>
+				<td class="titletd" colspan="7">所选范围内没有找到评论</td>
 			</tr>
 			<?php else: ?>
 			<!--{分类层次列表开始}-->
@@ -41,7 +41,7 @@
 				<td class="listtd"><?php echo $row['comment_username']; ?></td>
 				<td class="listtd"><?php echo $row['comment_ip']; ?></td>
 				<td class="listtd"><?php echo $row['comment_content']; ?></td>
-                <td class="listtd"><?php echo $row['comment_time']; ?></td>
+                <td class="listtd"><?php echo date("Y-m-d H:i", $row['comment_time']); ?></td>
                 <td class="listtd"><?php
 					if($row['comment_state'] == 0)  echo "正常";
 					if($row['comment_state'] == 1)  echo "待审";
@@ -56,19 +56,19 @@
 			</tr>
 			<?php endforeach; ?>
 			<?php endif;?>
-<tr>
+			<tr>
 				<td class="actiontd" colspan="7">
 					<span class="space6">
-						<a class="sa" title="全部选着" onclick="SelectAll('id[]');ChangeColor('All');" href="javascript:void(0)">全选</a> /
-						<a class="sa" title="取消选着" onclick="ClearAll('id[]');ChangeColor('All');" href="javascript:void(0)">不选</a>
+						<a class="sa" title="全部选中" onclick="SelectAll('id[]');ChangeColor('All');" href="javascript:void(0)">全选</a> /
+						<a class="sa" title="取消全选" onclick="ClearAll('id[]');ChangeColor('All');" href="javascript:void(0)">不选</a>
 					</span>
 					<span class="space3 blue bold">对选中项进行：</span>
 					<select name="do">
-	        			<option value="normal">正常</option>
-						<?php if(!isset($_GET['state'])):?><option value="lock">锁定</option><?php endif?>
-						<option value="rm">删除</option>
+	        			<option value="normal">设为正常</option>
+						<?php if(!isset($_GET['state'])):?><option value="lock">锁定评论</option><?php endif?>
+						<option value="rm">删除评论</option>
 					</select>
-				  <input type="submit" class="actionbtn pointer" value="执行">
+				  <input type="submit" class="actionbtn pointer" value="确认执行">
 				</td>
 			</tr>
 			<tr>

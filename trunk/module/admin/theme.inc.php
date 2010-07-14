@@ -43,7 +43,7 @@ while(false !== ($file = readdir($dir_handle))) {
 	if (preg_match('/^[0-9a-z_-]+$/i', $file) && is_dir(BASEPATH.'theme/'.$file)) {
 		$config_file = BASEPATH.'theme/'.$file.'/theme.conf';
 		if(!is_file($config_file)) continue;
-		$config = base64_decode(file_get_contents($config_file));
+		$config = file_get_contents($config_file);
 		$theme_list[] = path_array(Spyc::YAMLLoadString($config), 'theme');
 	}
 }
