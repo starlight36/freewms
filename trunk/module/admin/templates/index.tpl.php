@@ -93,7 +93,7 @@
 					<a href="index.php?m=admin&amp;a=module" title=""><?php echo Lang::_('admin_content_model_tip');?></a>
 					<a href="#" title=""><?php echo Lang::_('admin_upload_tip');?></a>
 					<a href="#" title=""><?php echo Lang::_('admin_vote_tip');?></a>
-					<a href="#" title=""><?php echo Lang::_('admin_links_tip');?></a>
+					<a href="index.php?m=admin&amp;a=link" title=""><?php echo Lang::_('admin_links_tip');?></a>
 					<a href="#" title=""><?php echo Lang::_('admin_URL_tip');?></a>
 					<a href="index.php?m=admin&amp;a=cache" title=""><?php echo Lang::_('admin_rebuild_cache_tip');?></a>
 				</div>

@@ -124,21 +124,7 @@ class Comment {
 		if($list == NULL) {
 			return FALSE;
 		}
-		foreach ($list as $row) {
-			$com_info=$this->get_comment($row['comment_id']);
-			$comment_add = array(
-				'comment_id' => $com_info['comment_id'],
-				'comment_contentid' => $com_info['comment_contentid'],
-				'comment_userid' => $com_info['comment_userid'],
-				'comment_username' => $com_info['comment_username'],
-				'comment_time' => $com_info['comment_time'],
-				'comment_ip' => $com_info['comment_ip'],
-				'comment_content' => $com_info['comment_content'],
-				'comment_state' => $com_info['comment_state'],
-			);
-			$new_list[] = array_merge($row, $comment_add);
-		}
-		return $new_list;
+		return $list;
 	}
 
 	/**
