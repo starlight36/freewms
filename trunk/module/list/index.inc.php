@@ -70,11 +70,17 @@ if(!empty($key)) {
 	show_404();
 }
 
+
+$args['order'] = array(
+	'content_istop ASC',
+	'content_time DESC'
+);
+
 //读取列表
 $list = $content->get_content_list($args, $pagesize, $pagenum, $record_count, $pagecount);
 
 //创建分页导航
-Paginate::set_paginate($url, $pagenum, $pagecount, $pagesize, $style);
+Paginate::set_paginate($url, $pagenum, $pagecount, $pagesize);
 
 //载入视图
 $page_param = array(

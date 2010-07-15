@@ -26,6 +26,9 @@ class Subject {
 			return FALSE;
 		}
 		$sinfo = $sinfo[0];
+		$key = $sinfo['subject_key']?$sinfo['subject_key']:$sinfo['subject_id'];
+		$sinfo['subject_url'] = URL::get_url('subject', 'm=subject&key='.$key);
+		$sinfo['subject_listurl'] = URL::get_url('subject', 'm=list&type=list&key='.$key.'&page=1');
 		Cache::set('subject/'.$key, $sinfo);
 		return $sinfo;
 	}
