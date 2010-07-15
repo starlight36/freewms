@@ -110,23 +110,7 @@ class Guestbook {
 		if($list == NULL) {
 			return FALSE;
 		}
-		foreach ($list as $row) {
-			$gbinfo=$this->get_guestbook($row['gb_id']);
-			$gb_add = array(
-				'gb_id' => $gbinfo['gb_id'],
-				'gb_userid' => $gbinfo['gb_userid'],
-				'gb_username' => $gbinfo['gb_username'],
-				'gb_time' => $gbinfo['gb_time'],
-				'gb_ip' => $gbinfo['gb_ip'],
-				'gb_content' => $gbinfo['gb_content'],
-				'gb_state' => $gbinfo['gb_state'],
-				'gb_reply' => $gbinfo['gb_reply'],
-				'gb_replytime' => $gbinfo['gb_replytime'],
-				'gb_replystate' => $gbinfo['gb_replystate']
-			);
-			$new_list[] = array_merge($row, $gb_add);
-		}
-		return $new_list;
+		return $list;
 	}
 	/**
 	 * 删除留言
