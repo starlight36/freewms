@@ -70,8 +70,8 @@
 					<span class="create"><?php echo Lang::_('admin_static_formation_tip');?></span>
 					<a href="index.php?m=admin&amp;a=create&amp;do=index" title=""><?php echo Lang::_('admin_static_page_tip');?></a>
 					<a href="index.php?m=admin&amp;a=create&amp;do=category" title=""><?php echo Lang::_('admin_classify_page_tip');?></a>
-					<a href="#" title=""><?php echo Lang::_('admin_sub_page_tip');?></a>
-					<a href="#" title=""><?php echo Lang::_('admin_content_page_tip');?></a>
+					<a href="index.php?m=admin&amp;a=create&amp;do=view" title=""><?php echo Lang::_('admin_content_page_tip');?></a>
+					<a href="index.php?m=admin&amp;a=create&amp;do=page" title=""><?php echo Lang::_('admin_page_tip');?></a>
 				</div>
 				<div class="collapsed">
 					<span class="user"><?php echo Lang::_('admin_user_center_tip');?></span>
