@@ -153,7 +153,7 @@ class Content {
 
 		//加载内容分类及关联模型信息
 		$cateinfo = $this->get_category($content['content_cateid']);
-		$content_key = $row['content_key'] ? $row['content_key'] : $row['content_id'];
+		$content_key = empty($content['content_key']) ? $content['content_id'] : $content['content_key'];
 		if($cateinfo['cate_static'] && empty($content['content_viewrole']) &&
 				empty($content['content_viewpass'])) {
 			$url = $cateinfo['cate_path'].$content_key.'.'.Config::get('site_staticize_extname');
@@ -161,6 +161,7 @@ class Content {
 			$url = URL::get_url('view', 'm=view&key='.$content_key);
 			$cateinfo['cate_static'] = 0;
 		}
+		$content['content_key'] = $content_key;
 		$content['content_printurl'] = URL::get_url('view', 'm=view&type=print&key='.$content_key);
 		$content['content_url'] = $url;
 		$content = array_merge($content, $cateinfo);
