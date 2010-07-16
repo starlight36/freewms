@@ -14,21 +14,21 @@
 <?php include MOD_PATH.'templates/header.tpl.php'; ?>
 <div id="showmain">
 	<div class="titlebar">
-		模板主题管理页面
+		<?php echo Lang::_('admin_theme_manage_tip');?>
 	</div>
 	<table cellspacing="1" cellpadding="3" border="0" align="center" width="100%" class="listtable">
 		<tr>
-            <td class="titletd" width="18%">主题名称</td>
-			<td class="titletd">主题说明</td>
-			<td class="titletd" width="10%">主题版本</td>
-			<td class="titletd" width="10%">更新时间</td>
-			<td class="titletd" width="10%">版权所有</td>
-			<td class="titletd" width="10%">分发协议</td>
-			<td class="titletd" width="12%">操作</td>
+            <td class="titletd" width="18%"><?php echo Lang::_('admin_theme_name_tip');?></td>
+			<td class="titletd"><?php echo Lang::_('admin_theme_desc_tip');?></td>
+			<td class="titletd" width="10%"><?php echo Lang::_('admin_theme_version_tip');?></td>
+			<td class="titletd" width="10%"><?php echo Lang::_('admin_theme_update_tip');?></td>
+			<td class="titletd" width="10%"><?php echo Lang::_('admin_theme_right_tip');?></td>
+			<td class="titletd" width="10%"><?php echo Lang::_('admin_theme_licence_tip');?></td>
+			<td class="titletd" width="12%"><?php echo Lang::_('admin_theme_operate_tip');?></td>
 		</tr>
 		<?php if($theme_list == NULL): ?>
 		<tr>
-			<td class="titletd" colspan="7">没有找到任何模板</td>
+			<td class="titletd" colspan="7"><?php echo Lang::_('admin_theme_no_model_tip');?></td>
 		</tr>
 		<?php else: ?>
 		<?php foreach ($theme_list as $row): ?>
@@ -37,13 +37,13 @@
 			<td class="listtd"><?php echo $row['desc'] ?></td>
 			<td class="listtd"><?php echo $row['version'] ?></td>
             <td class="listtd"><?php echo $row['update'] ?></td>
-			<td class="listtd"><a href="<?php echo $row['link'] ?>" title="访问主页" target="_blank"><?php echo $row['copyright'] ?></a></td>
+			<td class="listtd"><a href="<?php echo $row['link'] ?>" title="<?php echo Lang::_('admin_theme_index_tip');?>" target="_blank"><?php echo $row['copyright'] ?></a></td>
 			<td class="listtd"><?php echo $row['licence'] ?></td>
 			<td class="listtd">
 				<?php if($row['path'] == Config::get('site_theme')): ?>
-				<span class="alert bold">[当前主题方案]</span>
+				<span class="alert bold"><?php echo Lang::_('admin_theme_current_tip');?></span>
 				<?php else: ?>
-				<a href="index.php?m=admin&amp;a=theme&amp;do=use&amp;path=<?php echo $row['path'] ?>" title="使用此主题方案">使用此主题方案</a>
+				<a href="index.php?m=admin&amp;a=theme&amp;do=use&amp;path=<?php echo $row['path'] ?>" title="<?php echo Lang::_('admin_theme_use_title');?>"><?php echo Lang::_('admin_theme_use_tip');?></a>
 				<?php endif; ?>
 			</td>
 		</tr>
