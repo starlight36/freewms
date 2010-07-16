@@ -30,10 +30,10 @@ if($_REQUEST['do'] == 'edit') {
 		$id = 0;
 	}
 	$form = new Form($_POST);
-	$form->set_field('name', '部件名称', 'required', 'trim');
-	$form->set_field('desc', '部件介绍', NULL, 'trim');
-	$form->set_field('key', '部件标识', 'required|dir_name', 'trim');
-	$form->set_field('content', '部件内容', 'required');
+	$form->set_field('name', Lang::_('admin_widget_name_tip'), 'required', 'trim');
+	$form->set_field('desc', Lang::_('admin_widget_desc_tip'), NULL, 'trim');
+	$form->set_field('key', Lang::_('admin_widget_key_tip'), 'required|dir_name', 'trim');
+	$form->set_field('content', Lang::_('admin_widget_content_tip'), 'required');
 	$item = array(
 		'name' => $_POST['name'],
 		'desc' => $_POST['desc'],
@@ -49,7 +49,7 @@ if($_REQUEST['do'] == 'edit') {
 		@unlink($filedir.$winfo['key'].'.tpl.html');
 		file_put_contents($filedir.$_POST['key'].'.tpl.html', $_POST['content']);
 		file_put_contents($filedir.'config', serialize($wlist));
-		show_message('success', '保存部件成功!', array('返回列表' =>
+		show_message('success', Lang::_('admin_widget_success_tip'), array(Lang::_('admin_widget_return_tip') =>
 											'index.php?m=admin&a=widget'));
 	}else{
 		$winfo['content'] = file_get_contents($filedir.$winfo['key'].'.tpl.html');
@@ -73,7 +73,7 @@ if($_REQUEST['do'] == 'rm') {
 		@unlink($filedir.$key.'.tpl.html');
 	}
 	file_put_contents($filedir.'config', serialize($wlist));
-	show_message('success', '保存部件成功!', array('返回列表' =>
+	show_message('success', Lang::_('admin_widget_success_tip'), array(Lang::_('admin_widget_return_tip') =>
 										'index.php?m=admin&a=widget'));
 	exit();
 }

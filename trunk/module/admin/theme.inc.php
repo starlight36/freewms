@@ -23,7 +23,7 @@ Lang::load('admin/theme');
 if($_REQUEST['do'] == 'use') {
 	$path = $_GET['path'];
 	if(!preg_match('/^\w+?$/i', $path)) {
-		show_message('error', '参数错误.');
+		show_message('error', Lang::_('admin_theme_error_tip'));
 	}
 	$config_file = BASEPATH.'config/site.php';
 	$config_content = file_get_contents($config_file);

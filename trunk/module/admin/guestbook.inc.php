@@ -11,6 +11,8 @@
  */
 //载入公共文件
 require_once MOD_PATH.'common.php';
+//载入语言文件
+Lang::load('admin/guestbook');
 //从数据库读取
 $db = DB::get_instance();
 
@@ -31,7 +33,7 @@ if($_REQUEST['do'] == 'edit') {
 		$in['gb_reply'] = $_POST['gb_reply'];
         $gb = new Guestbook();
 		$gbinfo = $gb->set_guestbook($in);
-		show_message('success', '保存回复成功!', array('返回列表页' => 'index.php?m=admin&amp;a=guestbook'));
+		show_message('success',Lang::_('admin_gb_success_tip'), array(Lang::_('admin_gb_return_tip') => 'index.php?m=admin&amp;a=guestbook'));
 	}else {
 		if($id > 0) {
 			$gb = new Guestbook();
@@ -49,7 +51,7 @@ if($_REQUEST['do'] == 'edit') {
 if(in_array($_REQUEST['do'], array('normal', 'lock', 'recycle', 'rm'))) {
 	$id = $_REQUEST['id'];
 	if(empty($id)) {
-		show_message('error','未选着留言');
+		show_message('error',Lang::_('admin_gb_error_tip'));
 	}
 	if(!is_array($id)) $id=array($id);
 	$gblist = $id;
@@ -81,7 +83,7 @@ if(in_array($_REQUEST['do'], array('normal', 'lock', 'recycle', 'rm'))) {
 	}
 	Cache::clear();
 	Cache::delete_page();
-	show_message('success', '操作成功!');
+	show_message('success', Lang::_('admin_gb_success_0_tip'));
 	exit();
 }
 //--------------------------------------------
