@@ -157,7 +157,11 @@ class Guestbook {
 			$db->update('guestbook');
 		}else{
 			$in['gb_userid'] = User::get_info('user_id');
-			$in['gb_username'] = User::get_info('user_name');
+			if($in['gb_userid'] != 0) {
+				$in['gb_username'] = User::get_info('user_name');
+			}else{
+				$in['gb_username'] .= '(游客)';
+			}
 			$in['gb_time'] = time();
 			$in['gb_ip'] = get_ip();
 			$db->set($in);

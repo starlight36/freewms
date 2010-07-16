@@ -50,9 +50,9 @@ if($_REQUEST['do'] == 'index') {
 //	生成分类页静态
 //--------------------------------------------
 if($_REQUEST['do'] == 'category') {
-	if(Form::is_post()) {
-		$id = $_REQUEST['id'];
-		$task = $_REQUEST['task'];
+	$id = $_REQUEST['id'];
+	$task = $_REQUEST['task'];
+	if(Form::is_post() || !empty($id)) {
 		if(empty($id) || empty($task)) {
 			show_message('error', '没有选中任何要生成的分类或者任务.');
 		}

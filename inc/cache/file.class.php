@@ -22,6 +22,7 @@ class Cache_Adapter {
 		$cache_file = $path.$key.'.cache';
 		$value = serialize($value);
 		file_put_contents($cache_file, $value);
+		clearstatcache();
 		return TRUE;
 	}
 
@@ -40,7 +41,7 @@ class Cache_Adapter {
 			if($expires == NULL) {
 				$expires = CACHE_EXPIRES;
 			}
-			$file_create_time = filectime($cache_file);
+			$file_create_time = filemtime($cache_file);
 			if($expires > 0 && gmmktime() - $file_create_time > $expires) {
 				return FALSE;
 			}else{
@@ -59,6 +60,7 @@ class Cache_Adapter {
 		$path = BASEPATH.CACHE_PATH.'data/'.substr($key,0,2)."/".substr($key,2,2).'/';
 		$cache_file = $path.$key.'.cache';
 		@unlink($cache_file);
+		clearstatcache();
 		return TRUE;
 	}
 
@@ -72,6 +74,7 @@ class Cache_Adapter {
 		if(!is_dir($path)) {
 			create_dir($path);
 		}
+		clearstatcache();
 		return TRUE;
 	}
 }

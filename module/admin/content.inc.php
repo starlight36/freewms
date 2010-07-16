@@ -177,6 +177,7 @@ if($_GET['do'] == 'save') {
  */
 function _check_content_key($name, $id) {
 	global $db;
+	if(!$name) return;
 	if($id == 0){
 	    $db->select('COUNT(*)')->from('content')->sql_add('WHERE `content_key`= ?', $name);
 	}else {

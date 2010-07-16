@@ -80,10 +80,8 @@ class Cache extends Cache_Adapter {
 		if(!is_dir(dirname($cache_path))) {
 			create_dir(dirname($cache_path));
 		}
-		if(is_file($cache_path)) {
-			@unlink($cache_path);
-		}
 		file_put_contents($cache_path, $page_content);
+		clearstatcache();
 	}
 
 	/**
@@ -101,7 +99,7 @@ class Cache extends Cache_Adapter {
 			if($expires == NULL) {
 				$expires = CACHE_PAGE_EXPIRES;
 			}
-			$file_create_time = filectime($cache_path);
+			$file_create_time = filemtime($cache_path);
 			if($expires > 0 && time() - $file_create_time > $expires) {
 				return FALSE;
 			}
@@ -122,6 +120,7 @@ class Cache extends Cache_Adapter {
 		}else{
 			rm_file($cache_path.'.cache');
 		}
+		clearstatcache();
 	}
 }
 /* End of this file */
