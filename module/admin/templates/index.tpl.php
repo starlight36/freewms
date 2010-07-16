@@ -27,13 +27,13 @@
 	<div id="topright">
 	  <div class="menubar">
 		<ul id="navlist">
-		  <li><a href="javascript:void(0)" title="<?php echo Lang::_('admin_close_left_menu_title');?>" target="_self"><?php echo Lang::_('admin_close_left_tip');?></a></li>
-		  <li><a href="javascript:void(0)" title="<?php echo Lang::_('admin_blog_set_title');?>" target="_self"><?php echo Lang::_('admin_sys_set_tip');?></a></li>
-		  <li><a href="javascript:void(0)" title="<?php echo Lang::_('admin_pub_new_log_title');?>" target="_self"><?php echo Lang::_('admin_pub_log_tip');?></a></li>
-		  <li><a href="javascript:void(0)" title="<?php echo Lang::_('admin_style_design_title');?>" target="_self"><?php echo Lang::_('admin_style_design_tip');?></a></li>
-		  <li><a href="javascript:void(0)" title="<?php echo Lang::_('admin_generated_page_title');?>" target="_self"><?php echo Lang::_('admin_generated_page_tip');?></a></li>
-		  <li><a href="javascript:void(0)" title="<?php echo Lang::_('admin_front_page_title');?>" target="_self"><?php echo Lang::_('admin_front_page_tip');?></a></li>
-		  <li><a href="index.php?m=admin&amp;a=logout" title="<?php echo Lang::_('admin_exit_index_title');?>" target="_self"><?php echo Lang::_('admin_exit_index_tip');?></a></li>
+			<li><a href="index.php?m=admin&amp;a=main" title="<?php echo Lang::_('admin_show_main_page_title');?>"><?php echo Lang::_('admin_show_main_page_tip');?></a></li>
+			<li><a href="index.php?m=admin&amp;a=config" title="<?php echo Lang::_('admin_sys_set_title');?>"><?php echo Lang::_('admin_sys_set_tip');?></a></li>
+			<li><a href="index.php?m=admin&amp;a=comment" title="<?php echo Lang::_('admin_comment_title');?>"><?php echo Lang::_('admin_comment_title');?></a></li>
+			<li><a href="index.php?m=admin&amp;a=guestbook" title="<?php echo Lang::_('admin_guestbook_title');?>"><?php echo Lang::_('admin_guestbook_tip');?></a></li>
+			<li><a href="index.php?m=admin&amp;a=create&amp;do=index" title="<?php echo Lang::_('admin_generated_page_title');?>"><?php echo Lang::_('admin_generated_page_tip');?></a></li>
+			<li><a href="index.php" title="<?php echo Lang::_('admin_front_page_title');?>" target="_blank"><?php echo Lang::_('admin_front_page_tip');?></a></li>
+			<li><a href="index.php?m=admin&amp;a=logout" title="<?php echo Lang::_('admin_exit_index_title');?>" target="_self"><?php echo Lang::_('admin_exit_index_tip');?></a></li>
 		</ul>
 	  </div>
 		<div id="topmsg" style="display: none;"><img src="<?php echo Url::base();?>module/admin/images/loading.gif" alt="Loading" align="absmiddle"/><?php echo Lang::_('admin_load_tip');?></div>
