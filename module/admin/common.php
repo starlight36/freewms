@@ -21,8 +21,7 @@ check_admin();
  * 检查后台页面访问权限
  */
 function check_admin() {
-	$user = User::get_instance();
-	if(!$user->check_admin()) {
+	if(!User::check_admin()) {
 		$golist = array(
 			Lang::_('admin_goto_login') => 'index.php?m=admin&a=login',
 			Lang::_('admin_goto_index')  => 'index.php'

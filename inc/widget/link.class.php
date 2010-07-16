@@ -8,23 +8,23 @@
  *-------------------------------------------------*/
 
 /**
- * 部件 评论部件类
+ * 部件 友情链接部件类
  */
 
-class widget_comment {
-	private $comment;
+class widget_link {
+	private $link;
 
 	public function  __construct() {
-		$this->comment = new Comment();
+		$this->link = new Link();
 	}
 
 	public function get($args) {
-		$cache_key = 'comment/'.md5($args);
+		$cache_key = 'link/'.md5($args);
 		$rst = Cache::get($cache_key);
 		if($rst) {
 			return $rst;
 		}
-		$rst = $this->comment->get_comment_list($args);
+		$rst = $this->link->get_link_list($args);
 		Cache::set($cache_key, $rst);
 		return $rst;
 	}

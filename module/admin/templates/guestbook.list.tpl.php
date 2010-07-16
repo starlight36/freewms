@@ -22,13 +22,13 @@
 		<table cellspacing="1" cellpadding="3" border="0" align="center" width="100%" class="listtable">
 			<tr>
 				<td class="titletd" width="40px"><?php echo Lang::_('admin_gb_operate_tip');?></td>
-				<td class="titletd" width="15%"><?php echo Lang::_('admin_gb_username_tip');?></td>
-				<td class="titletd"><?php echo Lang::_('admin_gb_ip_tip');?></td>
-                <td class="titletd" width="25%"><?php echo Lang::_('admin_gb_content_tip');?></td>
-				<td class="titletd" width="15%"><?php echo Lang::_('admin_gb_time_tip');?></td>
-                <td class="titletd" width="15%"><?php echo Lang::_('admin_gb_state_tip');?></td>
-				<td class="titletd" width="120px"><?php echo Lang::_('admin_gb_operate_tip');?>
-  </tr>
+				<td class="titletd" width="110px"><?php echo Lang::_('admin_gb_username_tip');?></td>
+				<td class="titletd" width="90px"><?php echo Lang::_('admin_gb_ip_tip');?></td>
+                <td class="titletd"><?php echo Lang::_('admin_gb_content_tip');?></td>
+				<td class="titletd" width="120px"><?php echo Lang::_('admin_gb_time_tip');?></td>
+                <td class="titletd" width="10%"><?php echo Lang::_('admin_gb_state_tip');?></td>
+				<td class="titletd" width="10%"><?php echo Lang::_('admin_gb_operate_tip');?>
+			</tr>
 			<?php if($gblist == NULL): ?>
 			<tr>
 				<td class="titletd" colspan="7"><?php echo Lang::_('admin_gb_no_tip');?></td>

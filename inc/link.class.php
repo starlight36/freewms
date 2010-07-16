@@ -10,7 +10,15 @@
  * 友情链接类
  */
 class Link {
-	public $msg = NULL;
+	/**
+	 * 拉取友情链接列表
+	 * @param mixed $args
+	 * @param int $pagesize
+	 * @param int $pagenum
+	 * @param int $record_count
+	 * @param int $pagecount
+	 * @return mixed
+	 */
 	public function get_link_list($args, $pagesize = NULL, &$pagenum = NULL, &$record_count = NULL, &$pagecount = NULL){
 		//解析参数标记
 		if(!is_array($args)) {

@@ -7,27 +7,10 @@
  * Released under the New BSD Licenses
  *-------------------------------------------------*/
 
-/**
- * 部件 评论部件类
+/*
+ * 发表评论模块
  */
 
-class widget_comment {
-	private $comment;
 
-	public function  __construct() {
-		$this->comment = new Comment();
-	}
-
-	public function get($args) {
-		$cache_key = 'comment/'.md5($args);
-		$rst = Cache::get($cache_key);
-		if($rst) {
-			return $rst;
-		}
-		$rst = $this->comment->get_comment_list($args);
-		Cache::set($cache_key, $rst);
-		return $rst;
-	}
-}
 
 /* End of this file */

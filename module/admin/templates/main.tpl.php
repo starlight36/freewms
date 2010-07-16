@@ -28,7 +28,7 @@ div.divrbox div.divrcon2 { background-color: #e7f4fe; border-bottom: 1px solid #
 </style>
 <div id="divw">
     <div id="divnt1"><?php echo Lang::_('admin_sys_info_tip'); ?></div>
-	<div id="divnt2"><span class="bold"><?php echo Session::get('user/user_name'); ?></span> <?php echo Lang::_('admin_grade_msg', date('Y-m-d H:i:s', Session::get('user/user_lastlogintime')), Session::get('user/user_lastloginip')); ?></div>
+	<div id="divnt2"><span class="bold"><?php echo User::get_info('user_name'); ?></span> <?php echo Lang::_('admin_grade_msg', date('Y-m-d H:i:s', User::get_info('user_lastlogintime')), User::get_info('user_lastloginip')); ?></div>
 	<div id="divnt3"><?php echo Lang::_('admin_sys_state_tip'); ?>: <?php if(Config::get('site_state') == 1) echo '<span class="green">'.Lang::_('admin_sys_state_run').'</span>'; else echo '<span class="alert">'.Lang::_('admin_sys_state_stop').'</span>'; ?>, <?php echo Lang::_('admin_sys_state_cur_version'); ?> <?php echo SYS_VERSION; ?>, <?php echo Lang::_('admin_sys_state_db_type'); ?>&nbsp;<span class="alert"><?php echo strtoupper(DB_TYPE).' '.$db->version(); ?></span></div>
 	<div id="divn">
 		<div class="divlbox">
@@ -81,7 +81,7 @@ div.divrbox div.divrcon2 { background-color: #e7f4fe; border-bottom: 1px solid #
 	<div style="clear: both;"></div>
 	<div id="divnt1"><?php echo Lang::_('admin_FreeWMS_pro_tip'); ?></div>
 	<div id="divnt3"><span class="bold"><?php echo Lang::_('admin_use_dis_agr_tip'); ?>: </span> <a href="http://www.opensource.org/licenses/bsd-license.php" target="_blank" title="To see more about BSD license"><span class="bold">BSD Licenses</span></a></div>
-	<div id="divnt4"><span class="bold"><?php echo Lang::_('admin_team_tip'); ?>: (排名不分先后, 按参与项目先后顺序)</span><br />刘思贤（大连东软-SOVO） 李阳（哈工大威海） 汪海平（大连东软-SOVO） 吴晨亮（大连东软-SOVO）<br />张法勇（大连东软-SOVO） 王科霖（大连东软-SOVO）</div>
+	<div id="divnt4"><span class="bold"><?php echo Lang::_('admin_team_tip'); ?>: (排名不分先后, 按参与项目先后顺序)</span><br />刘思贤（大连东软-SOVO） 李阳（哈工大威海） 汪海平（大连东软-SOVO） 吴晨亮（大连东软-SOVO）<br />张法勇（大连东软-SOVO） 王科霖（大连东软-SOVO） 宋亮（大连东软-SOVO） 王道昱（大连东软-SOVO）</div>
 	<div id="divnt3"><span class="bold"><?php echo Lang::_('admin_UI_design_tip'); ?>: </span> 董宇飞（哈尔滨维动网络科技有限公司） 修改：王雨薇（大连东软-SOVO）</div>
 	<div id="divnt4"><span class="bold"><?php echo Lang::_('admin_thank_tip'); ?>: </span> <a href="http://sovo.neusoft.edu.cn" title="大连东软信息学院 - SOVO" target="_blank">大连东软信息学院-SOVO系统运营管理部</a> <a href="http://www.wedong.com" title="哈尔滨维动网络科技有限公司" target="_blank">哈尔滨维动网络科技有限公司</a></div>
 	<div style="border: 0pt none;" id="divnt3"><span class="bold"><?php echo Lang::_('admin_index_tip'); ?>: </span><a href="http://code.google.com/p/freewms" title="项目首页" target="_blank">http://code.google.com/p/freewms</a> <span class="bold"><?php echo Lang::_('admin_mail_tip'); ?>:</span> <a href="mailto:starlight36@163.com" title="点击发送邮件联系我们">starlight36@163.com</a></div>

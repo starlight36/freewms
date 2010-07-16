@@ -159,18 +159,8 @@ class Comment {
 		}
 
 		//检查用户是否存在 是否匿名
-		$user_id = $in['comment_userid'];
-		if(!preg_match('/^[0-9]+$/', $user_id)) {
-			$userid = 0;
-		}
-		if($userid == 0) {
-			$comment_username = "匿名留言";
-		}else{
-			$db->select('user_name')->from('user');
-			$db->sql_add('WHERE `user_id` = ?', $userid);
-			$comment_username = $db->result($db->query());
-		}
-		$in['comment_username'] = $comment_username;
+		$in['comment_userid'] = User::get_info('user_id');
+		$in['comment_username'] = User::get_info('user_name');
 
 		if($id != 0) {
 			$old_comment = $this->get_comment($id);
@@ -189,14 +179,6 @@ class Comment {
 			//内容评论数增加
             $db->query('UPDATE `'.DB_PREFIX.'content` SET `content_commentnum` = `content_commentnum` + 1 WHERE `content_id` = '.$set_value['comment_contentid']);
 		}
-		//更新自定义字段
-		$field = new Field();
-		$field->set_value($in, $id);
-
-		//更新缓存
-		Cache::clear();
-
-		//返回更新的内容的ID
 		return $id;
 	}
 	/**

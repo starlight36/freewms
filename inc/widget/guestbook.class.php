@@ -8,23 +8,23 @@
  *-------------------------------------------------*/
 
 /**
- * 部件 评论部件类
+ * 部件 留言部件类
  */
 
-class widget_comment {
-	private $comment;
+class widget_guestbook {
+	private $gb;
 
 	public function  __construct() {
-		$this->comment = new Comment();
+		$this->gb = new Guestbook();
 	}
 
 	public function get($args) {
-		$cache_key = 'comment/'.md5($args);
+		$cache_key = 'gb/'.md5($args);
 		$rst = Cache::get($cache_key);
 		if($rst) {
 			return $rst;
 		}
-		$rst = $this->comment->get_comment_list($args);
+		$rst = $this->gb->get_guestbook_list($args);
 		Cache::set($cache_key, $rst);
 		return $rst;
 	}

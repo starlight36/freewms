@@ -21,7 +21,7 @@
 	<form method="post" action="index.php?m=admin&amp;a=comment">
 		<table cellspacing="1" cellpadding="3" border="0" align="center" width="100%" class="listtable">
 			<tr>
-				<td class="titletd" width="40">操作</td>
+				<td class="titletd" width="40px">操作</td>
 				<td class="titletd" width="110px">作者</td>
 				<td class="titletd" width="90px">作者IP</td>
                 <td class="titletd">评论内容</td>
