@@ -101,7 +101,7 @@ if($_GET['do'] == 'save') {
 	if($form->run()) {
 		//设置用户ID
 		if($id == 0) {
-			$_POST['content_userid'] = Session::get('user/user_id');
+			$_POST['content_userid'] = User::get_info('user_id');
 		}
 
 		//保存数据

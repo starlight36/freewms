@@ -124,12 +124,13 @@ class User {
 	 * @param string $defalut 默认值
 	 * @return mixed
 	 */
-	public function get_auth($aclkey, $defalut = FALSE) {
+	public static function get_auth($aclkey, $defalut = FALSE) {
+		$obj = self::get_instance();
 		if(is_null(self::$userinfo)) {
-			$this->get_user();
+			$obj->get_user();
 		}
 		$gid = self::$userinfo['user_groupid'];
-		$ginfo = $this->get_group($gid);
+		$ginfo = $obj->get_group($gid);
 		$result = is_null(self::$userinfo['acl'][$aclkey]) ? $ginfo['acl'][$aclkey] : self::$userinfo['acl'][$aclkey];
 		if(is_null($result)) {
 			return $defalut;
@@ -137,13 +138,22 @@ class User {
 		return $result;
 	}
 
+	public static function get_info($key) {
+		if(is_null(self::$userinfo)) {
+			$obj = self::get_instance();
+			$obj->get_user();
+		}
+		return path_array(self::$userinfo, $key);
+	}
+
 	/**
 	 * 检查是否为管理组成员
 	 * @return bool
 	 */
-	public function check_admin() {
+	public static function check_admin() {
 		if(is_null(self::$userinfo)) {
-			$this->get_user();
+			$obj = self::get_instance();
+			$obj->get_user();
 		}
 		if(self::$userinfo['user_isadmin'] == TRUE) {
 			return TRUE;

@@ -143,11 +143,6 @@ class Guestbook {
 		}
 		//载入数据库对象
 		$db = DB::get_instance();
-		//检查用户是否存在 是否匿名
-		$userid = $in['gb_userid'];
-		if(!preg_match('/^[0-9]+$/', $userid)) {
-			$userid = 0;
-		}
 		
 		if($id != 0) {
 			$old_guestbook = $this->get_guestbook($id);
@@ -160,17 +155,11 @@ class Guestbook {
 		    $db->set($in);
 			$db->sql_add('WHERE `gb_id` = ?', $id);
 			$db->update('guestbook');
-		}else {
-			if($userid == 0) {
-			$in['gb_username'] = "匿名留言";
 		}else{
-			$db->select('user_name')->from('user');
-			$db->sql_add('WHERE `user_id` = ?', $userid);
-			$in['gb_username'] = $db->result($db->query());
-		}
-		$in['gb_username'] = $gb_username;
-			$set_value['gb_time'] = time();
-			$set_value['gb_ip'] = get_ip();
+			$in['gb_userid'] = User::get_info('user_id');
+			$in['gb_username'] = User::get_info('user_name');
+			$in['gb_time'] = time();
+			$in['gb_ip'] = get_ip();
 			$db->set($in);
 			$db->insert('guestbook');
 			$id = $db->insert_id();
