@@ -160,7 +160,11 @@ class Comment {
 
 		//检查用户是否存在 是否匿名
 		$in['comment_userid'] = User::get_info('user_id');
-		$in['comment_username'] = User::get_info('user_name');
+		if($in['comment_userid'] != 0) {
+			$in['comment_username'] = User::get_info('user_name');
+		}else{
+			$in['comment_username'] .= '(游客)';
+		}
 
 		if($id != 0) {
 			$old_comment = $this->get_comment($id);

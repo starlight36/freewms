@@ -42,7 +42,7 @@
 				<td class="listtd">
 					<a href="index.php?m=admin&amp;a=category&amp;do=edit&amp;id=<?php echo $row['cate_id']; ?>" title="<?php echo Lang::_('admin_cate_modify_title');?>"><?php echo Lang::_('admin_cate_modify_tip');?></a> |
 					<a href="index.php?m=admin&amp;a=category&amp;do=del&amp;id=<?php echo $row['cate_id']; ?>" title="" onclick="return confirm('<?php echo Lang::_('admin_empty_title');?>');"><?php echo Lang::_('admin_empty_tip');?></a> |
-					<a href="#" title=""><?php echo Lang::_('admin_static_tip');?></a> |
+					<a href="index.php?m=admin&amp;a=create&amp;do=category&amp;task[]=index&amp;task[]=list&amp;id[]=<?php echo $row['cate_id']; ?>" title="<?php echo Lang::_('admin_static_tip');?>"><?php echo Lang::_('admin_static_tip');?></a> |
 					<a href="index.php?m=admin&amp;a=content&amp;cid=<?php echo $row['cate_id']; ?>" title=""><?php echo Lang::_('admin_management_content_tip');?></a> |
 					<a href="index.php?m=admin&amp;a=category&amp;do=rm&amp;id=<?php echo $row['cate_id']; ?>" title="" onclick="return confirm('<?php echo Lang::_('admin_cate_delete_title');?>');"><?php echo Lang::_('admin_cate_delete_tip');?></a>
 				</td>

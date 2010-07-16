@@ -48,7 +48,7 @@
 					<?php echo Form::get_error('content_tags', '<span class="fielderrormsg">', '</span>');?>
 				</p>
 				<p><span class="left"><?php echo Lang::_('admin_content_key_tip');?>:</span>
-					<input type="text" class="text normaltext" name="content_key" value="<?php echo Form::set_value('content_key', $cinfo['content_key']);?>" />
+					<input type="text" class="text normaltext" name="content_key" value="<?php echo Form::set_value('content_key', $cinfo['content_key'] == $id ? NULL : $cinfo['content_key']);?>" />
 					<a class="tip" href="javascript:void(0)" title="<?php echo Lang::_('admin_content_key_title');?>">[?]</a>
 					<?php echo Form::get_error('content_key', '<span class="fielderrormsg">', '</span>');?>
 				</p>
@@ -62,7 +62,7 @@
 					<a class="tip" href="javascript:void(0)" title="<?php echo Lang::_('admin_content_thumb_title_tip');?>">[?]</a>
 				</p>
 				<p><span class="left" style="line-height:150px; vertical-align:middle;"><?php echo $cinfo['mod_itemname']; ?><?php echo Lang::_('admin_introduction_tip');?>:</span>
-					<textarea  class="xheditor-simple {localUrl:'rel',upBtnText:'<?php echo Lang::_('admin_browse_tip');?>',upLinkUrl:'!index.php?m=admin&a=filebrowser&filetype=all',upLinkExt:'zip',upImgUrl:'!index.php?m=admin&a=filebrowser&filetype=image',upImgExt:'jpg,jpeg,gif,png,bmp',upFlashUrl:'!index.php?m=admin&a=filebrowser&filetype=flash',upFlashExt:'swf',upMediaUrl:'!index.php?m=admin&a=filebrowser&filetype=media',upMediaExt:'wmv,avi,wma,mp3,mid,asf',modalWidth:'500',modalHeight:'300'}" rows="8" cols="95" name="content_intro"><?php echo htmlspecialchars($cinfo['content_intro']);?></textarea>
+					<textarea  class="xheditor-simple {localUrl:'rel',upBtnText:'<?php echo Lang::_('admin_browse_tip');?>',upLinkUrl:'!index.php?m=admin&a=filebrowser&filetype=all',upLinkExt:'zip',upImgUrl:'!index.php?m=admin&a=filebrowser&filetype=image',upImgExt:'jpg,jpeg,gif,png,bmp',upFlashUrl:'!index.php?m=admin&a=filebrowser&filetype=flash',upFlashExt:'swf',upMediaUrl:'!index.php?m=admin&a=filebrowser&filetype=media',upMediaExt:'wmv,avi,wma,mp3,mid,asf',modalWidth:'500',modalHeight:'300'}" rows="8" cols="95" name="content_intro"><?php echo Form::set_value('content_intro', $cinfo['content_intro']);?></textarea>
 					<?php echo Form::get_error('content_intro', '<span class="fielderrormsg">', '</span>');?>
 				</p>
 				<?php foreach($fieldlist as $field): ?>
@@ -92,8 +92,8 @@
 					<?php echo Form::get_error('content_from', '<span class="fielderrormsg">', '</span>');?>
 				</p>
 				<p><span class="left"><?php echo Lang::_('admin_content_time_tip');?>:</span>
-					<input type="text" class="text shorttext" id="content_time" name="content_time" value="<?php echo Form::set_value('content_time', date('Y-m-d H:i:s', $cinfo['content_time'] ? $cinfo['content_time'] : time()));?>" />
-					<a style="position: absolute; margin: 3px 0 0 -25px ! important;" title="<?php echo Lang::_('admin_content_time_title');?>"><img alt="<?php echo Lang::_('admin_content_time_alt');?>" align="absmiddle" class="pointer" id="time_picker_icon" src="<?php echo Url::base();?>module/admin/images/datebar.gif"></a>
+					<input type="text" class="text shorttext" id="content_time" name="content_time" value="<?php echo Form::set_value('content_time', date('Y-m-d H:i:s', empty($cinfo['content_time']) ? time() : $cinfo['content_time']));?>" />
+					<a style="position: absolute; margin: 4px 0 0 -25px ! important;" title="<?php echo Lang::_('admin_content_time_title');?>"><img alt="<?php echo Lang::_('admin_content_time_alt');?>" align="absmiddle" class="pointer" id="time_picker_icon" src="<?php echo Url::base();?>module/admin/images/datebar.gif"></a>
 					<?php echo Form::get_error('content_time', '<span class="fielderrormsg">', '</span>');?>
 				</p>
 				<p><span class="left"><?php echo Lang::_('admin_content_readnum_tip');?>:</span>
