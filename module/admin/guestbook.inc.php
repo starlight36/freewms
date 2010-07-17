@@ -28,7 +28,7 @@ if($_REQUEST['do'] == 'edit') {
 		$in = $gb->get_guestbook($id);
 	}
 	$form = new Form($_POST);
-	$form->set_field('gb_reply','','ax_length[50]', 'trim');
+	$form->set_field('gb_reply','','max_length[50]', 'trim');
 	if($form->run()) {
 		$in['gb_reply'] = $_POST['gb_reply'];
         $gb = new Guestbook();
