@@ -77,7 +77,7 @@
 					<span class="user"><?php echo Lang::_('admin_user_center_tip');?></span>
 					<a href="#" title=""><?php echo Lang::_('admin_all_user_tip');?></a>
 					<a href="#" title=""><?php echo Lang::_('admin_user_audit_tip');?></a>
-					<a href="#" title=""><?php echo Lang::_('admin_user_group_tip');?></a>
+					<a href="index.php?m=admin&amp;a=usergroup" title=""><?php echo Lang::_('admin_user_group_tip');?></a>
 					<a href="#" title=""><?php echo Lang::_('admin_admin_tip');?></a>
 				</div>
 				<div class="collapsed">

@@ -12,11 +12,23 @@
  */
 ?>
 <?php include MOD_PATH.'templates/header.tpl.php'; ?>
+<script type="text/javascript">
+//<!--
+function DoFitter() {
+	var url = 'index.php?m=admin&a=upload';
+	$.each($('#fitter_form *[name]'), function(i, row) {
+		url += '&'+$(row).attr('name')+'='+escape($(row).val());
+	});
+	window.location.href = url;
+	return false;
+}
+//-->
+</script>
 <div id="showmain">
   <div class="titlebar">
 		<p>上传文件  说明：</p>
 		<p> <a href="index.php?m=admin&amp;a=upload&amp;do=edit">添加新的上传文件</a></p>
-    <form method="post" action="index.php?m=admin&amp;a=upload">
+		<form method="post" id="fitter_form" onsubmit="return DoFitter();">
     年份：
     	<select name="year">
     		<option value="">所有年份</option>
@@ -39,16 +51,16 @@
     	</select>&nbsp;
     &nbsp;文件名:
     	<input type="text" class="text" size="14" name="upload_name" value="<?php echo $namenum; ?>" />
-        <input type="submit" value="筛选" />
+        <input type="submit" value="筛选"  class="searchbtn pointer" />
     </form>
 	</div>
 	<form method="post" action="index.php?m=admin&amp;a=upload">
 		<table cellspacing="1" cellpadding="3" border="0" align="center" width="100%" class="listtable">
 			<tr>
 				<td class="titletd" width="40">操作</td>
-				<td class="titletd" width="110px">文件名</td>
-				<td class="titletd" width="90px">文件大小</td>
-				<td class="titletd" width="120px">上传时间</td>
+				<td class="titletd" >文件名</td>
+				<td class="titletd" width="20%">文件大小</td>
+				<td class="titletd" width="20%">上传时间</td>
 				<td class="titletd" width="10%">操作</td>
   </tr>
 			<?php if($uploadlist == NULL): ?>
