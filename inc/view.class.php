@@ -175,7 +175,7 @@ class View {
 		$content = preg_replace('/<t:head.*>/i', '<?php echo self::get_html_head(); ?>', $content);
 		//解析部件标签
 		$content = preg_replace('/<t:widget name="(.+)".*>/i', '<?php @include self::template(\'widget/$1\'); ?>', $content);
-		$content = preg_replace('/<t:widget (.+?)>(.*)<\/t:widget>/ise', 'self::tag_widget(\'$1\', \'$2\')', $content);
+		$content = preg_replace('/<t:widget (.+?)>(.*?)<\/t:widget>/ise', 'self::tag_widget(\'$1\', \'$2\')', $content);
 		//解析if条件
 		$content = preg_replace('/<t:if test="(.+)".*>/i', '<?php if($1): ?>', $content);
 		//解析elseif条件
