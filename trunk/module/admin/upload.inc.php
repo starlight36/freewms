@@ -118,7 +118,7 @@ $offset = $pagenum > 0 ? ($pagenum - 1) * $pagesize : 0;
 
 //生成翻页导航
 $url = 'index.php?'.$_SERVER["QUERY_STRING"];
-if(strpos('page=', $url) === FALSE) {
+if(strpos($url, 'page=') === FALSE) {
 	$url .= empty($url) ? 'page={page}':'&page={page}';
 }else{
 	$url = preg_replace('/page=(\d+)/i', 'page={page}', $url);
