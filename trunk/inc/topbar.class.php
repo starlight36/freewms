@@ -17,7 +17,7 @@ class Topbar {
 		if($topbar) return $topbar;
 		//载入数据库对象
         $db = DB::get_instance();
-		$db->select('*')->from('topbar')->sql_add('WHERE `topbar_hide` = 0');
+		$db->select('*')->from('topbar')->sql_add('WHERE `topbar_hide` = 0 ORDER BY `topbar_order`');
 		$tinfo = $db->get();
 		if($tinfo == NULL) {
 			return NULL;
