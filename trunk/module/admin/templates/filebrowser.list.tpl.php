@@ -18,6 +18,9 @@
 <title><?php echo Lang::_('admin_file_upload_tip');?></title>
 <style type="text/css">
 <!--
+body {
+	background-color: #ffffff;
+}
 a {
 	color: #000;
 	text-decoration: none;

@@ -38,8 +38,8 @@
 					<?php echo Form::get_error('subject_desc', '<span class="fielderrormsg">', '</span>');?>
 				</p>
 				<p><span class="left"><?php echo Lang::_('admin_subject_icon_tip');?>: </span>
-					<input type="text" class="text normaltext" name="subject_icon" value="<?php echo Form::set_value('subject_icon', $sinfo['subject_icon']);?>" />
-					<a style="position: absolute; margin: 6px 0 0 -23px ! important;" title="<?php echo Lang::_('admin_subject_icon_tip');?>"><img alt="<?php echo Lang::_('admin_subject_icon_tip');?>" align="absmiddle" class="pointer" onclick="" src="<?php echo Url::base();?>module/admin/images/selectfile.gif"></a>
+					<input type="text" class="text normaltext" id="subject_icon" name="subject_icon" value="<?php echo Form::set_value('subject_icon', $sinfo['subject_icon']);?>" />
+					<a style="position: absolute; margin: 6px 0 0 -23px ! important;" title="<?php echo Lang::_('admin_subject_icon_tip');?>"><img alt="<?php echo Lang::_('admin_subject_icon_tip');?>" align="absmiddle" class="pointer" onclick="file_browser('subject_icon');" src="<?php echo Url::base();?>module/admin/images/selectfile.gif"></a>
 					<?php echo Form::get_error('subject_icon', '<span class="fielderrormsg">', '</span>');?>
 				</p>
 				<p><span class="left"><?php echo Lang::_('admin_subject_key_tip');?>: </span>

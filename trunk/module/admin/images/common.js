@@ -93,6 +93,27 @@ function ChangeColor(field) {
 		TheObj ? field.parentNode.parentNode.style.backgroundColor="#FFFDD7" : field.parentNode.parentNode.style.backgroundColor="";
 	}
 }
+//--------------------------------------------
+//	文件浏览器通用版
+//--------------------------------------------
+function file_browser(field) {
+	art.dialog({
+		title: '上传文件浏览器',
+		iframe: 'index.php?m=admin&a=filebrowser',
+		id: 'dialog_filebrowser',
+		width: "500px",
+		height: "270px"
+	});
+	var bIframe = $($('.ui_content iframe')[0]);
+	bIframe.load(function(){
+		var bWin = bIframe[0].contentWindow;
+		bWin.callback = function(v) {
+			$('#'+field).val(v);
+			art.dialog({id: 'dialog_filebrowser'}).close();
+		};
+	});
+}
+//--------------------------------------------
 window.onunload = function() {
 	this.barref = null;
 }
