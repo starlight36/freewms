@@ -17,29 +17,32 @@
 		<p> <a href="index.php?m=admin&amp;a=user&amp;do=edit">添加新用户</a></p>
 		<?php if(!isset($_GET['state'])):?><p>全站用户管理 &nbsp;说明：</p>
 		<?php else: $gb_state = $_GET['state'];?><p>用户审核管理 &nbsp;说明：</p><?php endif;?>
-		<form method="post" action="index.php?m=admin&amp;a=user&stae=$state">
-			年份：
-			<select name="year">
-				<option value="">所有年份</option>
-				<?php for($i=2000;$i<=2038;$i++) {
-					$yearlist[$i] = '<option value="'.$i.'"';
-					if( $yearnum == $i) $yearlist[$i] = $yearlist[$i].' selected=selected';
-					$yearlist[$i] = $yearlist[$i].">".$i."年</option>";
-					echo $yearlist[$i];
-				}?>
+		<form method="post" action="index.php?m=admin&amp;a=user">
+			用户状态：
+		  <select name="user_state">
+			<option value="">全部状态</option>
+			<option value="0" <?php if($userstate === '0'){ echo "selected=\"selected\"";}?>>正常</option>
+            <option value="1" <?php if($userstate == 1){ echo "selected=\"selected\"";}?>>锁定</option>
+            <option value="2" <?php if($userstate == 2){ echo "selected=\"selected\"";}?>>未审核</option>
 			</select>&nbsp;
-			&nbsp;月:
-			<select name="month">
-				<option value="">所有月份</option>
-				<?php for($i=1;$i<=12;$i++) {
-					$monthlist[$i] = '<option value="'.$i.'" ';
-					if( $monthnum == $i) $monthlist[$i] = $monthlist[$i].' selected=selected';
-					$monthlist[$i] = $monthlist[$i].'>'.$i.'月</option>';
-					echo $monthlist[$i];
-				}?>
+			&nbsp;搜索:
+			<select name="mode">
+				<option value="0"<?php if($mode === "0"){ echo "selected=\"selected\"";}?>>用户ID</option>
+                <option value="1" <?php if($mode == 1){ echo "selected=\"selected\"";}?>>用户名</option>
+                <option value="2" <?php if($mode == 2){ echo "selected=\"selected\"";}?>>Email</option>
+                <option value="3" <?php if($mode == 3){ echo "selected=\"selected\"";}?>>昵称</option>
 			</select>&nbsp;
-			&nbsp;用户名:
-			<input type="text" class="text" size="14" name="user_name" value="<?php echo $namenum; ?>" />
+			<input type="text" class="text" size="14" name="actionnum" value="<?php echo $actionnum; ?>" />
+			<?php echo Form::get_error('actionnum', '<span class="fielderrormsg">', '</span>');?>&nbsp;
+            &nbsp;排序:
+            <select name="sequence">
+            <option value="0"<?php if($userstate == 0){ echo "selected=\"selected\"";}?>>注册时间升序</option>
+            <option value="1"<?php if($userstate == 1){ echo "selected=\"selected\"";}?>>注册时间降序</option>
+            <option value="2"<?php if($userstate == 2){ echo "selected=\"selected\"";}?>>最后登录时间升序</option>
+            <option value="3"<?php if($userstate == 3){ echo "selected=\"selected\"";}?>>最后登录时间降序</option>
+            <option value="4"<?php if($userstate == 4){ echo "selected=\"selected\"";}?>>用户姓名排序</option>
+            <option value="5"<?php if($userstate == 5){ echo "selected=\"selected\"";}?>>用户ID排序</option>
+            </select>&nbsp;
 			<input type="submit" value="筛选" class="searchbtn pointer" />
 		</form>
 	</div>

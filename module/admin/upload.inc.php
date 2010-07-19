@@ -72,7 +72,7 @@ if($_REQUEST['do'] == 'rm'){
 //	文件列表
 //--------------------------------------------
 //每页显示数
-$pagesize = 7;
+$pagesize = 20;
 
 $pagenum = $_REQUEST['page'];
 $yearnum = $_REQUEST['year'];
