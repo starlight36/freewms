@@ -252,7 +252,7 @@ class View {
 			$css = $param['css'];
 			$css_tpl = '<link rel="stylesheet" rev="stylesheet" href="{url}" type="text/css" media="all" />';
 			if(substr($css, 0, 7) != 'http://' && substr($css, 0, 1) != '/') {
-				$css_tpl = str_replace('{url}', '\'.URL::base().\'theme/default/skin/'.$css, $css_tpl);
+				$css_tpl = str_replace('{url}', '\'.URL::base().\'theme/'.Config::get('site_theme').'/skin/'.$css, $css_tpl);
 			}else{
 				$css_tpl = str_replace('{url}', $css, $css_tpl);
 			}
