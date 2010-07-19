@@ -51,7 +51,7 @@ function DoFitter() {
     	</select>&nbsp;
     &nbsp;<?php echo Lang::_('admin_upload_filename_tip');?>:
     	<input type="text" class="text" size="14" name="upload_name" value="<?php echo $namenum; ?>" />
-        <input type="submit" value="<?php echo Lang::_('admin_upload_name_title');?>"   class="searchbtn pointer" />
+        <input type="submit" value="<?php echo Lang::_('admin_upload_name_title');?>" class="searchbtn pointer" />
     </form>
 	</div>
 	<form method="post" action="index.php?m=admin&amp;a=upload">

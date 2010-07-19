@@ -37,7 +37,7 @@
 			<td class="listtd"><?php if($row['group_issys'] == '1') {echo '<span class="alert bold">[系统用户组]</span>';}else{echo '<span class="green bold">[自定义用户组]</span>';} ?></td>
 			<td class="listtd">
 				<a href="index.php?m=admin&amp;a=usergroup&amp;do=edit&id=<?php echo $row['group_id'] ?>" title="编辑">编辑</a> |
-				<a href="#" title="修改用户组权限">权限</a> |
+				<a href="index.php?m=admin&amp;a=acl&amp;do=auth_group&amp;id=<?php echo $row['group_id'] ?>" title="修改用户组权限">权限</a> |
 				<a href="index.php?m=admin&amp;a=usergroup&amp;do=rm&amp;id=<?php echo $row['group_id'] ?>" onclick="return confirm('确认要删除吗?\n一旦删除无法恢复.')" title="删除">删除</a>
 			</td>
 		</tr>
