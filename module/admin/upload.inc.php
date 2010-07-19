@@ -27,11 +27,11 @@ if($_GET['do'] == 'edit') {
 	if(Form::is_post()) {
 		$upload = new Upload('file');
 		if($upload->savefile()) {
-			show_message('success', '传入成功', array('返回上一页' =>'index.php?m=admin&a=upload',
-													'继续传入' =>'index.php?m=admin&amp;a=upload&do=edit'));
+			show_message('success',Lang::_('admin_upload_success_tip'), array(Lang::_('admin_upload_return_tip') =>'index.php?m=admin&a=upload',
+													Lang::_('admin_upload_continue_tip') =>'index.php?m=admin&amp;a=upload&do=edit'));
 		}else{
-			show_message('error', '未传入', array('返回上一页' =>'index.php?m=admin&a=upload',
-				                                  '重新传入' =>'index.php?m=admin&amp;a=upload&do=edit'));
+			show_message('error',Lang::_('admin_upload_error_tip'), array(Lang::_('admin_upload_return_tip') =>'index.php?m=admin&a=upload',
+				                                 Lang::_('admin_upload_reload_tip') =>'index.php?m=admin&amp;a=upload&do=edit'));
 		}
 	}else{
 		include MOD_PATH.'templates/upload.edit.tpl.php';
@@ -46,7 +46,7 @@ if($_GET['do'] == 'edit') {
 if($_REQUEST['do'] == 'rm'){
 	$id = $_REQUEST['id'];
 	if(empty($id)) {
-		show_message('error','未选着文件！请选着！');
+		show_message('error', Lang::_('admin_upload_error_1_tip'));
 	}
 	if(!is_array($id)) $id=array($id);
 	$loadlist = $id;
@@ -63,7 +63,7 @@ if($_REQUEST['do'] == 'rm'){
 	}
 	Cache::clear();
 	Cache::delete_page();
-	show_message('success', '操作成功!');
+	show_message('success', Lang::_('admin_upload_success_1_tip'));
 	exit();
 }
 //--------------------------------------------

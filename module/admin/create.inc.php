@@ -17,6 +17,9 @@ set_time_limit(3600);
 //载入公共文件
 require_once MOD_PATH.'common.php';
 
+//载入语言文件
+Lang::load('admin/create');
+
 //载入数据库
 $db = DB::get_instance();
 
@@ -25,10 +28,10 @@ $db = DB::get_instance();
 //--------------------------------------------
 if($_REQUEST['do'] == 'index') {
 	if(Config::get('site_index_staticize') != '1') {
-		show_message('error', '系统没有开启首页生成静态, 使用此功能请先修改站点设置',
+		show_message('error',Lang::_('admin_cate_error_tip'),
 			array(
-			'返回管理首页' => 'index.php?m=admin&a=main',
-			'修改站点设置' => 'index.php?m=admin&a=config'
+			Lang::_('admin_cate_return_tip') => 'index.php?m=admin&a=main',
+			Lang::_('admin_cate_edit_tip') => 'index.php?m=admin&a=config'
 			)
 		);
 	}
@@ -40,8 +43,8 @@ if($_REQUEST['do'] == 'index') {
 	$page_content = View::load('index/index', NULL, TRUE);
 	//保存到文件
 	file_put_contents(BASEPATH.'index.'.Config::get('site_staticize_extname'), $page_content);
-	show_message('success', '生成首页成功!',
-			array('返回管理首页' => 'index.php?m=admin&a=main'));
+	show_message('success', Lang::_('admin_cate_success_tip'),
+			array(Lang::_('admin_cate_return_tip') => 'index.php?m=admin&a=main'));
 	exit();
 }
 //--------------------------------------------
@@ -54,7 +57,7 @@ if($_REQUEST['do'] == 'category') {
 	$task = $_REQUEST['task'];
 	if(Form::is_post() || !empty($id)) {
 		if(empty($id) || empty($task)) {
-			show_message('error', '没有选中任何要生成的分类或者任务.');
+			show_message('error', Lang::_('admin_cate_error_1_tip'));
 		}
 		$content = new Content();
 		$create_num = 0;
@@ -117,7 +120,7 @@ if($_REQUEST['do'] == 'category') {
 			}
 		}
 		$timecost = round((get_micro_time() - $create_start_time), 4);
-		show_message('success', '生成静态页任务完成!<br />共生成'.$create_num.'个静态网页, 耗时'.$timecost.'秒.');
+		show_message('success', Lang::_('admin_cate_success_1_tip',$create_num,$timecost));
 	}else{
 		//创建父分类选择树
 		$db->select('cate_id, cate_name, cate_parentid')->from('category');
@@ -147,7 +150,7 @@ if($_REQUEST['do'] == 'view') {
 		$num = addslashes($_POST['num']);
 		$time = addslashes($_POST['time']);
 		if(empty($id)) {
-			show_message('error', '没有选中任何要生成的分类.');
+			show_message('error',Lang::_('admin_cate_error_2_tip'));
 		}
 		$id = addslashes(implode(',', $id));
 
@@ -169,7 +172,7 @@ if($_REQUEST['do'] == 'view') {
 		//预读取列表
 		$clist = $db->get();
 		if($clist == NULL) {
-			show_message('error', '所选范围内没有找到任何内容.');
+			show_message('error', Lang::_('admin_cate_error_3_tip'));
 		}
 		$id = array();
 		$content = new Content();
@@ -190,7 +193,7 @@ if($_REQUEST['do'] == 'view') {
 			usleep(100);
 		}
 		$timecost = round((get_micro_time() - $create_start_time), 4);
-		show_message('success', '生成静态页任务完成!<br />共生成'.$create_num.'个静态网页, 耗时'.$timecost.'秒.');
+		show_message('success',Lang::_('admin_cate_success_1_tip',$create_num,$timecost));
 	}else{
 		//创建父分类选择树
 		$db->select('cate_id, cate_name, cate_parentid')->from('category');
@@ -220,7 +223,7 @@ if($_REQUEST['do'] == 'page') {
 		//读取传入ID
 		$id = $_POST['id'];
 		if(empty($id)) {
-			show_message('error', '没有选中任何要生成的分类.');
+			show_message('error',Lang::_('admin_cate_error_2_tip'));
 		}
 		//初始化统计参数
 		$create_num = 0;
@@ -240,12 +243,12 @@ if($_REQUEST['do'] == 'page') {
 			$create_num++;
 		}
 		$timecost = round((get_micro_time() - $create_start_time), 4);
-		show_message('success', '生成静态页任务完成!<br />共生成'.$create_num.'个静态网页, 耗时'.$timecost.'秒.');
+		show_message('success',Lang::_('admin_cate_success_1_tip',$create_num,$timecost));
 	}else{
 		$db->select('*')->from('page')->sql_add('WHERE `page_static` = 1');
 		$plist = $db->get();
 		if(!$plist) {
-			show_message('error', '没有找到要生成的页面.', array('返回上一页' => 'index.php?m=admin&a=main'));
+			show_message('error', Lang::_('admin_cate_error_4_tip'), array(Lang::_('admin_cate_return_1_tip') => 'index.php?m=admin&a=main'));
 		}
 		include MOD_PATH.'templates/create.page.tpl.php';
 	}

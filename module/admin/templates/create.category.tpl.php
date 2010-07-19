@@ -33,30 +33,30 @@ function doSelect() {
 
 function submitform() {
 	$(this).attr('disabled', 'disabled');
-	$(this).val('请稍候..');
+	$(this).val('<?php echo Lang::_('admin_cate_wait_tip');?>');
 	$('#loadingmsg').show();
 }
 //-->
 </script>
 <div id="showmain">
 	<div class="titlebar">
-		生成分类静态页
+		<?php echo Lang::_('admin_cate_classify_tip');?>
 	</div>
 	<form method="post" action="index.php?m=admin&amp;a=create&amp;do=category">
 		<div id="tabcontent">
 			<div class="showsimplecon">
-				<p><span class="left" style="line-height: 120px;">生成分类: </span>
+				<p><span class="left" style="line-height: 120px;"><?php echo Lang::_('admin_cate_form_tip');?>: </span>
 					<select id="cate_id" name="id[]" multiple="multiple" style="width: 150px; height: 120px;">
 						<?php echo $cate_select_tree; ?>
 					</select><br />
-					<input type="button" class="actionbtn pointer" onclick="doSelect();" value="全选/不选" />
+					<input type="button" class="actionbtn pointer" onclick="doSelect();" value="<?php echo Lang::_('admin_cate_select_tip');?>" />
 				</p>
-				<p><span class="left">生成目标: </span>
-					<label><input type="checkbox" name="task[]" value="index" checked="checked" />分类首页</label>
-					<label><input type="checkbox" name="task[]" value="list" checked="checked" />分类列表页</label>
+				<p><span class="left"><?php echo Lang::_('admin_cate_target_tip');?>: </span>
+					<label><input type="checkbox" name="task[]" value="index" checked="checked" /><?php echo Lang::_('admin_cate_index_tip');?></label>
+					<label><input type="checkbox" name="task[]" value="list" checked="checked" /><?php echo Lang::_('admin_cate_list_tip');?></label>
 				</p>
 				<p>
-					<input type="submit" class="actionbtn pointer" value="开始生成" onclick="submitform();" /><span style="display: none;" id="loadingmsg"><img src="<?php echo Url::base();?>module/admin/images/loading.gif" alt="Loading" align="absmiddle"/>静态生成中. 程序可能需要较长时间, 请耐心等待完成...</span>
+					<input type="submit" class="actionbtn pointer" value="<?php echo Lang::_('admin_cate_begin_tip');?>" onclick="submitform();" /><span style="display: none;" id="loadingmsg"><img src="<?php echo Url::base();?>module/admin/images/loading.gif" alt="Loading" align="absmiddle"/><?php echo Lang::_('admin_cate_running_tip');?></span>
 				</p>
 			</div>
 		</div>
