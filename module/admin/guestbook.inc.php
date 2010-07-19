@@ -97,7 +97,7 @@ if(preg_match('/^[012]$/', $state)) {
 }
 //处理翻页URL
 $url = 'index.php?'.$_SERVER["QUERY_STRING"];
-if(strpos('page=', $url) === FALSE) {
+if(strpos($url, 'page=') === FALSE) {
 	$url .= empty($url) ? 'page={page}':'&page={page}';
 }else{
 	$url = preg_replace('/page=(\d+)/i', 'page={page}', $url);

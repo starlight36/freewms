@@ -97,7 +97,7 @@ if(in_array($_REQUEST['do'], array('dly', 'undly', 'rm'))) {
 //处理翻页URL
 $args = NULL;
 $url = 'index.php?'.$_SERVER["QUERY_STRING"];
-if(strpos('page=', $url) === FALSE) {
+if(strpos($url, 'page=') === FALSE) {
 	$url .= empty($url) ? 'page={page}':'&page={page}';
 }else{
 	$url = preg_replace('/page=(\d+)/i', 'page={page}', $url);

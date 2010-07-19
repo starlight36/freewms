@@ -109,7 +109,7 @@ if($_REQUEST['do'] == 'auth_user') {
 		}
 	}else{
 		$db->select('*')->from('acl');
-		$db->sql_add('LEFT JOIN `'.DB_PREFIX.'user_acl` ON `acl_id` = `uacl_aclid` AND `uacl_uid` = ? ORDER BY `acl_type`, `acl_name`', $id);
+		$db->sql_add('LEFT JOIN `'.DB_PREFIX.'user_acl` ON `acl_id` = `uacl_aclid` AND `uacl_uid` = ? ORDER BY `acl_type`, `acl_id`', $id);
 		foreach($db->get() as $row) {
 			$list[] = array(
 				'acl_id' => $row['acl_id'],
@@ -155,7 +155,7 @@ if($_REQUEST['do'] == 'auth_group') {
 		}
 	}else{
 		$db->select('*')->from('acl');
-		$db->sql_add('LEFT JOIN `'.DB_PREFIX.'group_acl` ON `acl_id` = `gacl_aclid` AND `gacl_gid` = ? ORDER BY `acl_type`, `acl_name`', $id);
+		$db->sql_add('LEFT JOIN `'.DB_PREFIX.'group_acl` ON `acl_id` = `gacl_aclid` AND `gacl_gid` = ? ORDER BY `acl_type`, `acl_id`', $id);
 		foreach($db->get() as $row) {
 			$list[] = array(
 				'acl_id' => $row['acl_id'],
@@ -177,7 +177,7 @@ if($_REQUEST['do'] == 'auth_group') {
 //	权限列表
 //--------------------------------------------
 $pagenum = $_GET['page'];
-if(!preg_match('/^\d+$/', $page)) {
+if(!preg_match('/^[0-9]+$/', $pagenum)) {
 	$pagenum = 1;
 }
 $pagesize = 20;
@@ -187,12 +187,12 @@ $db->select('COUNT(*)')->from('acl');
 $record_count = $db->result($db->query());
 $pagecount = ceil($record_count / $pagesize);
 if($pagenum > $pagecount) $pagenum = $pagecount;
-$offset = ($pagenum - 1) * $pagenum;
+$offset = ($pagenum - 1) * $pagesize;
 if($offset < 0) $offset = 0;
 $offset = abs($offset);
 
 $url = 'index.php?'.$_SERVER["QUERY_STRING"];
-if(strpos('page=', $url) === FALSE) {
+if(strpos($url, 'page=') === FALSE) {
 	$url .= empty($url) ? 'page={page}':'&page={page}';
 }else{
 	$url = preg_replace('/page=(\d+)/i', 'page={page}', $url);

@@ -82,7 +82,7 @@ $args['order'] = array('comment_time DESC');
 
 //处理翻页URL
 $url = 'index.php?'.$_SERVER["QUERY_STRING"];
-if(strpos('page=', $url) === FALSE) {
+if(strpos($url, 'page=') === FALSE) {
 	$url .= '&page={page}';
 }else{
 	$url = preg_replace('/page=(\d+)/i', 'page={page}', $url);
