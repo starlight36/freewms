@@ -112,25 +112,6 @@ class Guestbook {
 		}
 		return $list;
 	}
-	/**
-	 * 删除留言
-	 * @param <type> $in
-	 * @return <type>
-	 */
-	public function delete_guestbook($key){
-			    //从数据库读取
-		$db = DB::get_instance();
-		//检查KEY是否为数字
-		if(preg_match('/^[0-9]+$/', $key)){
-			$sql_where = 'WHERE `guestbook_id` = ?';
-		}else return NULL;
-		//删除数据
-		$db->sql_add($sql_where, $key);
-    	$db->delete('guestbook');
-	    Cache::clear();
-	    Cache::delete_page();
-	}
-
 	public function set_guestbook($in){
 		//验证输入是否为数组
 		if(!is_array($in)) {

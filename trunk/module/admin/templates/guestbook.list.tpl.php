@@ -41,7 +41,7 @@
 				<td class="listtd"><?php echo $row['gb_username']; ?></td>
 				<td class="listtd"><?php echo $row['gb_ip']; ?></td>
 				<td class="listtd"><?php echo $row['gb_content']; ?></td>
-                <td class="listtd"><?php echo $row['gb_time']; ?></td>
+                <td class="listtd"><?php echo date("Y-m-d H:i", $row['gb_time']); ?></td>
                 <td class="listtd"><?php
 					if($row['gb_state'] == 0)  echo Lang::_('admin_gb_state_0_tip');
 					if($row['gb_state'] == 1)  echo Lang::_('admin_gb_state_1_tip');

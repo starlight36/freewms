@@ -142,44 +142,56 @@ if(in_array($_REQUEST['do'], array('normal', 'lock', 'passEmail','passAdmin', 'r
 //	用户列表
 //--------------------------------------------
 //每页显示数
-$pagesize = 7;
-
+$pagesize = 20;
 $pagenum = $_REQUEST['page'];
-$yearnum = $_REQUEST['year'];
-$monthnum = $_REQUEST['month'];
-$namenum = $_REQUEST['user_name'];
 if(!is_numeric($pagenum) || $pagenum < 1) {
 	$pagenum = 1;
 }
-$sql = array();
-
-//限定文件名
-if(!empty($namenum)) {
-	$sql[] = '`user_name` LIKE \'%'.$namenum.'%\'';
-}
 // 用户状态限制
-$state = $_REQUEST['state'];
-if(preg_match('/^[012]$/', $state)) {
-	$sql[] = '`user_state` = '.$state;
+$userstate = $_REQUEST['user_state'];
+if(preg_match('/^[012]$/', $userstate)) {
+	$sql[] = '`user_state` = '.$userstate;
 }
 
-//限定时间范围
-if(preg_match('/^[0-9]+/i', $yearnum)) {
-	if(preg_match('/^[0-9]+/i', $monthnum)) {
-		$sql[] = '`user_regtime` > '.mktime(0, 0, 0, $monthnum, 1, $yearnum);
-		$sql[] = '`user_regtime` < '.mktime(0, 0, 0, $monthnum, 31, $yearnum);
-	}else{
-		$sql[] = '`user_regtime` > '.mktime(0, 0, 0, 1, 1, $yearnum);
-		$sql[] = '`user_regtime` < '.mktime(0, 0, 0, 12, 31, $yearnum);
+//搜索限制  查询方式
+$mode = $_REQUEST['mode'];
+$actionnum = addslashes($_REQUEST['actionnum']);
+if(preg_match('/^\d$/', $mode)&&!empty($actionnum)) {
+	if($mode == 0){
+		if(preg_match('/^\d+$/', $actionnum)){
+			$sql[] = '`user_id` = '.$actionnum;
+		}
+	}
+	if($mode == 1){
+		$sql[] = '`user_name` LIKE \'%'.$actionnum.'%\'';
+	}
+	if($mode == 2){
+		$sql[] = '`user_email` LIKE \'%'.$actionnum.'%\'';
+	}
+	if($mode == 3){
+		$sql[] = '`user_nickname` LIKE \'%'.$actionnum.'%\'';
 	}
 }
-
+//排序限制
+$sqlo = '';
+$sequence = $_REQUEST['sequence'];
+if(preg_match('/^\d$/', $sequence)) {
+	switch($sequence) {
+		case 0: $sqlo = ' ORDER BY `user_regtime` ASC' ;break;
+		case 1: $sqlo = ' ORDER BY `user_regtime` DESC' ;break;
+		case 2: $sqlo = ' ORDER BY `user_lastlogintime` ASC' ;break;
+		case 3: $sqlo = ' ORDER BY `user_lastlogintime` DESC' ;break;
+		case 4: $sqlo = ' ORDER BY `user_name` ASC' ;break;
+		case 5: $sqlo = ' ORDER BY `user_id` ASC' ;break;
+	}
+}
 //生成SQL语句
 if(empty($sql)) {
 	$sql = '';
 }else{
 	$sql = 'WHERE '.implode(' AND ', $sql);
 }
+$sql = $sql.$sqlo;
 //查询结果数
 $db->select('COUNT(*)')->from('user')->sql_add($sql);
 $resultcount = $db->result($db->query());
@@ -201,7 +213,7 @@ if(strpos('page=', $url) === FALSE) {
 
 //查询结果集
 $sql = 'JOIN `freewms_group` ON `group_id` = `user_groupid`'.$sql;
-$db->select('*')->from('user')->sql_add("$sql ORDER BY `user_regtime` ASC LIMIT $offset, $pagesize");
+$db->select('*')->from('user')->sql_add("$sql LIMIT $offset, $pagesize");
 $userlist = $db->get();
 
 Paginate::set_paginate($url, $pagenum, $pagecount, $pagesize, 1);
