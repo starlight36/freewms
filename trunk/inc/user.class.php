@@ -105,7 +105,7 @@ class User {
 			}
 			$ginfo = $ginfo[0];
 			$db->select('acl_key, gacl_value, acl_type, gacl_type')->from('acl')->from('group_acl');
-			$db->sql_add('WHERE `gacl_id` = `acl_id` AND `gacl_gid` = ?', $gid);
+			$db->sql_add('WHERE `gacl_aclid` = `acl_id` AND `gacl_gid` = ?', $gid);
 
 			$gacl = $db->get();
 			if($gacl != NULL) {
