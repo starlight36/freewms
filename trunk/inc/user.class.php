@@ -75,7 +75,7 @@ class User {
 			}
 
 			$db->select('acl_key, uacl_value, acl_type, uacl_type')->from('acl')->from('user_acl');
-			$db->sql_add('WHERE `uacl_id` = `acl_id` AND `uacl_uid` = ?', $userinfo['user_id']);
+			$db->sql_add('WHERE `uacl_aclid` = `acl_id` AND `uacl_uid` = ?', $userinfo['user_id']);
 			$uacl = $db->get();
 			if($uacl != NULL) {
 				foreach ($uacl as $row) {
