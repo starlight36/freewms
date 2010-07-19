@@ -51,7 +51,7 @@ if($_GET['do'] == 'edit') {
 	$form->set_field('cate_description',Lang::_('admin_cate_description_tip'), 'max_length[255]', 'trim');
 	$form->set_field('cate_template', Lang::_('admin_cate_template_tip'), 'max_length[200]', 'trim');
 	$form->set_field('cate_pagesize', Lang::_('admin_cate_pagesize_tip'), 'required|integer|min_num[1]', 'trim');
-	$form->set_field('cate_order', Lang::_('admin_cate_order_tip'));
+	$form->set_field('cate_order', Lang::_('admin_cate_order_tip'),'required|numeric','trim');
 	$form->set_field('cate_role', Lang::_('admin_cate_role_tip'));
 	$form->set_field('cate_static', Lang::_('admin_cate_static_tip'));
 	//处理分类角色部分
