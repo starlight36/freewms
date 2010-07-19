@@ -13,20 +13,20 @@
 ?>
 <?php include MOD_PATH.'templates/header.tpl.php'; ?>
 <div id="showmain">
-	<div class="titlebar">添加新的上传文件</div>
+	<div class="titlebar"><?php echo Lang::_('admin_upload_new_tip');?></div>
   <form action="index.php?m=admin&amp;a=upload&amp;do=edit" method="post" enctype="multipart/form-data">
 		<div id="tabcontent">
 			<div class="showsimplecon">
-				<p><span class="left">上传文件1:</span><input name="file[]" type="file" /></p>
-				<p><span class="left">上传文件2:</span><input name="file[]" type="file" /></p>
-				<p><span class="left">上传文件3:</span><input name="file[]" type="file" /></p>
-				<p><span class="left">上传文件4:</span><input name="file[]" type="file" /></p>
-				<p><span class="left">上传文件5: </span><input name="file[]" type="file" /></p>
+				<p><span class="left"><?php echo Lang::_('admin_upload_file_1_tip');?>:</span><input name="file[]" type="file" /></p>
+				<p><span class="left"><?php echo Lang::_('admin_upload_file_2_tip');?>:</span><input name="file[]" type="file" /></p>
+				<p><span class="left"><?php echo Lang::_('admin_upload_file_3_tip');?>:</span><input name="file[]" type="file" /></p>
+				<p><span class="left"><?php echo Lang::_('admin_upload_file_4_tip');?>:</span><input name="file[]" type="file" /></p>
+				<p><span class="left"><?php echo Lang::_('admin_upload_file_5_tip');?>: </span><input name="file[]" type="file" /></p>
 			</div>
 		</div>
 		<div>
-			<input type="submit" class="actionbtn pointer" value="提交">&nbsp;
-			<input type="reset" class="actionbtn pointer" value="重置">
+			<input type="submit" class="actionbtn pointer" value="<?php echo Lang::_('admin_upload_submit_tip');?>">&nbsp;
+			<input type="reset" class="actionbtn pointer" value="<?php echo Lang::_('admin_upload_reset_tip');?>">
 		</div>
   </form>
 </div>

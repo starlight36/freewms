@@ -11,6 +11,8 @@
  */
 //载入公共文件
 require_once MOD_PATH.'common.php';
+//载入语言文件
+Lang::load('admin/link');
 //从数据库读取
 $db = DB::get_instance();
 //--------------------------------------------
@@ -22,11 +24,11 @@ if($_REQUEST['do'] == 'edit') {
 		$id = 0;
 	}
 	$form = new Form($_POST);
-	$form->set_field('link_title','链接标题','required|max_length[50]', 'trim');
-	$form->set_field('link_desc','链接描述', 'max_length[255]', 'trim');
-	$form->set_field('link_url','链接URL', 'required|max_length[255]', 'trim');
-	$form->set_field('link_img','链接图片', 'max_length[255]', 'trim');
-	$form->set_field('link_isdisplay','是否显示链接');
+	$form->set_field('link_title',Lang::_('admin_link_title_tip'),'required|max_length[50]', 'trim');
+	$form->set_field('link_desc',Lang::_('admin_link_desc_tip'), 'max_length[255]', 'trim');
+	$form->set_field('link_url',Lang::_('admin_link_url_tip'), 'required|max_length[255]', 'trim');
+	$form->set_field('link_img',Lang::_('admin_link_img_tip'), 'max_length[255]', 'trim');
+	$form->set_field('link_isdisplay',Lang::_('admin_link_isdisplay_tip'));
 	if($form->run()){
 		$db->set($_POST);
 		if($id == 0) {
@@ -35,7 +37,7 @@ if($_REQUEST['do'] == 'edit') {
 			$db->sql_add('WHERE `link_id` = ?', $id);
 			$db->update('link');
 		}
-		show_message('success', '修改链接成功！', array( '返回链接列表页'=>'index.php?m=admin&a=link'));
+		show_message('success', Lang::_('admin_link_success_tip'), array( Lang::_('admin_link_return_tip')=>'index.php?m=admin&a=link'));
 	}else {
 		if($id > 0) {
 			$db->select('*')->from('link');
@@ -59,7 +61,7 @@ if($_REQUEST['do'] == 'edit') {
 if(in_array($_REQUEST['do'], array('dly', 'undly', 'rm'))) {
 	$id = $_REQUEST['id'];
 	if(empty($id)) {
-		show_message('error','未选着链接');
+		show_message('error',Lang::_('admin_link_error_tip'));
 	}
 	if(!is_array($id)) $id=array($id);
 	$linklist = $id;
@@ -84,7 +86,7 @@ if(in_array($_REQUEST['do'], array('dly', 'undly', 'rm'))) {
 	}
 	Cache::clear();
 	Cache::delete_page();
-	show_message('success', '操作成功!');
+	show_message('success', Lang::_('admin_link_success_1_tip'));
 	exit();
 }
 //--------------------------------------------

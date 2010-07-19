@@ -33,28 +33,28 @@ function doSelect() {
 
 function submitform() {
 	$(this).attr('disabled', 'disabled');
-	$(this).val('请稍候..');
+	$(this).val('<?php echo Lang::_('admin_cate_wait_tip');?>');
 	$('#loadingmsg').show();
 }
 //-->
 </script>
 <div id="showmain">
 	<div class="titlebar">
-		自定义页静态页
+		<?php echo Lang::_('admin_cate_static_tip');?>
 	</div>
 	<form method="post" action="index.php?m=admin&amp;a=create&amp;do=page">
 		<div id="tabcontent">
 			<div class="showsimplecon">
-				<p><span class="left" style="line-height: 120px;">要生成的自定义页: </span>
+				<p><span class="left" style="line-height: 120px;"><?php echo Lang::_('admin_cate_selected_tip');?>: </span>
 					<select id="cate_id" name="id[]" multiple="multiple" style="width: 150px; height: 120px;">
 						<?php foreach($plist as $row): ?>
 						<option value="<?php echo $row['page_id']; ?>"><?php echo $row['page_name']; ?></option>
 						<?php endforeach; ?>
 					</select><br />
-					<input type="button" class="actionbtn pointer" onclick="doSelect();" value="全选/不选" />
+					<input type="button" class="actionbtn pointer" onclick="doSelect();" value="<?php echo Lang::_('admin_cate_select_tip');?>" />
 				</p>
 				<p>
-					<input type="submit" class="actionbtn pointer" value="开始生成" onclick="submitform();" /><span style="display: none;" id="loadingmsg"><img src="<?php echo Url::base();?>module/admin/images/loading.gif" alt="Loading" align="absmiddle"/>静态生成中. 程序可能需要较长时间, 请耐心等待完成...</span>
+					<input type="submit" class="actionbtn pointer" value="<?php echo Lang::_('admin_cate_begin_tip');?>" onclick="submitform();" /><span style="display: none;" id="loadingmsg"><img src="<?php echo Url::base();?>module/admin/images/loading.gif" alt="Loading" align="absmiddle"/><?php echo Lang::_('admin_cate_running_tip');?></span>
 				</p>
 			</div>
 		</div>
