@@ -17,6 +17,14 @@ class URL {
 		return Config::get('site_url');
 	}
 
+	public static function skin() {
+		return self::base().'theme/'.Config::get('site_theme').'/skin/';
+	}
+
+	public static function theme() {
+		return self::base().'theme/'.Config::get('site_theme').'/';
+	}
+
 	/**
 	 * 加载URL基本设置
 	 * @return void
