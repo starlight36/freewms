@@ -57,7 +57,7 @@
 					<label><input type="radio" name="thumbtype" value="1" onclick="$('#thumb_select').show();"<?php if($cinfo['content_thumb']){ echo ' checked="checked"';} ?> /><?php echo Lang::_('admin_content_thumb_yes');?></label>
 					<span id="thumb_select" style="<?php if(!$cinfo['content_thumb']){ echo 'display: none;';} ?>">
 						<input type="text" class="text" id="content_thumb" name="content_thumb" style="width: 260px; padding-right: 20px;" value="<?php echo Form::set_value('content_thumb', $cinfo['content_thumb']);?>" />
-						<a style="position: absolute; margin: 6px 0 0 -27px ! important;" title="<?php echo Lang::_('admin_content_thumb_title');?>"><img alt="<?php echo Lang::_('admin_content_thumb_alt');?>" align="absmiddle" class="pointer" onclick="" src="<?php echo Url::base();?>module/admin/images/selectfile.gif"></a>
+						<a style="position: absolute; margin: 6px 0 0 -27px ! important;" title="<?php echo Lang::_('admin_content_thumb_title');?>"><img alt="<?php echo Lang::_('admin_content_thumb_alt');?>" align="absmiddle" class="pointer" onclick="file_browser('content_thumb');" src="<?php echo Url::base();?>module/admin/images/selectfile.gif"></a>
 					</span>
 					<a class="tip" href="javascript:void(0)" title="<?php echo Lang::_('admin_content_thumb_title_tip');?>">[?]</a>
 				</p>

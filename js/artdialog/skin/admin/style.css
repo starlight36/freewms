@@ -29,6 +29,8 @@
 
 /*没有标题栏*/
 .noTitleBar .ui_title_wrap { height:0; _display:none; visibility:hidden; }
+/*没有按钮栏*/
+.noButton { display:none; }
 /*去除所有背景*/
 .noSkin .ui_border, .noSkin .ui_title_wrap, .noSkin .ui_dialog_icon { display:none; }
 .noSkin .ui_bottom_wrap { display:none; *display:block; *height:0; overflow:hidden; }
