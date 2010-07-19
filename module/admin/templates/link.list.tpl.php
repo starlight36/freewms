@@ -20,7 +20,7 @@
 	<form method="post" action="index.php?m=admin&amp;a=link">
 		<table cellspacing="1" cellpadding="3" border="0" align="center" width="100%" class="listtable">
 			<tr>
-				<td class="titletd" width="40px"></td>
+				<td class="titletd" width="40px">操作</td>
 				<td class="titletd" width="15%"><?php echo Lang::_('admin_link_title_tip');?></td>
 				<td class="titletd"><?php echo Lang::_('admin_link_desc_tip');?></td>
                 <td class="titletd" width="80px"><?php echo Lang::_('admin_link_img_tip');?></td>
