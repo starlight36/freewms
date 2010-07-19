@@ -85,7 +85,7 @@ class Field{
 			$this->db->sql_add('WHERE fieldid = ? AND `contentid` = ?', $field_id, $cid);
 			$query = $this->db->query();
 			if($this->db->num_rows($query) > 0) {
-				$this->db->sql_add('WHERE `fieldid` = ?', $field_id);
+				$this->db->sql_add('WHERE fieldid = ? AND `contentid` = ?', $field_id, $cid);
 				$this->db->update('field_value', array('field_value' => $value));
 			}else{
 				$data = array(
