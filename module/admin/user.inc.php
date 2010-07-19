@@ -177,12 +177,13 @@ $sqlo = '';
 $sequence = $_REQUEST['sequence'];
 if(preg_match('/^\d$/', $sequence)) {
 	switch($sequence) {
-		case 0: $sqlo = ' ORDER BY `user_regtime` ASC' ;break;
-		case 1: $sqlo = ' ORDER BY `user_regtime` DESC' ;break;
-		case 2: $sqlo = ' ORDER BY `user_lastlogintime` ASC' ;break;
-		case 3: $sqlo = ' ORDER BY `user_lastlogintime` DESC' ;break;
-		case 4: $sqlo = ' ORDER BY `user_name` ASC' ;break;
-		case 5: $sqlo = ' ORDER BY `user_id` ASC' ;break;
+		case 0:	$sqlo = ' ORDER BY `user_regtime` ASC' ;	break;
+		case 1: $sqlo = ' ORDER BY `user_regtime` DESC' ;	break;
+		case 2: $sqlo = ' ORDER BY `user_lastlogintime` ASC' ;	break;
+		case 3: $sqlo = ' ORDER BY `user_lastlogintime` DESC' ;	break;
+		case 4: $sqlo = ' ORDER BY `user_name` ASC' ;	break;
+		case 5:	$sqlo = ' ORDER BY `user_id` ASC' ;	break;
+		default:	break;
 	}
 }
 //生成SQL语句

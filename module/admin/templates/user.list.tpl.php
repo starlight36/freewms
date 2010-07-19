@@ -36,12 +36,12 @@
 			<?php echo Form::get_error('actionnum', '<span class="fielderrormsg">', '</span>');?>&nbsp;
             &nbsp;排序:
             <select name="sequence">
-            <option value="0"<?php if($userstate == 0){ echo "selected=\"selected\"";}?>>注册时间升序</option>
-            <option value="1"<?php if($userstate == 1){ echo "selected=\"selected\"";}?>>注册时间降序</option>
-            <option value="2"<?php if($userstate == 2){ echo "selected=\"selected\"";}?>>最后登录时间升序</option>
-            <option value="3"<?php if($userstate == 3){ echo "selected=\"selected\"";}?>>最后登录时间降序</option>
-            <option value="4"<?php if($userstate == 4){ echo "selected=\"selected\"";}?>>用户姓名排序</option>
-            <option value="5"<?php if($userstate == 5){ echo "selected=\"selected\"";}?>>用户ID排序</option>
+            <option value="0"<?php if($sequence == 0){ echo "selected=\"selected\"";}?>>注册时间升序</option>
+            <option value="1"<?php if($sequence == 1){ echo "selected=\"selected\"";}?>>注册时间降序</option>
+            <option value="2"<?php if($sequence == 2){ echo "selected=\"selected\"";}?>>最后登录时间升序</option>
+            <option value="3"<?php if($sequence == 3){ echo "selected=\"selected\"";}?>>最后登录时间降序</option>
+            <option value="4"<?php if($sequence == 4){ echo "selected=\"selected\"";}?>>用户姓名排序</option>
+            <option value="5"<?php if($sequence == 5){ echo "selected=\"selected\"";}?>>用户ID排序</option>
             </select>&nbsp;
 			<input type="submit" value="筛选" class="searchbtn pointer" />
 		</form>

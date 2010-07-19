@@ -23,18 +23,18 @@ if($_REQUEST['do'] == 'edit') {
 	$id = $_GET['id'];
 	if(!preg_match('/^[0-9]+$/', $id)) {
 		$id = 0;
-	}else {
+	}else{
 		$gb = new Guestbook();
 		$in = $gb->get_guestbook($id);
 	}
 	$form = new Form($_POST);
-	$form->set_field('gb_reply','','max_length[50]', 'trim');
+	$form->set_field('gb_reply','管理员回复','max_length[50]', 'trim');
 	if($form->run()) {
 		$in['gb_reply'] = $_POST['gb_reply'];
         $gb = new Guestbook();
 		$gbinfo = $gb->set_guestbook($in);
 		show_message('success',Lang::_('admin_gb_success_tip'), array(Lang::_('admin_gb_return_tip') => 'index.php?m=admin&amp;a=guestbook'));
-	}else {
+	}else{
 		if($id > 0) {
 			$gb = new Guestbook();
 			$gbinfo = $gb->get_guestbook($id);
