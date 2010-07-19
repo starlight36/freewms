@@ -15,7 +15,7 @@
 require_once MOD_PATH.'common.php';
 
 //载入语言文件
-Lang::load('admin/upload');
+Lang::load('admin/filebrowser');
 
 //载入数据库对象
 $db = DB::get_instance();
