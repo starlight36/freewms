@@ -32,13 +32,13 @@ if($_REQUEST['do'] == 'edit') {
 		$db->select('*')->from('group')->sql_add('WHERE	`group_id` = ?', $id);
 		$ginfo = $db->get();
 		if(!$ginfo) {
-			show_message('error', '没有找到要编辑的用户组');
+			show_message('error',Lang::_('admin_group_modify_no_found_tip'));
 		}
 		$ginfo = $ginfo[0];
 	}
 	$form = new Form($_POST);
-	$form->set_field('group_name', '用户组名称', 'required|max_length[20]', 'trim');
-	$form->set_field('group_isadmin', '是否为管理组', 'numeric', 'trim');
+	$form->set_field('group_name', Lang::_('admin_group_name_tip'), 'required|max_length[20]', 'trim');
+	$form->set_field('group_isadmin', Lang::_('admin_group_isadmin_tip'), 'numeric', 'trim');
 	if($form->run()) {
 		if($id == 0) {
 			$db->set($_POST);
@@ -48,7 +48,7 @@ if($_REQUEST['do'] == 'edit') {
 			$db->set($_POST);
 			$db->update('group');
 		}
-		show_message('success', '保存成功!');
+		show_message('success', Lang::_('admin_group_success_tip'));
 		Cache::clear();
 	}else{
 		include MOD_PATH.'templates/usergroup.edit.tpl.php';
@@ -63,24 +63,24 @@ if($_REQUEST['do'] == 'edit') {
 if($_REQUEST['do'] == 'rm') {
 	$id = $_GET['id'];
 	if(!preg_match('/^[0-9]+$/', $id)) {
-		show_message('error', '非法参数');
+		show_message('error', Lang::_('admin_group_error_tip'));
 	}
 	$db->select('*')->from('group')->sql_add('WHERE	`group_id` = ?', $id);
 	$ginfo = $db->get();
 	if(!$ginfo) {
-		show_message('error', '没有找到要删除的用户组');
+		show_message('error', Lang::_('admin_group_error_0_tip'));
 	}
 	$ginfo = $ginfo[0];
 	if($ginfo['group_issys'] == '1') {
-		show_message('error', '您不能删除一个系统用户组');
+		show_message('error', Lang::_('admin_group_error_1_tip'));
 	}
 	$db->select('COUNT(*)')->from('user')->sql_add('WHERE `user_groupid` = ?', $id);
 	if($db->result($db->query()) > 0) {
-		show_message('error', '此用户组下存在用户,要删除必须先清空其下用户.');
+		show_message('error', Lang::_('admin_group_error_2_tip'));
 	}
 	$db->sql_add('WHERE `group_id` = ?', $id);
 	$db->delete('group');
-	show_message('success', '删除成功!');
+	show_message('success', Lang::_('admin_group_success_0_tip'));
 	Cache::clear();
 	exit();
 }

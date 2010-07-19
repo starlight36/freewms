@@ -15,7 +15,7 @@
 require_once MOD_PATH.'common.php';
 
 //载入语言文件
-Lang::load('admin/filebrowser');
+Lang::load('admin/user');
 
 //载入数据库对象
 $db = DB::get_instance();
@@ -30,21 +30,21 @@ if($_REQUEST['do'] == 'edit') {
 	$db->select('group_name, group_id')->from('group');
 	$glist = $db->get();
 	$form = new Form($_POST);
-	$form->set_field('user_name','用户名','required|max_length[50]', 'trim');
-	$form->set_field('user_pass','用户密码','max_length[32]', 'trim');
-	$form->set_field('user_groupid','required|用户所属组名','required', 'trim');
-	$form->set_field('user_email','Email','required|max_length[50]|_check_user_email['.$id.']|valid_email', 'trim');
-	$form->set_field('user_nickname','昵称','max_length[50]', 'trim');
-	$form->set_field('user_gender','性别',NULL, 'trim');
-	$form->set_field('user_birthday','生日','max_length[20]', 'trim');
-	$form->set_field('user_from','来自','max_length[30]', 'trim');
-	$form->set_field('user_qq','qq号','max_length[15]', 'trim');
-	$form->set_field('user_msn','msn号','max_length[1oo]', 'trim');
-	$form->set_field('user_homepage','主页','max_length[255]', 'trim');
-	$form->set_field('user_description','个人描述','max_length[255]', 'trim');
-	$form->set_field('user_state','状态', NULL, 'trim');
-	$form->set_field('user_emailvalid','是否通过邮件验证',NULL, 'trim');
-	$form->set_field('user_adminvalid','是否通过用户验证',NULL, 'trim');
+	$form->set_field('user_name',Lang::_('admin_user_name_tip'),'required|max_length[50]', 'trim');
+	$form->set_field('user_pass',Lang::_('admin_user_password_tip'),'max_length[32]', 'trim');
+	$form->set_field('user_groupid',Lang::_('admin_user_groupid_title'),'required', 'trim');
+	$form->set_field('user_email',Lang::_('admin_user_email_tip'),'required|max_length[50]|_check_user_email['.$id.']|valid_email', 'trim');
+	$form->set_field('user_nickname',Lang::_('admin_user_nickname_tip'),'max_length[50]', 'trim');
+	$form->set_field('user_gender',Lang::_('admin_user_gender_tip'),NULL, 'trim');
+	$form->set_field('user_birthday',Lang::_('admin_user_birthday_tip'),'max_length[20]', 'trim');
+	$form->set_field('user_from',Lang::_('admin_user_from_tip'),'max_length[30]', 'trim');
+	$form->set_field('user_qq',Lang::_('admin_user_qq_tip'),'max_length[15]', 'trim');
+	$form->set_field('user_msn',Lang::_('admin_user_msn_tip'),'max_length[1oo]', 'trim');
+	$form->set_field('user_homepage',Lang::_('admin_user_homepage_tip'),'max_length[255]', 'trim');
+	$form->set_field('user_description',Lang::_('admin_user_description_tip'),'max_length[255]', 'trim');
+	$form->set_field('user_state',Lang::_('admin_user_state_tip'), NULL, 'trim');
+	$form->set_field('user_emailvalid',Lang::_('admin_user_emailvalid_tip'),NULL, 'trim');
+	$form->set_field('user_adminvalid',Lang::_('admin_user_adminvalid_tip'),NULL, 'trim');
 	if($form->run()) {		
 		if($id == 0){
 			$_POST['user_regtime'] = time();
@@ -52,13 +52,13 @@ if($_REQUEST['do'] == 'edit') {
 			$_POST['user_pass'] = md5($_POST['user_pass']);
 			$db->set($_POST);
 			$db->insert('user');
-			show_message('success','添加用户成功！', array('返回上一页' => 'index.php?m=admin&a=user'));
+			show_message('success',Lang::_('admin_user_success_tip'), array(Lang::_('admin_user_return_tip') => 'index.php?m=admin&a=user'));
 		}else{
 			$_POST['user_pass'] = md5($_POST['user_pass']);
 			$db->set($_POST);
 			$db->sql_add('WHERE `user_id` = ?', $id);
 			$db->update('user');
-			show_message('success','修改用户信息成功！', array('返回上一页' => 'index.php?m=admin&a=user'));
+			show_message('success',Lang::_('admin_user_success_0_tip'), array(Lang::_('admin_user_return_tip') => 'index.php?m=admin&a=user'));
 		}
 	}else{
 		if($id > 0) {
@@ -86,7 +86,7 @@ function _check_user_email($name, $id) {
 	if($db->result($db->query()) == 0) {
 		return;
 	}else{
-		return '这个惟一标识符已被使用.';
+		return Lang::_('admin_user_error_tip');
 	}
 }
 //--------------------------------------------
@@ -97,7 +97,7 @@ function _check_user_email($name, $id) {
 if(in_array($_REQUEST['do'], array('normal', 'lock', 'passEmail','passAdmin', 'rm'))) {
 	$id = $_REQUEST['id'];
 	if(empty($id)) {
-		show_message('error','未选着用户！');
+		show_message('error', Lang::_('admin_user_error_0_tip'));
 	}
 	if(!is_array($id)) $id=array($id);
 	$uslist = $id;
@@ -132,7 +132,7 @@ if(in_array($_REQUEST['do'], array('normal', 'lock', 'passEmail','passAdmin', 'r
 	}
 	Cache::clear();
 	Cache::delete_page();
-	show_message('success', '操作成功!');
+	show_message('success', Lang::_('admin_user_success_1_tip'));
 	exit();
 }
 //--------------------------------------------

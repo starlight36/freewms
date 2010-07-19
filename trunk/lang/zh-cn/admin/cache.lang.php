@@ -8,17 +8,15 @@
  *-------------------------------------------------*/
 
 /*
- * 系统设置管理页
+ * 缓存语言文件
  */
 
-//载入公共文件
-require_once MOD_PATH.'common.php';
-//载入语言文件
-Lang::load('admin/cache');
-Cache::clear();
-Cache::delete_page();
-@rm_file(BASEPATH.'cache/tpl');
-@rm_file(SESSION_PATH);
-show_message('success', Lang::_('admin_cache_success_tip'), array(Lang::_('admin_cache_return_tip')=>'index.php?m=admin&a=main'));
+$lang = array(
+	'admin_cache_success_tip' => '清空所有缓存成功!',
+	'admin_cache_return_tip' => '返回管理首页!'
+
+
+
+);
 
 /* End of this file */
