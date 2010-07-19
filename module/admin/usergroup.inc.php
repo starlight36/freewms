@@ -49,6 +49,7 @@ if($_REQUEST['do'] == 'edit') {
 			$db->update('group');
 		}
 		show_message('success', '保存成功!');
+		Cache::clear();
 	}else{
 		include MOD_PATH.'templates/usergroup.edit.tpl.php';
 	}
@@ -80,6 +81,7 @@ if($_REQUEST['do'] == 'rm') {
 	$db->sql_add('WHERE `group_id` = ?', $id);
 	$db->delete('group');
 	show_message('success', '删除成功!');
+	Cache::clear();
 	exit();
 }
 //--------------------------------------------
