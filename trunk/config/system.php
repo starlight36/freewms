@@ -11,6 +11,8 @@ define('SYS_VERSION', '0.1.1 dev');
 
 //Debug开关
 define('DEBUG', TRUE);
+//安全模式开关
+define('SAFE_MODE', FALSE);
 
 //站点基本配置
 define('SITE_TIMEZONE', 'PRC'); //时区设置,使用时区标识符

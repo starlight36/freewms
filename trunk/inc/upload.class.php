@@ -77,6 +77,12 @@ class Upload {
 				$this->error[$file['name']] = '此类型文件不允许上传.';
 				continue;
 			}
+			if(defined('SAFE_MODE')) {
+				if(in_array(file_ext_name($file['name']), array('asp', 'php', 'jsp', 'sh', 'pl', 'py'))) {
+					$this->error[$file['name']] = '此类型文件不允许上传.';
+					continue;
+				}
+			}
 
 			//保存上传文件
 			$filepath = date('YmdHis').rand(100, 999);

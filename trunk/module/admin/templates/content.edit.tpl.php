@@ -36,13 +36,13 @@
 					</select>
 				</p>
 				<p><span class="left"><?php echo $cinfo['mod_itemname']; ?><?php echo Lang::_('admin_content_title_tip');?>:</span>
-					<input type="text" class="text normaltext" id="content_title" name="content_title" value="<?php echo Form::set_value('content_title', $cinfo['content_title']);?>" style="<?php echo Form::set_value('content_titlestyle', $cinfo['content_titlestyle']);?>" />
+					<input type="text" class="text normaltext" style="padding-right: 20px;" id="content_title" name="content_title" value="<?php echo Form::set_value('content_title', $cinfo['content_title']);?>" style="<?php echo Form::set_value('content_titlestyle', $cinfo['content_titlestyle']);?>" />
 					<a style="position: absolute; margin: 6px 0 0 -27px ! important;" title="<?php echo Lang::_('admin_content_title');?>"><img alt="<?php echo Lang::_('admin_content_alt');?>" align="absmiddle" class="pointer" onclick="ShowStylePicker();" src="<?php echo Url::base();?>module/admin/images/titlecbar.gif"></a>
 					<input type="hidden" id="content_titlestyle" id="content_titlestyle" name="content_titlestyle" value="<?php echo Form::set_value('content_titlestyle', $cinfo['content_titlestyle']);?>" />
 					<?php echo Form::get_error('content_title', '<span class="fielderrormsg">', '</span>');?>
 				</p>
 				<p><span class="left"><?php echo Lang::_('admin_content_tags_tip');?>:</span>
-					<input type="text" class="text normaltext" id="content_tags" name="content_tags" value="<?php echo Form::set_value('content_tags', implode(' ', $cinfo['content_tags']));?>" />
+					<input type="text" class="text normaltext" style="padding-right: 20px;" id="content_tags" name="content_tags" value="<?php echo Form::set_value('content_tags', implode(' ', $cinfo['content_tags']));?>" />
 					<a style="position: absolute; margin: 6px 0 0 -30px ! important;" title="<?php echo Lang::_('admin_content_tags_title');?>"><img alt="<?php echo Lang::_('admin_content_tags_alt');?>" align="absmiddle" class="pointer" onclick="TagPicker();" src="<?php echo Url::base();?>module/admin/images/taginput.gif"></a>
 					<a class="tip" href="javascript:void(0)" title="<?php echo Lang::_('admin_content_tags');?>">[?]</a>
 					<?php echo Form::get_error('content_tags', '<span class="fielderrormsg">', '</span>');?>

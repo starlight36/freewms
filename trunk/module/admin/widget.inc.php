@@ -47,6 +47,11 @@ if($_REQUEST['do'] == 'edit') {
 			$wlist[$id - 1] = $item;
 		}
 		@unlink($filedir.$winfo['key'].'.tpl.html');
+		//处理安全模式
+		if(defined('SAFE_MODE')) {
+			$_POST['content'] = preg_replace('/<\?.(*?)\?>/is', '<code>$1</code>', $_POST['content']);
+			$_POST['content'] = preg_replace('/<script.*?runat=.*?server.*?>/is', '', $_POST['content']);
+		}
 		file_put_contents($filedir.$_POST['key'].'.tpl.html', $_POST['content']);
 		file_put_contents($filedir.'config', serialize($wlist));
 		show_message('success', Lang::_('admin_widget_success_tip'), array(Lang::_('admin_widget_return_tip') =>
