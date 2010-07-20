@@ -31,7 +31,8 @@ if($_REQUEST['do'] == 'edit') {
 	$glist = $db->get();
 	$form = new Form($_POST);
 	$form->set_field('user_name',Lang::_('admin_user_name_tip'),'required|max_length[50]', 'trim');
-	$form->set_field('user_pass',Lang::_('admin_user_password_tip'),'max_length[32]', 'trim');
+	$form->set_field('user_pass',Lang::_('admin_user_password_tip'),'max_length[32]', 'trim|md5');
+	$form->set_field('user_pass2',Lang::_('admin_user_password_tip'),'matches[user_pass]', 'trim');
 	$form->set_field('user_groupid',Lang::_('admin_user_groupid_title'),'required', 'trim');
 	$form->set_field('user_email',Lang::_('admin_user_email_tip'),'required|max_length[50]|_check_user_email['.$id.']|valid_email', 'trim');
 	$form->set_field('user_nickname',Lang::_('admin_user_nickname_tip'),'max_length[50]', 'trim');
@@ -45,16 +46,15 @@ if($_REQUEST['do'] == 'edit') {
 	$form->set_field('user_state',Lang::_('admin_user_state_tip'), NULL, 'trim');
 	$form->set_field('user_emailvalid',Lang::_('admin_user_emailvalid_tip'),NULL, 'trim');
 	$form->set_field('user_adminvalid',Lang::_('admin_user_adminvalid_tip'),NULL, 'trim');
-	if($form->run()) {		
+	if($form->run()) {
+		unset($_POST['user_pass2']);
 		if($id == 0){
 			$_POST['user_regtime'] = time();
 			$_POST['user_regip'] = get_ip();
-			$_POST['user_pass'] = md5($_POST['user_pass']);
 			$db->set($_POST);
 			$db->insert('user');
 			show_message('success',Lang::_('admin_user_success_tip'), array(Lang::_('admin_user_return_tip') => 'index.php?m=admin&a=user'));
 		}else{
-			$_POST['user_pass'] = md5($_POST['user_pass']);
 			$db->set($_POST);
 			$db->sql_add('WHERE `user_id` = ?', $id);
 			$db->update('user');
