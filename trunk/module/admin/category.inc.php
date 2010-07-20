@@ -40,6 +40,7 @@ if($_GET['do'] == 'edit') {
 		$cate['cate_role'] = explode(',', $cate['cate_role']);
 	}else{
 		$parentid = $_GET['parentid'];
+		$cate['cate_static'] = '0';
 	}
 	//进行输入验证
 	$form = new Form($_POST);
@@ -55,9 +56,6 @@ if($_GET['do'] == 'edit') {
 	$form->set_field('cate_role', Lang::_('admin_cate_role_tip'));
 	$form->set_field('cate_static', Lang::_('admin_cate_static_tip'));
 	//处理分类角色部分
-	if(!preg_match('/^[01]$/', $_POST['cate_static'])) {
-		$_POST['cate_static'] = 0;
-	}
 	$_POST['cate_role'] = implode(',', $_POST['cate_role']);
 	if($form->run()) {
 		$db->sql_add('WHERE `cate_id` = ?', $id);
@@ -84,7 +82,7 @@ if($_GET['do'] == 'edit') {
 		$db->free($query);
 		$tree = new Tree($catelist);
 		$select_tpl = "<option value=\"\$id\"\$selected>\$value</option>\n";
-		$cate_select_tree = $tree->plant(0, $select_tpl, $parentid);
+		$cate_select_tree = $tree->plant(0, $select_tpl, Form::set_value('cate_parentid',$parentid));
 		//创建模型选择选择列表
 		$db->select('mod_id, mod_name')->from('module');
 		$mod_select_list = $db->get();

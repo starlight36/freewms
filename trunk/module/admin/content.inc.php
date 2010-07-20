@@ -73,7 +73,7 @@ if($_GET['do'] == 'save') {
 	$form->set_field('content_title', Lang::_('admin_content_title_tip'), 'required|max_length[255]', 'trim');
 	$form->set_field('content_cateid',Lang::_('admin_content_cateid_tip'), 'required|integer', 'trim');
     $form->set_field('content_titlestyle', '', ' required|max_length[200]', 'trim');
-    $form->set_field('content_tags',Lang::_('admin_content_tags_tip'), NULL, 'trim');
+    $form->set_field('content_tags',Lang::_('admin_content_tags_tip'), 'max_length[255]', 'trim');
     $form->set_field('content_key', Lang::_('admin_content_key_tip'), 'dir_name|_check_content_key['.$id.']', 'trim');
     $form->set_field('content_thumb', Lang::_('admin_content_thumb_pic_tip'), NULL, 'trim');
     $form->set_field('content_intro', Lang::_('admin_introduction_tip'), 'required', 'trim');
