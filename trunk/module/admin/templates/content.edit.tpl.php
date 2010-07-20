@@ -147,6 +147,7 @@
 			</div>
 		</div>
 		<div>
+			<input type="hidden" name="refer_url" value="<?php echo $_SERVER['HTTP_REFERER'] ?>" />
 			<input type="hidden" name="content_id" value="<?php echo $id; ?>" />
 			<input type="hidden" id="content_state" name="content_state" value="<?php echo $cinfo['content_state'] ? $cinfo['content_state'] : '0'; ?>" />
 			<input type="submit" class="actionbtn pointer" value="<?php echo Lang::_('admin_submit_tip');?>" />&nbsp;
