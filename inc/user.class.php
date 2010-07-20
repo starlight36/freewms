@@ -152,10 +152,10 @@ class User {
 	 */
 	public static function check_admin() {
 		if(is_null(self::$userinfo)) {
-			$obj = self::get_instance();
-			$obj->get_user();
+			self::get_instance()->get_user();
 		}
-		if(self::$userinfo['user_isadmin'] == TRUE) {
+		$uif = self::$userinfo;
+		if($uif['user_isadmin'] == TRUE) {
 			return TRUE;
 		}else{
 			return FALSE;
