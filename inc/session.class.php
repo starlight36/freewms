@@ -44,7 +44,7 @@ class Session {
 	 */
 	public static function clear($key = NULL) {
 		$array =& path_array($_SESSION, $key);
-		$array = NULL;
+		$array = '';
 		return TRUE;
 	}
 
