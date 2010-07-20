@@ -17,6 +17,10 @@ require_once MOD_PATH.'common.php';
 //载入语言文件
 Lang::load('admin/url');
 
+if(defined('SAFE_MODE')) {
+	show_message('error', '当前安全模式下禁止修改URL配置文件.');
+}
+
 //--------------------------------------------
 //	保存方案文件
 //--------------------------------------------
