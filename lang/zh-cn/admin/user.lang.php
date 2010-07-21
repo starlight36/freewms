@@ -58,7 +58,7 @@ $lang = array(
 	'admin_user_modify_tip' => '修改用户',
 	'admin_user_id_tip' => '用户ID',
 	'admin_user_add_tip' => '新建用户',
-	'admin_user_groupid_tip' => '选着用户组',
+	'admin_user_groupid_tip' => '选择用户组',
 	'admin_user_pass_tip' => '请输入密码',
 	'admin_user_pass2_tip' => '请再次输入密码',
 	'admin_user_nickname_tip' => '用户昵称',
@@ -85,7 +85,7 @@ $lang = array(
 	'admin_user_return_tip' => '返回上一页',
 	'admin_user_success_0_tip' => '修改用户信息成功！',
 	'admin_user_error_tip' => '这个惟一标识符已被使用.',
-	'admin_user_error_0_tip' => '未选着用户！',
+	'admin_user_error_0_tip' => '未选择用户！',
 	'admin_user_success_1_tip' => '操作成功!'
 
 
