@@ -187,6 +187,13 @@ if($_GET['do'] == 'del') {
 //--------------------------------------------
 //	列出所有分类(查)
 //--------------------------------------------
+
+//列出各个分类内容数量
+$db->select('content_cateid, count( * ) AS content_count')->from('content')->sql_add('GROUP BY content_cateid');
+foreach ($db->get() as $row){
+	$groupnum[$row['content_cateid']] = $row['content_count'];
+}
+
 $db->select('*')->from('category')->from('module');
 $db->sql_add('WHERE `cate_modid` = `mod_id` ORDER BY `cate_order`');
 $clist = $db->get();

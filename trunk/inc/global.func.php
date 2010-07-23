@@ -64,25 +64,19 @@ function create_dir($path) {
  * @return bool
  */
 function rm_file($path) {
+	$r = $path;
 	if(!is_dir($path)) {
 		return unlink($path);
 	}else{
+		$p = $path;
 		$str = scandir($path);
 		foreach($str as $file) {
 			if($file != "." && $file != "..") {
-				$path = $path."/".$file;
-				if(!is_dir($path)) {
-					unlink($path);
-				}else{
+				$path = $p."/".$file;
 					rm_file($path);
-				}
 			}
 		}
-		if(rmdir($path)) {
-			return TRUE;
-		}else{
-			return FALSE;
-		}
+		return rmdir($p);
 	}
 }
 

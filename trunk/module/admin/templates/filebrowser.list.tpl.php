@@ -159,19 +159,30 @@ $(document).ready(function(){
 	<tr>
 		<td rowspan="5" class="table_border" width="5"></td>
 		<td colspan="3" height="30" class="table_title">
+			<form  method="post" id="fitter_form" action="index.php?m=admin&amp;a=filebrowser">
 			<div style="width:330px; float:left;">
-				<select name="yearnum">
-					<option>1990</option>
-					<option>1991</option>
+				<select name="year">
+					<option value="">年份</option>
+						<?php for($i=2000;$i<=2038;$i++){
+							$yearlist[$i] = '<option value="'.$i.'"';
+							if( $yearnum == $i) $yearlist[$i] = $yearlist[$i].' selected=selected';
+							$yearlist[$i] = $yearlist[$i].">".$i."</option>";
+							echo $yearlist[$i];
+					}?>
 				</select>&nbsp;<?php echo Lang::_('admin_file_year_tip');?>
-				<select name="monthnum">
-					<option>七</option>
-					<option>八</option>
-					<option>十一</option>
+				<select name="month">
+					<option value="">月份</option>
+					<?php for($i=1;$i<=12;$i++){
+						$monthlist[$i] = '<option value="'.$i.'" ';
+						if( $monthnum == $i) $monthlist[$i] = $monthlist[$i].' selected=selected';
+						$monthlist[$i] = $monthlist[$i].'>'.$i.'</option>';
+						echo $monthlist[$i];
+					}?>
 				</select>&nbsp;<?php echo Lang::_('admin_file_month_tip');?>
 				<input type="text" class="table_input" name="filename" value="<?php echo Lang::_('admin_file_filename_tip');?>" onfocus="this.value=''" />
-				<input type="button" class="table_screen" value="<?php echo Lang::_('admin_table_screen_tip');?>"/>
+				<input type="submit" class="table_screen" value="<?php echo Lang::_('admin_table_screen_tip');?>"/>
 			</div>
+			</form>
 			<div class="upload_file">
 				<input type="button" value="上传文件" onclick="window.location.href='index.php?m=admin&a=filebrowser&do=upload'"/>
 			</div>

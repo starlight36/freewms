@@ -129,6 +129,12 @@ $pagenum = $_REQUEST['page'];  //取页码
 if(!preg_match('/^[0-9]+$/i', $pagenum)) {
 	$pagenum = 1;
 }
+//
+$db->select('sc_subjectid, count( * )')->from('subject_content')->sql_add('GROUP BY sc_subjectid');
+$group = $db->get();
+foreach ($group as $row){
+	$groupnum[$row['sc_subjectid']] = $row['count( * )'];
+}
 //读取结果集总数
 $db->select('COUNT(*)')->from('subject');
 $record_count = $db->result($db->query());
