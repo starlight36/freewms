@@ -26,6 +26,11 @@ if(!$cinfo) {
 	show_404();
 }
 
+//如果没有子分类，就直接转跳到列表页
+if($cinfo['cate_childid'] == NULL) {
+	redirect($cinfo['cate_listurl']);
+}
+
 //设置了生成静态, 则转向静态页
 if($cinfo['cate_static'] == '1') {
 	redirect($cinfo['cate_url']);
