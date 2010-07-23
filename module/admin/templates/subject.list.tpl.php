@@ -22,6 +22,7 @@
 			<td class="titletd" width="12%"><?php echo Lang::_('admin_subject_id_tip');?></td>
 			<td class="titletd" width="25%"><?php echo Lang::_('admin_subject_title_tip');?></td>
 			<td class="titletd"><?php echo Lang::_('admin_subject_desc_tip');?></td>
+				<td class="titletd">内容数</td>
 			<td class="titletd" width="20%"><?php echo Lang::_('admin_subject_operate_tip');?></td>
 		</tr>
 		<?php if($slist == NULL): ?>
@@ -34,6 +35,14 @@
 			<td class="listtd"><?php echo $row['subject_id'] ?></td>
 			<td class="listtd"><?php echo $row['subject_title'] ?></td>
 			<td class="listtd"><?php echo $row['subject_desc'] ?></td>
+			<td class="listtd"><?php
+				//读取内容总数
+				if(!empty($groupnum[$row['subject_id']])) {
+					echo $groupnum[$row['subject_id']];
+				}else{
+					echo "0";
+				}
+			?></td>
 			<td class="listtd">
 				<a href="index.php?m=admin&amp;a=subject&amp;do=edit&amp;id=<?php echo $row['subject_id'] ?>" title="<?php echo Lang::_('admin_subject_edit_title');?>"><?php echo Lang::_('admin_subject_edit_tip');?></a> |
 				<a href="index.php?m=admin&amp;a=content&amp;sid=<?php echo $row['subject_id'] ?>" title="<?php echo Lang::_('admin_subject_edit_title');?>"><?php echo Lang::_('admin_subject_list_tip');?></a> |
@@ -42,7 +51,7 @@
 		</tr>
 		<?php endforeach; ?>
 		<tr>
-			<td class="pagetd" colspan="4">
+			<td class="pagetd" colspan="5">
 				<div id="paginate"><?php echo Paginate::get_paginate('firstpage', 'currentpage') ?></div>
 			</td>
 		</tr>

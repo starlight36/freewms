@@ -67,7 +67,7 @@ if(preg_match('/^[0-9]+/i', $yearnum)) {
 	}
 }
 //限定文件名
-if(!empty($filename)) {
+if(!empty($filename) && $filename != '文件名') {
 	$sql[] = '`upload_name` LIKE \'%'.addslashes($filename).'%\'';
 }
 //生成SQL语句
