@@ -15,7 +15,7 @@
 require_once MOD_PATH.'common.php';
 
 //载入语言文件
-Lang::load('admin/usergroup');
+Lang::load('admin/acl');
 
 //载入数据库对象
 $db = DB::get_instance();
@@ -29,11 +29,11 @@ if($_REQUEST['do'] == 'edit') {
 		$id = 0;
 	}
 	$form = new Form($_POST);
-	$form->set_field('acl_name', '权限名称', 'required|max_length[30]', 'trim');
-	$form->set_field('acl_desc', '权限简介', 'max_length[200]', 'trim');
-	$form->set_field('acl_key', '权限标识符', 'required|dir_name', 'trim');
-	$form->set_field('acl_default', '权限设置默认值', NULL, 'trim');
-	$form->set_field('acl_type', '权限类型', 'required|numeric', 'trim');
+	$form->set_field('acl_name', Lang::_('admin_acl_name_tip'), 'required|max_length[30]', 'trim');
+	$form->set_field('acl_desc', Lang::_('admin_acl_desc_tip'), 'max_length[200]', 'trim');
+	$form->set_field('acl_key', Lang::_('admin_acl_key_tip'), 'required|dir_name', 'trim');
+	$form->set_field('acl_default', Lang::_('admin_acl_default_tip'), NULL, 'trim');
+	$form->set_field('acl_type', Lang::_('admin_acl_type_tip'), 'required|numeric', 'trim');
 	if($form->run()) {
 		if($id == 0) {
 			$db->set($_POST);
@@ -43,14 +43,14 @@ if($_REQUEST['do'] == 'edit') {
 			$db->sql_add('WHERE `acl_id` = ?', $id);
 			$db->update('acl');
 		}
-		show_message('success',  '保存权限成功!', array('返回权限列表' =>
+		show_message('success',  Lang::_('admin_acl_success_tip'), array(Lang::_('admin_acl_return_tip') =>
 											'index.php?m=admin&a=acl'));
 	}else{
 		if($id != 0) {
 			$db->select('*')->from('acl')->sql_add('WHERE `acl_id` = ?', $id);
 			$aclinfo = $db->get();
 			if(!$aclinfo) {
-				show_message('error',  '要编辑的权限条目不存在');
+				show_message('error',   Lang::_('admin_acl_error_tip'));
 			}
 			$aclinfo = $aclinfo[0];
 		}
@@ -66,7 +66,7 @@ if($_REQUEST['do'] == 'edit') {
 if($_REQUEST['do'] == 'del') {
 	$id = $_GET['id'];
 	if(!preg_match('/^[0-9]+$/', $id)) {
-		show_message('error', '非法参数');
+		show_message('error',  Lang::_('admin_acl_error_0_tip'));
 	}
 	$db->sql_add('WHERE `uacl_aclid` = ?', $id);
 	$db->delete('user_acl');
@@ -74,7 +74,7 @@ if($_REQUEST['do'] == 'del') {
 	$db->delete('group_acl');
 	$db->sql_add('WHERE `acl_id` = ?', $id);
 	$db->delete('acl');
-	show_message('success', '删除成功!', array('返回权限列表' =>
+	show_message('success',  Lang::_('admin_acl_success_0_tip'), array( Lang::_('admin_acl_return_tip') =>
 											'index.php?m=admin&a=acl'));
 	Cache::clear();
 	exit();
@@ -87,12 +87,12 @@ if($_REQUEST['do'] == 'del') {
 if($_REQUEST['do'] == 'auth_user') {
 	$id = $_REQUEST['id'];
 	if(!preg_match('/^[0-9]+$/', $id)) {
-		show_message('error', '非法参数.');
+		show_message('error', Lang::_('admin_acl_error_0_tip'));
 	}
 	$db->select('`user_name`')->from('user')->sql_add('WHERE `user_id` = ?', $id);
 	$uname = $db->result($db->query());
 	if(empty($uname)) {
-		show_message('error', '用户不存在.');
+		show_message('error', Lang::_('admin_acl_error_1_tip'));
 	}
 	if(Form::is_post()) {
 		$acl_type = $_POST['acl_type'];
@@ -133,12 +133,12 @@ if($_REQUEST['do'] == 'auth_user') {
 if($_REQUEST['do'] == 'auth_group') {
 	$id = $_REQUEST['id'];
 	if(!preg_match('/^[0-9]+$/', $id)) {
-		show_message('error', '非法参数.');
+		show_message('error',  Lang::_('admin_acl_error_0_tip'));
 	}
 	$db->select('`group_name`')->from('group')->sql_add('WHERE `group_id` = ?', $id);
 	$uname = $db->result($db->query());
 	if(empty($uname)) {
-		show_message('error', '用户组不存在.');
+		show_message('error',  Lang::_('admin_acl_error_2_tip'));
 	}
 	if(Form::is_post()) {
 		$acl_type = $_POST['acl_type'];
