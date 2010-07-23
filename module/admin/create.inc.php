@@ -117,6 +117,9 @@ if($_REQUEST['do'] == 'category') {
 					usleep(100);
 				}while ($pagenum < $pagecount);
 				@copy($cate_dir.'list_1.'.Config::get('site_staticize_extname'), $cate_dir.'list.'.Config::get('site_staticize_extname'));
+				if($cinfo['cate_childid'] == NULL) {
+					@copy($cate_dir.'list_1.'.Config::get('site_staticize_extname'), $cate_dir.'index.'.Config::get('site_staticize_extname'));
+				}
 			}
 		}
 		$timecost = round((get_micro_time() - $create_start_time), 4);
