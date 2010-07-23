@@ -85,6 +85,7 @@ class Content {
 		$query = $db->query($sql);
 		if($db->num_rows($query) == 0) {
 			$cate['cate_childid'] = NULL;
+			$cate['cate_url'] = $cate['cate_listurl'];
 		}else{
 			while($row = $db->fetch($query)) {
 				$cate['cate_childid'][] = $row['child_id'];
