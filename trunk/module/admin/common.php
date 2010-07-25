@@ -37,7 +37,7 @@ function check_admin() {
  * @param mixed $go_url
  * @param int $autogo
  */
-function show_message($type = 'success', $msg = NULL, $go_url = NULL, $autogo = 2) {
+function show_message($type = 'success', $msg = NULL, $go_url = NULL, $autogo = 3) {
 	if(!is_array($go_url) || $go_url == NULL) {
 		$go_url[Lang::_('admin_goto_pre_page')] = $_SERVER["HTTP_REFERER"];
 	}
