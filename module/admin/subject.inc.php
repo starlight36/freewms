@@ -103,17 +103,24 @@ function _check_subject_key($name,$id) {
 //--------------------------------------------
 
 //--------------------------------------------
-//	删除专题(删)
+//	删除专题(删)/批量
 //--------------------------------------------
 if($_REQUEST['do'] == 'del') {
-	$id = $_GET['id'];
-	if(!preg_match('/^[0-9]+$/', $id)) {
-		$id = 0;
-	}
-	$db->sql_add('WHERE `sc_subjectid` = ?', $id);
-	$db->delete('subject_content');
-	$db->sql_add('WHERE `subject_id` = ?', $id);
-	$db->delete('subject');
+	$id = $_REQUEST['id'];
+	if(empty($id)){
+		show_message('error','未选择专题！');
+	}else{
+		if(!is_array($id)) {
+			$id = array($id);
+		}
+		foreach($id as $row) {
+			$db->sql_add('WHERE `subject_id` = ?', $row);
+			$db->delete('subject');
+		}
+		file_put_contents($filedir.'config', serialize($wlist));
+		show_message('success', '删除成功', array('返回上一页' =>
+										'index.php?m=admin&a=subject'));
+		}
 	Cache::clear();
 	Cache::delete_page();
 	show_message();

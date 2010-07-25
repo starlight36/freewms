@@ -69,17 +69,21 @@ if($_REQUEST['do'] == 'edit') {
 //--------------------------------------------
 if($_REQUEST['do'] == 'rm') {
 	$id = $_REQUEST['id'];
-	if(!is_array($id)) {
-		$id = array($id);
-	}
-	foreach($id as $row) {
-		$key = $wlist[$row - 1]['key'];
-		unset($wlist[$row - 1]);
-		@unlink($filedir.$key.'.tpl.html');
-	}
-	file_put_contents($filedir.'config', serialize($wlist));
-	show_message('success', Lang::_('admin_widget_success_tip'), array(Lang::_('admin_widget_return_tip') =>
+	if(empty($id)){
+		show_message('error','未选择部件！');
+	}else{
+		if(!is_array($id)) {
+			$id = array($id);
+		}
+		foreach($id as $row) {
+			$key = $wlist[$row - 1]['key'];
+			unset($wlist[$row - 1]);
+			@unlink($filedir.$key.'.tpl.html');
+		}
+		file_put_contents($filedir.'config', serialize($wlist));
+		show_message('success', Lang::_('admin_widget_success_tip'), array(Lang::_('admin_widget_return_tip') =>
 										'index.php?m=admin&a=widget'));
+		}
 	exit();
 }
 //--------------------------------------------
