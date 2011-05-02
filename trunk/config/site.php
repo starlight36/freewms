@@ -14,7 +14,7 @@
 $config['site_name'] = 'FreeWMS'; //站点名称
 $config['site_desc'] = '开源的网站管理系统'; //站点简介
 $config['site_keywords'] = 'FreeWMS, Website Management System, CMS'; //站点关键字
-$config['site_url'] = 'http://wms.mleaf.org/'; //站点URL
+$config['site_url'] = '/'; //站点URL
 $config['site_theme'] = 'default';
 $config['site_state'] = '1'; //站点开放状态
 
