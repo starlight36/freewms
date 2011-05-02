@@ -181,7 +181,7 @@ if(!function_exists('json_decode')) {
  * @return unknown
  */
 function &path_array(&$array, $path = NULL) {
-	if(empty($path) || !is_array($array)) {
+	if(empty($path)) {
 		return $array;
 	}else{
 		$arr_path = explode('/', $path);
